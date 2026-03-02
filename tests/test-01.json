@@ -1,62 +1,74 @@
 [
   {
-    "id": 1,
+    "id": 100,
     "type": "Event",
     "name": "Neuer Ausweis erforderlich",
     "predecessorIds": []
   },
   {
-    "id": 2,
+    "id": 101,
+    "type": "Rule",
+    "name": "Xor (combine)",
+    "predecessorIds":[100]
+  },
+  {
+    "id": 102,
     "type": "Task",
     "name": "Unterlagen zusammenstellen",
-    "predecessorIds": [1]
+    "predecessorIds": [101]
   },
   {
-    "id": 3,
+    "id": 103,
     "type": "Task",
     "name": "Ausweis beantragen",
-    "predecessorIds": [2]
+    "predecessorIds": [102]
   },
   {
-    "id": 4,
-    "type": "Task",
-    "name": "Termin vereinbaren",
-    "predecessorIds": [3]
-  },
-  {
-    "id": 5,
+    "id": 104,
     "type": "Rule",
     "name": "And (split)",
-    "predecessorIds": [4]
+    "predecessorIds": [103]
   },
   {
-    "id": 6,
+    "id": 105,
+    "type": "Task",
+    "name": "Termin vereinbaren",
+    "predecessorIds": [104]
+  },
+  {
+    "id": 106,
     "type": "Task",
     "name": "Termin auf Wiedervorlage legen",
-    "predecessorIds": [5]
+    "predecessorIds": [105]
   },
   {
-    "id": 7,
+    "id": 107,
     "type": "Task",
     "name": "Unterlagen zwischenlagern",
-    "predecessorIds": [5]
+    "predecessorIds": [104]
   },
   {
-    "id": 8,
+    "id": 108,
     "type": "Rule",
     "name": "And (combine)",
-    "predecessorIds":[6, 7]
+    "predecessorIds":[106, 107]
   },
   {
-    "id": 9,
+    "id": 109,
     "type": "Task",
     "name": "Ausweis abholen",
-    "predecessorIds": [8]
+    "predecessorIds": [108]
   },
   {
-    "id": 10,
+    "id": 110,
     "type": "Event",
     "name": "Ausweis verfügbar",
-    "predecessorIds": [9]
+    "predecessorIds": [109]
+  },
+  {
+    "id": 200,
+    "type": "Event",
+    "name": "Neuer Reisepass erforderlich",
+    "predecessorIds": []
   }
 ]

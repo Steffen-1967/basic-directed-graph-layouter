@@ -1,0 +1,15 @@
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\basic-directed-graph-layouter.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\basic-directed-graph-layouter.AssemblyInfoInputs.cache
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\basic-directed-graph-layouter.AssemblyInfo.cs
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\basic-directed-graph-layouter.csproj.CoreCompileInputs.cache
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\basic-directed-graph-layouter.sourcelink.json
+C:\GitHub\basic-directed-graph-layouter\bin\Debug\net10.0\basic-directed-graph-layouter.exe
+C:\GitHub\basic-directed-graph-layouter\bin\Debug\net10.0\basic-directed-graph-layouter.deps.json
+C:\GitHub\basic-directed-graph-layouter\bin\Debug\net10.0\basic-directed-graph-layouter.runtimeconfig.json
+C:\GitHub\basic-directed-graph-layouter\bin\Debug\net10.0\basic-directed-graph-layouter.dll
+C:\GitHub\basic-directed-graph-layouter\bin\Debug\net10.0\basic-directed-graph-layouter.pdb
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\basic-directed-graph-layouter.dll
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\refint\basic-directed-graph-layouter.dll
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\basic-directed-graph-layouter.pdb
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\basic-directed-graph-layouter.genruntimeconfig.cache
+C:\GitHub\basic-directed-graph-layouter\obj\Debug\net10.0\ref\basic-directed-graph-layouter.dll
