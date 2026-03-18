@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Life App - Optimized Layout</title>
+    <style>
+        body { display: flex; flex-direction: column; height: 100vh; margin: 0; background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        header { padding: 10px 20px; background: #fff; border-bottom: 1px solid #dee2e6; display: flex; align-items: center; gap: 20px; }
+        #canvasContainer { flex: 1; position: relative; overflow: hidden; background-color: #e9ecef; }
+        canvas { cursor: grab; display: block; position: absolute; background-color: #ffffff; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        canvas:active { cursor: grabbing; }
+        .tooltip { position: absolute; background: rgba(33, 37, 41, 0.9); color: #fff; padding: 8px 12px; border-radius: 6px; pointer-events: none; display: none; font-size: 13px; z-index: 100; line-height: 1.4; }
+        .instructions { position: absolute; bottom: 15px; left: 15px; background: rgba(255, 255, 255, 0.85); padding: 8px 15px; font-size: 13px; border-radius: 20px; border: 1px solid #dee2e6; color: #495057; }
+        select, button { padding: 5px 10px; border-radius: 4px; border: 1px solid #ced4da; }
+        button { background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <header>
+        <label for="dataSelect">Scenario:</label>
+        <select id="dataSelect"></select>
+        <button id="loadBtn">Load</button>
+    </header>
+    <div id="canvasContainer">
+        <canvas id="processCanvas" width="3000" height="2000"></canvas>
+        <div id="tooltip" class="tooltip"></div>
+        <div class="instructions"><b>Drag</b> to move | <b>Hover</b> for info | <b>Auto-Centered</b> on load</div>
+    </div>
+    <script>
+        const allTestData = {"test-01.json":[{"id":1,"type":"Event","name":"Neuer Ausweis erforderlich","predecessorIds":[],"level":0,"x":0,"y":0,"isTopRow":true},{"id":2,"type":"Task","name":"Unterlagen zusammenstellen","predecessorIds":[1],"level":1,"x":160,"isTopRow":true,"y":0},{"id":3,"type":"Task","name":"Ausweis beantragen","predecessorIds":[2],"level":2,"x":320,"isTopRow":true,"y":0},{"id":4,"type":"Task","name":"Termin vereinbaren","predecessorIds":[3],"level":3,"x":480,"isTopRow":true,"y":0},{"id":5,"type":"Rule","name":"And (split)","predecessorIds":[4],"level":4,"x":640,"isTopRow":true,"y":0},{"id":6,"type":"Task","name":"Termin auf Wiedervorlage legen","predecessorIds":[5],"level":5,"x":800,"isTopRow":true,"y":0},{"id":7,"type":"Task","name":"Unterlagen zwischenlagern","predecessorIds":[5],"level":5,"x":800,"isTopRow":false,"y":100},{"id":8,"type":"Rule","name":"And (combine)","predecessorIds":[6,7],"level":6,"x":960,"isTopRow":true,"y":0},{"id":9,"type":"Task","name":"Ausweis abholen","predecessorIds":[8],"level":7,"x":1120,"isTopRow":true,"y":0},{"id":10,"type":"Event","name":"Ausweis verfügbar","predecessorIds":[9],"level":8,"x":1280,"isTopRow":true,"y":0}],"test-02.json":[{"id":8,"type":"Rule","name":"Xor (combine)","predecessorIds":[9,7],"level":0,"x":0,"y":0,"isTopRow":true},{"id":1,"type":"Task","name":"Sonnenschein abwarten","predecessorIds":[8],"level":1,"x":160,"isTopRow":true,"y":0},{"id":2,"type":"Rule","name":"Xor (split)","predecessorIds":[1],"level":2,"x":320,"isTopRow":true,"y":0},{"id":3,"type":"Event","name":"Sonne scheint","predecessorIds":[2],"level":3,"x":480,"isTopRow":true,"y":0},{"id":4,"type":"Task","name":"Liegestuhl aufbauen","predecessorIds":[3],"level":4,"x":640,"isTopRow":true,"y":0},{"id":5,"type":"Task","name":"Sonne tanken","predecessorIds":[4],"level":5,"x":800,"isTopRow":true,"y":0},{"id":6,"type":"Task","name":"Liegestuhl abbauen","predecessorIds":[5],"level":6,"x":960,"isTopRow":true,"y":0},{"id":9,"type":"Task","name":"Pause machen und abkühlen","predecessorIds":[6],"level":7,"x":1120,"isTopRow":true,"y":0},{"id":7,"type":"Event","name":"Sonne scheint nicht","predecessorIds":[2],"level":3,"x":480,"isTopRow":false,"y":100}]};
+        const canvas = document.getElementById('processCanvas');
+        const ctx = canvas.getContext('2d');
+        const tooltip = document.getElementById('tooltip');
+        const select = document.getElementById('dataSelect');
+        const loadBtn = document.getElementById('loadBtn');
+
+        const LVL_W = 160;
+        const ROW_H = 100;
+
+        let nodes = [];
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        Object.keys(allTestData).forEach(fileName => {
+            const opt = document.createElement('option');
+            opt.value = fileName; opt.textContent = fileName; select.appendChild(opt);
+        });
+
+        const COLORS = {
+            Event: '#F8E1F1', Rule: '#FFFACD', Task: '#E0F7FA',
+            Stroke: '#495057', Text: '#212529', Arrow: '#888'
+        };
+
+        const EVENT_RADIUS = 30;
+        const TASK_WIDTH = 130;
+        const TASK_HEIGHT = 65;
+        const RULE_SIZE = 45;
+
+        function getXOffset(node) {
+            if (node.type === 'Event') return EVENT_RADIUS;
+            if (node.type === 'Task') return TASK_WIDTH / 2;
+            if (node.type === 'Rule') return RULE_SIZE;
+            return 0;
+        }
+
+        function centerGraph() {
+            if (nodes.length === 0) return;
+            
+            let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+            nodes.forEach(n => {
+                const xOff = getXOffset(n);
+                minX = Math.min(minX, n.x - xOff);
+                maxX = Math.max(maxX, n.x + xOff);
+                minY = Math.min(minY, n.y - 50); // padding for text
+                maxY = Math.max(maxY, n.y + 80); // padding for text
+            });
+
+            const graphWidth = maxX - minX;
+            const graphHeight = maxY - minY;
+            const containerWidth = canvas.parentElement.clientWidth;
+            const containerHeight = canvas.parentElement.clientHeight;
+
+            offsetX = (containerWidth - graphWidth) / 2 - minX;
+            offsetY = (containerHeight - graphHeight) / 2 - minY;
+            render();
+        }
+
+        function drawUnifiedArrow(fromNode, toNode) {
+            const headLength = 10;
+            let startY1 = fromNode.y;
+            if (fromNode.type === 'Rule' && fromNode.y !== toNode.y) {
+                const direction = toNode.y > fromNode.y ? 1 : -1;
+                startY1 += direction * (RULE_SIZE / 2);
+            }
+            const dyStart = Math.abs(startY1 - fromNode.y);
+            let startX1 = fromNode.x + (fromNode.type === 'Rule' ? (RULE_SIZE - dyStart) : getXOffset(fromNode));
+
+            let endY2 = toNode.y;
+            if (toNode.type === 'Rule' && fromNode.y !== toNode.y) {
+                const direction = fromNode.y > toNode.y ? 1 : -1;
+                endY2 += direction * (RULE_SIZE / 2);
+            }
+            const dyEnd = Math.abs(endY2 - toNode.y);
+            let endX2 = toNode.x - (toNode.type === 'Rule' ? (RULE_SIZE - dyEnd) : getXOffset(toNode));
+
+            ctx.beginPath();
+            ctx.strokeStyle = COLORS.Arrow;
+            ctx.lineWidth = 2;
+            ctx.moveTo(startX1, startY1);
+
+            if (startX1 <= endX2) {
+                const midX = (fromNode.x + toNode.x) / 2;
+                ctx.lineTo(midX, startY1);
+                ctx.lineTo(midX, endY2);
+                ctx.lineTo(endX2, endY2);
+            } else {
+                // Optimized Loop Routing: Increased vertical detour to avoid texts
+                const detourX1 = fromNode.x + LVL_W / 2;
+                const detourY = fromNode.isTopRow ? (startY1 - ROW_H * 0.8) : (startY1 + ROW_H * 0.8);
+                const detourX2 = toNode.x - LVL_W / 2;
+
+                ctx.lineTo(detourX1, startY1);
+                ctx.lineTo(detourX1, detourY);
+                ctx.lineTo(detourX2, detourY);
+                ctx.lineTo(detourX2, endY2);
+                ctx.lineTo(endX2, endY2);
+            }
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(endX2, endY2);
+            ctx.lineTo(endX2 - headLength, endY2 - headLength / 1.5);
+            ctx.lineTo(endX2 - headLength, endY2 + headLength / 1.5);
+            ctx.closePath();
+            ctx.fillStyle = COLORS.Arrow;
+            ctx.fill();
+        }
+
+        function drawNode(node) {
+            if (node.type === 'Event') {
+                ctx.beginPath(); ctx.arc(node.x, node.y, EVENT_RADIUS, 0, 2 * Math.PI); ctx.fillStyle = COLORS.Event; ctx.fill(); ctx.strokeStyle = COLORS.Stroke; ctx.lineWidth = 2; ctx.stroke();
+                drawWrappedText(node.name, node.x, node.y + EVENT_RADIUS + 10, EVENT_RADIUS * 2.8, 3);
+            } else if (node.type === 'Task') {
+                const x = node.x - TASK_WIDTH / 2; const y = node.y - TASK_HEIGHT / 2;
+                ctx.beginPath(); ctx.roundRect(x, y, TASK_WIDTH, TASK_HEIGHT, 10); ctx.fillStyle = COLORS.Task; ctx.fill(); ctx.strokeStyle = COLORS.Stroke; ctx.lineWidth = 2; ctx.stroke();
+                drawWrappedText(node.name, node.x, node.y, TASK_WIDTH - 10, 3, true);
+            } else if (node.type === 'Rule') {
+                ctx.beginPath(); ctx.moveTo(node.x, node.y - RULE_SIZE); ctx.lineTo(node.x + RULE_SIZE, node.y); ctx.lineTo(node.x, node.y + RULE_SIZE); ctx.lineTo(node.x - RULE_SIZE, node.y); ctx.closePath(); ctx.fillStyle = COLORS.Rule; ctx.fill(); ctx.strokeStyle = COLORS.Stroke; ctx.lineWidth = 2; ctx.stroke();
+                drawWrappedText(node.name, node.x, node.y + RULE_SIZE + 10, RULE_SIZE * 2.5, 3);
+            }
+        }
+
+        function drawWrappedText(text, x, y, maxWidth, maxLines, centered = false) {
+            ctx.fillStyle = COLORS.Text; ctx.font = '12px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = centered ? 'middle' : 'top';
+            const words = text.split(' '); let lines = []; let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                let width = ctx.measureText(currentLine + " " + words[i]).width;
+                if (width < maxWidth) currentLine += " " + words[i];
+                else { lines.push(currentLine); currentLine = words[i]; }
+            }
+            lines.push(currentLine);
+            if (lines.length > maxLines) { lines = lines.slice(0, maxLines); lines[maxLines-1] += '...'; }
+            const lineHeight = 14; let startY = centered ? y - (lines.length - 1) * lineHeight / 2 : y;
+            lines.forEach((line, i) => ctx.fillText(line, x, startY + i * lineHeight));
+        }
+
+        function render() {
+            ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.translate(offsetX, offsetY);
+            nodes.forEach(node => {
+                if (node.predecessorIds) {
+                    node.predecessorIds.forEach(predId => {
+                        const predNode = nodes.find(n => n.id === predId);
+                        if (predNode) drawUnifiedArrow(predNode, node);
+                    });
+                }
+            });
+            nodes.forEach(node => drawNode(node));
+        }
+
+        loadBtn.addEventListener('click', () => {
+            nodes = allTestData[select.value];
+            centerGraph();
+        });
+
+        canvas.addEventListener('mousedown', (e) => { isDragging = true; startX = e.clientX - offsetX; startY = e.clientY - offsetY; });
+        window.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect(); const mouseX = e.clientX - rect.left; const mouseY = e.clientY - rect.top;
+            if (isDragging) { offsetX = e.clientX - startX; offsetY = e.clientY - startY; render(); }
+            const worldX = mouseX - offsetX; const worldY = mouseY - offsetY; let found = false;
+            nodes.forEach(node => {
+                let hit = false;
+                if (node.type === 'Event') { const dx = worldX - node.x; const dy = worldY - node.y; if (dx*dx + dy*dy <= EVENT_RADIUS*EVENT_RADIUS) hit = true; }
+                else if (node.type === 'Task') { if (worldX >= node.x - TASK_WIDTH/2 && worldX <= node.x + TASK_WIDTH/2 && worldY >= node.y - TASK_HEIGHT/2 && worldY <= node.y + TASK_HEIGHT/2) hit = true; }
+                else if (node.type === 'Rule') { if (Math.abs(worldX - node.x) + Math.abs(worldY - node.y) <= RULE_SIZE) hit = true; }
+                if (hit) {
+                    tooltip.style.left = (e.clientX + 15) + 'px'; tooltip.style.top = (e.clientY + 15) + 'px';
+                    tooltip.innerHTML = `<b>ID:</b> ${node.id}<br><b>Type:</b> ${node.type}<br><b>Name:</b> ${node.name}`;
+                    tooltip.style.display = 'block'; found = true;
+                }
+            });
+            if (!found) tooltip.style.display = 'none';
+        });
+        window.addEventListener('mouseup', () => isDragging = false);
+
+        window.addEventListener('resize', centerGraph);
+
+        // Initial load
+        nodes = allTestData[select.value] || [];
+        centerGraph();
+    </script>
+</body>
+</html>

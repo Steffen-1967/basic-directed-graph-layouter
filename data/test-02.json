@@ -1,0 +1,56 @@
+[
+  {
+    "id": 8,
+    "type": "Rule",
+    "name": "Xor (combine)",
+    "predecessorIds": [9, 7]
+  },
+  {
+    "id": 1,
+    "type": "Task",
+    "name": "Sonnenschein abwarten",
+    "predecessorIds": [8]
+  },
+  {
+    "id": 2,
+    "type": "Rule",
+    "name": "Xor (split)",
+    "predecessorIds": [1]
+  },
+  {
+    "id": 3,
+    "type": "Event",
+    "name": "Sonne scheint",
+    "predecessorIds": [2]
+  },
+  {
+    "id": 4,
+    "type": "Task",
+    "name": "Liegestuhl aufbauen",
+    "predecessorIds": [3]
+  },
+  {
+    "id": 5,
+    "type": "Task",
+    "name": "Sonne tanken",
+    "predecessorIds": [4]
+  },
+  {
+    "id": 6,
+    "type": "Task",
+    "name": "Liegestuhl abbauen",
+    "predecessorIds": [5]
+  },
+  {
+    "id": 9,
+    "type": "Task",
+    "name": "Pause machen und abkühlen",
+    "predecessorIds": [6]
+  },
+  {
+    "id": 7,
+    "type": "Event",
+    "name": "Sonne scheint nicht",
+    "predecessorIds": [2]
+  }
+]
