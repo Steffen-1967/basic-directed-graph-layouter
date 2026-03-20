@@ -1,5 +1,81 @@
-## Vorghensweise des Layouters (Version 1.0.0)
+# Layout-Algorithmus & Kanten-Routing
+
+## Layout-Algorithmus
 Der Algorithmus in der Funktion `calculateLayout` verwendet einen ebenenbasierten Ansatz (ähnlich dem Sugiyama-Prinzip), um Knoten eines gerichteten Graphen automatisch auf einer 2D-Fläche (Canvas) zu positionieren.
+
+### Eigenschaften
+- **Robustes BFS-Layout:** Breitensuche zur stabilen Berechnung von Ebenen (Levels), auch bei Rückschleifen.
+- **Hierarchische Pfadführung:** Erster Nachfolger bleibt auf Y-Höhe des Vorgängers.
+- **Kollisionsvermeidung:** Automatische Y-Verschiebung bei Überlagerungen in derselben Ebene.
+
+## Kanten-Routing (Unified Routing)
+Das intelligente Routing-System für Verbindungspfeile zwischen Knoten.
+
+### Eigenschaften
+- **Richtung:** Einlauf immer links, Auslauf immer rechts.
+- **Positionierung:** Vertikale Segmente verlaufen exakt in der Mitte zwischen zwei Knoten-Levels.
+- **Rückschleifen (Loops):** Weichen in einem Bogen aus (nach oben, wenn der Quellknoten in der obersten Pfadzeile liegt, sonst nach unten). Bogenhöhe beträgt 80% der Zeilenhöhe.
+- **Edge Routing an Rules:** Bündiger Anschluss an die diagonalen Ränder der Raute (mathematisch korrigiert).
+
+## Editierbarer Modus & Handles
+
+### Toggle-Button
+- **Symbol:** ✏️ (Bleistift-Metapher)
+- **Zustände:** "no" (grau-blau) / "yes" (grau-gelb)
+- **Canvas-Verhalten:**
+  - **Editable OFF:** Canvas-Größe wird aus Bounding Box + Margins berechnet
+  - **Editable ON:** Canvas nutzt verfügbaren Container-Platz (minus 10px Margin)
+
+### Bounding Box & Handles
+- **Bounding Box:** Umschließt nur die geometrische Form (ohne Text)
+- **Corner-Handles:** L-förmige Linien an allen 4 Ecken (Schenkellänge: 10px, Offset: 2px)
+- **Anchor-Handles:** 12 Kreise (Durchmesser: 10px, Offset: 2px) - je 3 pro Kante (oben, unten, links, rechts)
+- **Styling:**
+  - Strichfarbe: `#2c3e50` (dunkelgrau)
+  - Strichstärke: 2px
+  - Füllfarbe Anchors: `#6c757d` (grau-blau)
+
+### Hover-Verhalten
+- **Editable OFF:** 
+  - Tooltip mit Node-Informationen (ID, Type, Name, Description)
+  - Tooltip-Breite: max. 260px (2× taskWidth)
+  - Name: einzeilig mit Ellipsis bei Überlauf
+  - Description: 3 Zeilen mit Ellipsis bei Überlauf
+  - Cursor wechselt zu Standard-Pfeil beim Hover über Knoten
+- **Editable ON:** 
+  - Handles werden angezeigt, Tooltip ist ausgeblendet
+  - Cursor wechselt zu Standard-Pfeil beim Hover über Knoten
+
+### Anchor-Handle-Positionierung
+Die 12 Anchor-Handles werden über die Funktion `calculateAnchorHandles()` berechnet und als Objekt mit Keys wie "top-1", "left-2", "bottom-3" zurückgegeben.
+
+#### Task-Typ (Rechteck)
+- Handles werden gleichmäßig an den Kanten der Bounding Box verteilt
+- Offset: 2px von der Kante
+- Positionen: 1/4, 2/4 (Mitte), 3/4 auf jeder Seite
+
+#### Event-Typ (Kreis)
+- Handles an Position 2/4 (Mitte): wie Task-Typ
+- Handles an Position 1/4 und 3/4:
+  - Offset: 3px (1,5× Standard-Offset)
+  - Werden mathematisch auf den Kreisrand verschoben (Pythagoras)
+  - Zusätzliche horizontale/vertikale Verschiebung um 1px (0,5× Offset)
+
+#### Rule-Typ (Raute)
+- Handles an Position 2/4 (Mitte): wie Task-Typ
+- Handles an Position 1/4 und 3/4:
+  - Offset: 3px (1,5× Standard-Offset)
+  - Werden auf die Rautenkanten verschoben (Manhattan-Distanz)
+  - Zusätzliche horizontale/vertikale Verschiebung um 1px (0,5× Offset)
+
+### Cursor-Verhalten
+- **Standard (Panning):** `move` (4-Richtungs-Pfeil)
+- **Beim Hover über Knoten:** `default` (Standard-Pfeil)
+- **Beim Dragging:** `move` (bleibt unverändert)
+
+---
+
+## Detaillierte Vorghensweise des Layouters (Version 1.0.0)
 
 ---
 

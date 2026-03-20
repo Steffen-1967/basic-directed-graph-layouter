@@ -3,60 +3,70 @@
     "id": 1,
     "type": "Event",
     "name": "Neuer Ausweis erforderlich",
+    "description": "Ein neuer Ausweis ist erforderlich, wenn die Volljährigkeit erreicht wird, der alte Ausweis verloren oder gestohen wurde oder der alte Ausweis sein Ablaufdatum erreicht.",
     "predecessorIds": []
   },
   {
     "id": 2,
     "type": "Task",
     "name": "Unterlagen zusammenstellen",
+    "description": "Die zusammenzustellenden Unterlagen beinhalten die Meldebestätigung der Stadt und beim erste Ausweis die Geburtsurkunde.",
     "predecessorIds": [1]
   },
   {
     "id": 3,
     "type": "Task",
     "name": "Ausweis beantragen",
+    "description": "Der Ausweis kann nicht online beantragt werden, weil die Unterlagen von der Meldebehörte eingesehen werden müssen. Es empfiehlt sich einen Termin zu vereinbaren.",
     "predecessorIds": [2]
   },
   {
     "id": 4,
     "type": "Task",
     "name": "Termin vereinbaren",
+    "description": "Termin vereinbaren",
     "predecessorIds": [3]
   },
   {
     "id": 5,
     "type": "Rule",
     "name": "And (split)",
+    "description": "And (split)",
     "predecessorIds": [4]
   },
   {
     "id": 6,
     "type": "Task",
     "name": "Termin auf Wiedervorlage legen",
+    "description": "Termin auf Wiedervorlage legen",
     "predecessorIds": [5]
   },
   {
     "id": 7,
     "type": "Task",
     "name": "Unterlagen zwischenlagern",
+    "description": "Unterlagen zwischenlagern",
     "predecessorIds": [5]
   },
   {
     "id": 8,
     "type": "Rule",
     "name": "And (combine)",
+    "description": "And (combine)",
     "predecessorIds": [6, 7]
   },
   {
     "id": 9,
     "type": "Task",
     "name": "Ausweis abholen",
+    "description": "Der Ausweis muss <b>vor Ort</b> abgeholt werden.",
     "predecessorIds": [8]
   },
   {
     "id": 10,
     "type": "Event",
     "name": "Ausweis verfügbar",
+    "description": "Ausweis verfügbar",
     "predecessorIds": [9]
   }
 ]

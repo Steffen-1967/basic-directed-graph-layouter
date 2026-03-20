@@ -1,0 +1,100 @@
+[
+  {
+    "id": 1,
+    "type": "Event",
+    "name": "Projekt gestartet",
+    "description": "Projekt gestartet",
+    "predecessorIds": []
+  },
+  {
+    "id": 2,
+    "type": "Task",
+    "name": "Anforderungen sammeln",
+    "description": "Anforderungen sammeln",
+    "predecessorIds": [1]
+  },
+  {
+    "id": 3,
+    "type": "Rule",
+    "name": "And (split)",
+    "description": "And (split)",
+    "predecessorIds": [2]
+  },
+  {
+    "id": 4,
+    "type": "Task",
+    "name": "Design erstellen",
+    "description": "Design erstellen",
+    "predecessorIds": [3]
+  },
+  {
+    "id": 5,
+    "type": "Task",
+    "name": "Spezifikation erstellen",
+    "description": "Spezifikation erstellen",
+    "predecessorIds": [3]
+  },
+  {
+    "id": 6,
+    "type": "Rule",
+    "name": "And (combine)",
+    "description": "And (combine)",
+    "predecessorIds": [4, 5, 13]
+  },
+  {
+    "id": 7,
+    "type": "Task",
+    "name": "Artefakt implementieren",
+    "description": "Artefakt implementieren",
+    "predecessorIds": [6]
+  },
+  {
+    "id": 8,
+    "type": "Task",
+    "name": "Artefakt testen",
+    "description": "Artefakt testen",
+    "predecessorIds": [7]
+  },
+  {
+    "id": 9,
+    "type": "Rule",
+    "name": "Xor (split)",
+    "description": "Xor (split)",
+    "predecessorIds": [8]
+  },
+  {
+    "id": 10,
+    "type": "Event",
+    "name": "Test erfolgreich",
+    "description": "Test erfolgreich",
+    "predecessorIds": [9]
+  },
+  {
+    "id": 11,
+    "type": "Event",
+    "name": "Test fehlgeschlagen",
+    "description": "Test fehlgeschlagen",
+    "predecessorIds": [9]
+  },
+  {
+    "id": 12,
+    "type": "Task",
+    "name": "Artefakt deployen",
+    "description": "Artefakt deployen",
+    "predecessorIds": [10]
+  },
+  {
+    "id": 13,
+    "type": "Task",
+    "name": "Bugs fixen",
+    "description": "Bugs fixen",
+    "predecessorIds": [11]
+  },
+  {
+    "id": 14,
+    "type": "Event",
+    "name": "Projekt abgeschlossen",
+    "description": "Projekt abgeschlossen",
+    "predecessorIds": [12]
+  }
+]
