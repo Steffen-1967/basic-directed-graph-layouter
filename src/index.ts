@@ -95,12 +95,7 @@ function generateGraphHtml(): void {
     <script src="manifest.js"></script>
     <script src="layouterCalculate.js"></script>
     <script src="renderer.js"></script>
-    
-    <script>
-        // Make constants available globally
-        const ANCHOR_HANDLE_DIAMETER = 10;
-    </script>
-    
+        
     <script>
         const allTestData = ${testDataJson};
         const canvas = document.getElementById('processCanvas');

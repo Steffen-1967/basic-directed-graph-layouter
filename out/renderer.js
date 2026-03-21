@@ -6,34 +6,163 @@ const HANDLE_STROKE_COLOR = '#6c75ad';
 const HANDLE_STROKE_WIDTH = 2;
 
 /**
- * Calculates the horizontal offset from the center point of a node to its edge.
- * This is used for precise arrow positioning and bounding box calculations.
+ * Calculates the horizontal offset from the bonding box center of a node
+ * to its anchor point. This is used for precise arrow positioning.
  * 
  * @param {Object} node - The node object containing type information
  * @param {Object} sizes - Configuration object with node dimensions
- * @param {number} sizes.eventSize - Diameter of event nodes
  * @param {number} sizes.taskWidth - Width of task nodes
+ * @param {number} sizes.subProcessWidth - Width of sub process nodes
+ * @param {number} sizes.eventSize - Diameter of event nodes
  * @param {number} sizes.ruleSize - Diagonal size of rule nodes (diamond)
- * @param {number} handleIndex - The index of the handle on a symbol side (1...3)
- * @returns {number} The horizontal distance from node center to its right edge
+ * @param {string} side - The symbol side (top, bottom, left or right)
+ * @returns {number} The horizontal distance from node center to its anchor point
  */
-function calculateHandleOffsetX(node, sizes, handleIndex) {
-    if (node.type === 'Task' || node.type === 'SubProcess') {
-        return node.type === 'Task' ? sizes.taskWidth * 0.5 : sizes.subProcessWidth * 0.5;
+function calculateHandleOffsetX(node, sizes, side, handleIndex) {
+    if (node.type === 'Task') {
+		if ((side ===  `top`) || (side ===  `bottom`)) {
+			if (handleIndex === 1)
+				return - sizes.taskWidth * 0.25;
+			else if (handleIndex === 3)
+				return sizes.taskWidth * 0.25;
+			return 0;
+		}
+		else if (side ===  `left`)
+			return - sizes.taskWidth * 0.5;
+		else if (side ===  `right`)
+			return sizes.taskWidth * 0.5;
     }
-    if (node.type === 'Event') {
-		if (handleIndex === '1')
-			return sizes.eventSize * sizes.eventHandleShiftOnSize2;
-		if (handleIndex === '1')
-			return sizes.eventSize * (1 - sizes.eventHandleShiftOnSize2);
-		return sizes.eventSize * 0.5;
+    else if (node.type === 'SubProcess') {
+		if ((side ===  `top`) || (side ===  `bottom`)) {
+			if (handleIndex === 1)
+				return - sizes.subProcessWidth * 0.25;
+			else if (handleIndex === 3)
+				return sizes.subProcessWidth * 0.25;
+			return 0;
+		}
+		else if (side ===  `left`)
+			return - sizes.subProcessWidth * 0.5;
+		else if (side ===  `right`)
+			return sizes.subProcessWidth * 0.5;
     }
-	if (node.type === 'Rule') {
-		if (handleIndex === '1')
-			return sizes.eventSize * sizes.ruleHandleShiftOnSize2;
-		if (handleIndex === '1')
-			return sizes.eventSize * (1 - sizes.ruleHandleShiftOnSize2);
-		return sizes.ruleSize * 0.5;
+    else if (node.type === 'Event') {
+		if ((side ===  `top`) || (side ===  `bottom`)) {
+			if (handleIndex === 1)
+				return - sizes.eventSize * sizes.eventHandleShiftOnSize2;
+			else if (handleIndex === 3)
+				return sizes.eventSize * sizes.eventHandleShiftOnSize2;
+			return 0;
+		}
+		else if (side ===  `left`) {
+			if ((handleIndex === 1) || (handleIndex === 3))
+				return - sizes.eventSize * (0.5 - sizes.eventHandleShiftOnSize1);
+			return - sizes.eventSize * 0.5;
+		}
+		else if (side ===  `right`) {
+			if ((handleIndex === 1) || (handleIndex === 3))
+				return sizes.eventSize * (0.5 - sizes.eventHandleShiftOnSize1);
+			return sizes.eventSize * 0.5;
+		}
+    }
+	else if (node.type === 'Rule') {
+		if ((side ===  `top`) || (side ===  `bottom`)) {
+			if (handleIndex === 1)
+				return - sizes.ruleSize * sizes.ruleHandleShiftOnSize2;
+			if (handleIndex === 3)
+				return sizes.ruleSize * sizes.ruleHandleShiftOnSize2;
+			return 0;
+		}
+		else if (side ===  `left`) {
+			if ((handleIndex === 1) || (handleIndex === 3))
+				return - sizes.ruleSize * (0.5 - sizes.ruleHandleShiftOnSize1);
+			return - sizes.ruleSize * 0.5;
+		}
+		else if (side ===  `right`) {
+			if ((handleIndex === 1) || (handleIndex === 3))
+				return sizes.ruleSize * (0.5 - sizes.ruleHandleShiftOnSize1);
+			return sizes.ruleSize * 0.5;
+		}
+    }
+	return 0;
+}
+
+/**
+ * Calculates the vertical offset from the bonding box center of a node
+ * to its anchor point. This is used for precise arrow positioning.
+ * 
+ * @param {Object} node - The node object containing type information
+ * @param {Object} sizes - Configuration object with node dimensions
+ * @param {number} sizes.taskHeight - Height of task nodes
+ * @param {number} sizes.subProcessHeight - Height of sub process nodes
+ * @param {number} sizes.eventSize - Diameter of event nodes
+ * @param {number} sizes.ruleSize - Diagonal size of rule nodes (diamond)
+ * @param {string} side - The symbol side (top, bottom, left or right)
+ * @returns {number} The vertical distance from node center to its anchor point
+ */
+function calculateHandleOffsetY(node, sizes, side, handleIndex) {
+    if (node.type === 'Task') {
+		if ((side ===  `left`) || (side ===  `right`)) {
+			if (handleIndex === 1)
+				return - sizes.taskHeight * 0.25;
+			else if (handleIndex === 3)
+				return sizes.taskHeight * 0.25;
+			return 0;
+		}
+		else if (side ===  `top`)
+			return - sizes.taskHeight * 0.5;
+		else if (side ===  `bottom`)
+			return sizes.taskHeight * 0.5;
+    }
+    else if (node.type === 'SubProcess') {
+		if ((side ===  `left`) || (side ===  `right`)) {
+			if (handleIndex === 1)
+				return - sizes.subProcessHeight * 0.25;
+			else if (handleIndex === 3)
+				return sizes.subProcessHeight * 0.25;
+			return 0;
+		}
+		else if (side ===  `top`)
+			return - sizes.subProcessHeight * 0.5;
+		else if (side ===  `bottom`)
+			return sizes.subProcessHeight * 0.5;
+    }
+    else if (node.type === 'Event') {
+		if ((side ===  `left`) || (side ===  `right`)) {
+			if (handleIndex === 1)
+				return - sizes.eventSize * sizes.eventHandleShiftOnSize2;
+			else if (handleIndex === 3)
+				return sizes.eventSize * sizes.eventHandleShiftOnSize2;
+			return 0;
+		}
+		else if (side ===  `top`) {
+			if ((handleIndex === 1) || (handleIndex === 3))
+				return - sizes.eventSize * (0.5 - sizes.eventHandleShiftOnSize1);
+			return - sizes.eventSize * 0.5;
+		}
+		else if (side ===  `bottom`) {
+			if ((handleIndex === 1) || (handleIndex === 3))
+				return sizes.eventSize * (0.5 - sizes.eventHandleShiftOnSize1);
+			return sizes.eventSize * 0.5;
+		}
+    }
+	else if (node.type === 'Rule') {
+		if ((side ===  `left`) || (side ===  `right`)) {
+			if (handleIndex === 1)
+				return - sizes.ruleSize * sizes.ruleHandleShiftOnSize1;
+			if (handleIndex === 3)
+				return sizes.ruleSize * sizes.ruleHandleShiftOnSize1;
+			return 0;
+		}
+		else if (side ===  `top`) {
+			if ((handleIndex === 1) || (handleIndex === 3))
+				return - sizes.ruleSize * (0.5 - sizes.ruleHandleShiftOnSize2);
+			return - sizes.ruleSize * 0.5;
+		}
+		else if (side ===  `bottom`) {
+			if ((handleIndex === 1) || (handleIndex === 3))
+				return sizes.ruleSize * (0.5 - sizes.ruleHandleShiftOnSize2);
+			return sizes.ruleSize * 0.5;
+		}
     }
 	return 0;
 }
@@ -206,23 +335,33 @@ function drawNode(ctx, node, colors, sizes) {
 function drawUnifiedArrow(ctx, fromNode, toNode, sizes, colors, lvlW, rowH) {
     const headLength = 10;
     
-    let startY1 = fromNode.y;
-    if (fromNode.type === 'Rule' && fromNode.y !== toNode.y) {
-        const direction = toNode.y > fromNode.y ? 1 : -1;
-        startY1 += direction * (sizes.ruleSize * sizes.ruleHandleShiftOnSize1);
-    }
+    let handleIndex = 2;
+	if (fromNode.y > toNode.y)
+		handleIndex = 1;
+	if (fromNode.y < toNode.y)
+		handleIndex = 3;
+	let startY1 = fromNode.y + calculateHandleOffsetY(fromNode, sizes, `right`, handleIndex);
     
-    const dyStart = Math.abs(startY1 - fromNode.y);
-    let startX1 = fromNode.x + (fromNode.type === 'Rule' ? (sizes.ruleSize * 0.5 - dyStart) : calculateHandleOffsetX(fromNode, sizes, 1));
+	handleIndex = 2;
+	if (fromNode.y > toNode.y)
+		handleIndex = 1;
+	if (fromNode.y < toNode.y)
+		handleIndex = 3;
+    let startX1 = fromNode.x + calculateHandleOffsetX(fromNode, sizes, `right`, handleIndex);
 
-    let endY2 = toNode.y;
-    if (toNode.type === 'Rule' && fromNode.y !== toNode.y) {
-        const direction = fromNode.y > toNode.y ? 1 : -1;
-        endY2 += direction * (sizes.ruleSize * sizes.ruleHandleShiftOnSize1);
-    }
+    handleIndex = 2;
+	if (fromNode.y < toNode.y)
+		handleIndex = 1;
+	if (fromNode.y > toNode.y)
+		handleIndex = 3;
+    let endY2 = toNode.y + calculateHandleOffsetY(toNode, sizes, `left`, handleIndex);
     
-    const dyEnd = Math.abs(endY2 - toNode.y);
-    let endX2 = toNode.x - (toNode.type === 'Rule' ? (sizes.ruleSize * 0.5 - dyEnd) : calculateHandleOffsetX(toNode, sizes, 1));
+    handleIndex = 2;
+	if (fromNode.y < toNode.y)
+		handleIndex = 1;
+	if (fromNode.y > toNode.y)
+		handleIndex = 3;
+    let endX2 = toNode.x + calculateHandleOffsetX(toNode, sizes, `left`, handleIndex);
 
     ctx.beginPath();
     ctx.strokeStyle = colors.Arrow;
@@ -276,6 +415,8 @@ function render(ctx, canvas, offsetX, offsetY, nodes, sizes, colors, lvlW, rowH)
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.translate(offsetX, offsetY);
     
+    nodes.forEach(node => drawNode(ctx, node, colors, sizes));
+    
     nodes.forEach(node => {
         if (node.predecessorIds) {
             node.predecessorIds.forEach(predId => {
@@ -286,8 +427,6 @@ function render(ctx, canvas, offsetX, offsetY, nodes, sizes, colors, lvlW, rowH)
             });
         }
     });
-    
-    nodes.forEach(node => drawNode(ctx, node, colors, sizes));
 }
 
 /**
