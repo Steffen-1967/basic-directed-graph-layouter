@@ -17,15 +17,29 @@
     "id": 3,
     "type": "Task",
     "name": "Ausweis beantragen",
-    "description": "Der Ausweis kann nicht online beantragt werden, weil die Unterlagen von der Meldebehörte eingesehen werden müssen. Es empfiehlt sich einen Termin zu vereinbaren.",
+    "description": "Der Ausweis muss <i>vor Ort</i> beantragt werden, weil die Unterlagen von der Meldebehörte eingesehen werden müssen. Es empfiehlt sich einen Termin zu vereinbaren.",
     "predecessorIds": [2]
+  },
+  {
+    "id": 11,
+    "type": "Rule",
+    "name": "And (split)",
+    "description": "And (split)",
+    "predecessorIds": [3]
   },
   {
     "id": 4,
     "type": "Task",
     "name": "Termin vereinbaren",
     "description": "Termin vereinbaren",
-    "predecessorIds": [3]
+    "predecessorIds": [11]
+  },
+  {
+    "id": 12,
+    "type": "SubProcess",
+    "name": "Ausweis erstellen",
+    "description": "Ausweis erstellen",
+    "predecessorIds": [11]
   },
   {
     "id": 5,
@@ -45,7 +59,7 @@
     "id": 7,
     "type": "Task",
     "name": "Unterlagen zwischenlagern",
-    "description": "Unterlagen zwischenlagern",
+    "description": "Die Unterlagen zwischenlagern",
     "predecessorIds": [5]
   },
   {
@@ -59,14 +73,14 @@
     "id": 9,
     "type": "Task",
     "name": "Ausweis abholen",
-    "description": "Der Ausweis muss <b>vor Ort</b> abgeholt werden.",
+    "description": "Der Ausweis muss <i>vor Ort</i> abgeholt werden.",
     "predecessorIds": [8]
   },
   {
     "id": 10,
     "type": "Event",
     "name": "Ausweis verfügbar",
-    "description": "Ausweis verfügbar",
+    "description": "Der Ausweis ist an den Antragsteller übergeben und für diesen verfügbar.",
     "predecessorIds": [9]
   }
 ]

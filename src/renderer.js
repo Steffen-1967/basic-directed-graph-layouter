@@ -2,8 +2,7 @@
 const HANDLE_OFFSET = 2;
 const CORNER_HANDLE_SIZE = 10;
 const ANCHOR_HANDLE_DIAMETER = 10;
-const HANDLE_BACK_COLOR = '#8c979f';
-const HANDLE_STROKE_COLOR = '#6c757d';
+const HANDLE_STROKE_COLOR = '#6c75ad';
 const HANDLE_STROKE_WIDTH = 2;
 
 /**
@@ -15,13 +14,28 @@ const HANDLE_STROKE_WIDTH = 2;
  * @param {number} sizes.eventSize - Diameter of event nodes
  * @param {number} sizes.taskWidth - Width of task nodes
  * @param {number} sizes.ruleSize - Diagonal size of rule nodes (diamond)
+ * @param {number} handleIndex - The index of the handle on a symbol side (1...3)
  * @returns {number} The horizontal distance from node center to its right edge
  */
-function getXOffset(node, sizes) {
-    if (node.type === 'Event') return sizes.eventSize * 0.5;
-    if (node.type === 'Task') return sizes.taskWidth * 0.5;
-    if (node.type === 'Rule') return sizes.ruleSize * 0.5;
-    return 0;
+function calculateHandleOffsetX(node, sizes, handleIndex) {
+    if (node.type === 'Task' || node.type === 'SubProcess') {
+        return node.type === 'Task' ? sizes.taskWidth * 0.5 : sizes.subProcessWidth * 0.5;
+    }
+    if (node.type === 'Event') {
+		if (handleIndex === '1')
+			return sizes.eventSize * sizes.eventHandleShiftOnSize2;
+		if (handleIndex === '1')
+			return sizes.eventSize * (1 - sizes.eventHandleShiftOnSize2);
+		return sizes.eventSize * 0.5;
+    }
+	if (node.type === 'Rule') {
+		if (handleIndex === '1')
+			return sizes.eventSize * sizes.ruleHandleShiftOnSize2;
+		if (handleIndex === '1')
+			return sizes.eventSize * (1 - sizes.ruleHandleShiftOnSize2);
+		return sizes.ruleSize * 0.5;
+    }
+	return 0;
 }
 
 /**
@@ -40,7 +54,7 @@ function getXOffset(node, sizes) {
  */
 function drawWrappedText(ctx, text, x, y, maxWidth, maxLines, colors, centered = false) {
     ctx.fillStyle = colors.Text;
-    ctx.font = '12px Arial';
+    ctx.font = '10px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = centered ? 'middle' : 'top';
     
@@ -113,6 +127,41 @@ function drawNode(ctx, node, colors, sizes) {
         ctx.lineWidth = 2;
         ctx.stroke();
         drawWrappedText(ctx, node.name, node.x, node.y, sizes.taskWidth - 10, 3, colors, true);
+    } else if (node.type === 'SubProcess') {
+        const x = node.x - sizes.subProcessWidth * 0.5;
+        const y = node.y - sizes.subProcessHeight * 0.5;
+        ctx.beginPath();
+        ctx.roundRect(x, y, sizes.subProcessWidth, sizes.subProcessHeight, 10);
+        ctx.fillStyle = colors.SubProcess;
+        ctx.fill();
+        ctx.strokeStyle = colors.Stroke;
+        ctx.lineWidth = 4;
+        ctx.stroke();
+        
+        // Draw small square at bottom center (unfilled, with border)
+        const squareSize = sizes.subProcessSquareSize;
+        const squareX = node.x - squareSize * 0.5;
+        const squareY = y + sizes.subProcessHeight - squareSize - 5;
+        ctx.beginPath();
+        ctx.rect(squareX, squareY, squareSize, squareSize);
+        ctx.strokeStyle = colors.Stroke;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw "+" inside the square
+        const plusSize = squareSize * 0.6;
+        const centerX = squareX + squareSize * 0.5;
+        const centerY = squareY + squareSize * 0.5;
+        ctx.beginPath();
+        ctx.moveTo(centerX - plusSize * 0.5, centerY);
+        ctx.lineTo(centerX + plusSize * 0.5, centerY);
+        ctx.moveTo(centerX, centerY - plusSize * 0.5);
+        ctx.lineTo(centerX, centerY + plusSize * 0.5);
+        ctx.strokeStyle = colors.Stroke;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        drawWrappedText(ctx, node.name, node.x, node.y, sizes.subProcessWidth - 10, 3, colors, true);
     } else if (node.type === 'Rule') {
         ctx.beginPath();
         ctx.moveTo(node.x, node.y - sizes.ruleSize * 0.5);
@@ -148,33 +197,32 @@ function drawNode(ctx, node, colors, sizes) {
  * @param {Object} toNode - Target node of the arrow
  * @param {number} toNode.x - X position of target node
  * @param {number} toNode.y - Y position of target node
+ * @param {Object} sizes - Size configuration for different node types
  * @param {string} toNode.type - Type of target node
  * @param {Object} colors - Color configuration
- * @param {string} colors.Arrow - Color for arrow lines and heads
- * @param {Object} sizes - Size configuration for nodes
  * @param {number} lvlW - Column width (horizontal spacing between levels)
  * @param {number} rowH - Row height (vertical spacing between rows)
  */
-function drawUnifiedArrow(ctx, fromNode, toNode, colors, sizes, lvlW, rowH) {
+function drawUnifiedArrow(ctx, fromNode, toNode, sizes, colors, lvlW, rowH) {
     const headLength = 10;
     
     let startY1 = fromNode.y;
     if (fromNode.type === 'Rule' && fromNode.y !== toNode.y) {
         const direction = toNode.y > fromNode.y ? 1 : -1;
-        startY1 += direction * (sizes.ruleSize * 0.25);
+        startY1 += direction * (sizes.ruleSize * sizes.ruleHandleShiftOnSize1);
     }
     
     const dyStart = Math.abs(startY1 - fromNode.y);
-    let startX1 = fromNode.x + (fromNode.type === 'Rule' ? (sizes.ruleSize * 0.5 - dyStart) : getXOffset(fromNode, sizes));
+    let startX1 = fromNode.x + (fromNode.type === 'Rule' ? (sizes.ruleSize * 0.5 - dyStart) : calculateHandleOffsetX(fromNode, sizes, 1));
 
     let endY2 = toNode.y;
     if (toNode.type === 'Rule' && fromNode.y !== toNode.y) {
         const direction = fromNode.y > toNode.y ? 1 : -1;
-        endY2 += direction * (sizes.ruleSize * 0.25);
+        endY2 += direction * (sizes.ruleSize * sizes.ruleHandleShiftOnSize1);
     }
     
     const dyEnd = Math.abs(endY2 - toNode.y);
-    let endX2 = toNode.x - (toNode.type === 'Rule' ? (sizes.ruleSize * 0.5 - dyEnd) : getXOffset(toNode, sizes));
+    let endX2 = toNode.x - (toNode.type === 'Rule' ? (sizes.ruleSize * 0.5 - dyEnd) : calculateHandleOffsetX(toNode, sizes, 1));
 
     ctx.beginPath();
     ctx.strokeStyle = colors.Arrow;
@@ -218,12 +266,12 @@ function drawUnifiedArrow(ctx, fromNode, toNode, colors, sizes, lvlW, rowH) {
  * @param {number} offsetX - Horizontal pan offset for viewport positioning
  * @param {number} offsetY - Vertical pan offset for viewport positioning
  * @param {Array<Object>} nodes - Array of all nodes to render
- * @param {Object} colors - Color configuration for all visual elements
  * @param {Object} sizes - Size configuration for all node types
+ * @param {Object} colors - Color configuration for all visual elements
  * @param {number} lvlW - Column width (horizontal spacing)
  * @param {number} rowH - Row height (vertical spacing)
  */
-function render(ctx, canvas, offsetX, offsetY, nodes, colors, sizes, lvlW, rowH) {
+function render(ctx, canvas, offsetX, offsetY, nodes, sizes, colors, lvlW, rowH) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.translate(offsetX, offsetY);
@@ -233,7 +281,7 @@ function render(ctx, canvas, offsetX, offsetY, nodes, colors, sizes, lvlW, rowH)
             node.predecessorIds.forEach(predId => {
                 const predNode = nodes.find(n => n.id === predId);
                 if (predNode) {
-                    drawUnifiedArrow(ctx, predNode, node, colors, sizes, lvlW, rowH);
+                    drawUnifiedArrow(ctx, predNode, node, sizes, colors, lvlW, rowH);
                 }
             });
         }
@@ -263,6 +311,11 @@ function getNodeBoundingBox(node, sizes) {
         maxX = node.x + sizes.taskWidth * 0.5;
         minY = node.y - sizes.taskHeight * 0.5;
         maxY = node.y + sizes.taskHeight * 0.5;
+    } else if (node.type === 'SubProcess') {
+        minX = node.x - sizes.subProcessWidth * 0.5;
+        maxX = node.x + sizes.subProcessWidth * 0.5;
+        minY = node.y - sizes.subProcessHeight * 0.5;
+        maxY = node.y + sizes.subProcessHeight * 0.5;
     } else if (node.type === 'Rule') {
         minX = node.x - sizes.ruleSize * 0.5;
         maxX = node.x + sizes.ruleSize * 0.5;
@@ -284,14 +337,13 @@ function getNodeBoundingBox(node, sizes) {
  * 
  * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
  * @param {Object} bbox - Bounding box with minX, maxX, minY, maxY
- * @param {string} color - Color for the corner handles
  */
-function drawCornerHandles(ctx, bbox, color) {
+function drawCornerHandles(ctx, bbox) {
     const offset = HANDLE_OFFSET;
     const size = CORNER_HANDLE_SIZE;
     
     ctx.strokeStyle = HANDLE_STROKE_COLOR;
-    ctx.lineWidth = HANDLE_STROKE_WIDTH * 1.5;
+    ctx.lineWidth = HANDLE_STROKE_WIDTH * 2;
 
     // Top-left corner
     ctx.beginPath();
@@ -339,134 +391,113 @@ function drawCornerHandles(ctx, bbox, color) {
  */
 function calculateAnchorHandles(bbox, nodeType, centerX, centerY, sizes) {
     const anchors = {};
-    const offset = HANDLE_OFFSET;
+    const offset = HANDLE_OFFSET * 2;
     const width = bbox.maxX - bbox.minX;
     const height = bbox.maxY - bbox.minY;
-
-    // Helper function to calculate shifted position for Event (circle)
-    function getEventShift(dx, dy, eventSize, edge, position) {
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist === 0) return { shiftX: 0, shiftY: 0 };
-        const scale = (eventSize * 0.5) / dist;
-        return {
-            shiftX: dx * scale,
-            shiftY: dy * scale
-        };
-    }
-
-    // Helper function to calculate shifted position for Rule (diamond)
-    function getRuleShift(dx, dy, ruleSize, edge, position) {
-        const manhattanDist = Math.abs(dx) + Math.abs(dy);
-        if (manhattanDist === 0) return { shiftX: 0, shiftY: 0 };
-        const scale = (ruleSize * 0.5) / manhattanDist;
-        return {
-            shiftX: dx * scale,
-            shiftY: dy * scale
-        };
-    }
+	
+	const eventHandleShiftAnchor1 = 0.99;
+	const eventHandleShiftAnchor2 = 0.75;
+	const ruleHandleShiftAnchor1 = 0.99;
+	const ruleHandleShiftAnchor2 = 0.75;
 
     // Top edge - 3 anchors
-    for (let i = 1; i <= 3; i++) {
-        let x = bbox.minX + (width * i / 4);
+    for (let handleIndex = 1; handleIndex <= 3; handleIndex++) {
+        let x = bbox.minX + (width * handleIndex / 4);
         let y = bbox.minY - offset;
         
-        if ((nodeType === 'Event' || nodeType === 'Rule') && (i === 1 || i === 3)) {
-            y = bbox.minY - offset * 1.5;
-            const dx = x - centerX;
-            const dy = y - centerY;
-            
+        if ((nodeType === 'Event' || nodeType === 'Rule') && (handleIndex === 1 || handleIndex === 3)) {
             if (nodeType === 'Event') {
-                const shift = getEventShift(dx, dy, sizes.eventSize, 'top', i);
-                x = centerX + shift.shiftX;
-                y = centerY + shift.shiftY;
-            } else if (nodeType === 'Rule') {
-                const shift = getRuleShift(dx, dy, sizes.ruleSize, 'top', i);
-                x = centerX + shift.shiftX;
-                y = centerY + shift.shiftY;
-            }
-            if (i === 1) x = x - offset * 0.5;
-            if (i === 3) x = x + offset * 0.5;
+				y = bbox.minY + (height * sizes.eventHandleShiftOnSize1) - (offset * eventHandleShiftAnchor1);
+				if (handleIndex === 1)
+					x = bbox.minX + (width * sizes.eventHandleShiftOnSize2) - (offset * eventHandleShiftAnchor2);
+				else if (handleIndex === 3)
+					x = bbox.maxX - (width * sizes.eventHandleShiftOnSize2) + (offset * eventHandleShiftAnchor2);
+			}
+			else if (nodeType === 'Rule') {
+				y = bbox.minY + (height * sizes.ruleHandleShiftOnSize1) - (offset * ruleHandleShiftAnchor1);
+				if (handleIndex === 1)
+					x = bbox.minX + (width * sizes.ruleHandleShiftOnSize2) - (offset * ruleHandleShiftAnchor2);
+				else if (handleIndex === 3)
+					x = bbox.maxX - (width * sizes.ruleHandleShiftOnSize2) + (offset * ruleHandleShiftAnchor2);
+			}
         }
         
-        anchors[`top-${i}`] = { x, y };
+        anchors[`top-${handleIndex}`] = { x, y };
     }
 
     // Bottom edge - 3 anchors
-    for (let i = 1; i <= 3; i++) {
-        let x = bbox.minX + (width * i / 4);
+    for (let handleIndex = 1; handleIndex <= 3; handleIndex++) {
+        let x = bbox.minX + (width * handleIndex / 4);
         let y = bbox.maxY + offset;
         
-        if ((nodeType === 'Event' || nodeType === 'Rule') && (i === 1 || i === 3)) {
-            y = bbox.maxY + offset * 1.5;
-            const dx = x - centerX;
-            const dy = y - centerY;
-            
+        if ((nodeType === 'Event' || nodeType === 'Rule') && (handleIndex === 1 || handleIndex === 3)) {
             if (nodeType === 'Event') {
-                const shift = getEventShift(dx, dy, sizes.eventSize, 'bottom', i);
-                x = centerX + shift.shiftX;
-                y = centerY + shift.shiftY;
-            } else if (nodeType === 'Rule') {
-                const shift = getRuleShift(dx, dy, sizes.ruleSize, 'bottom', i);
-                x = centerX + shift.shiftX;
-                y = centerY + shift.shiftY;
-            }
-            if (i === 1) x = x - offset * 0.5;
-            if (i === 3) x = x + offset * 0.5;
+				y = bbox.maxY - (height * sizes.eventHandleShiftOnSize1) + (offset * eventHandleShiftAnchor1);
+				if (handleIndex === 1)
+					x = bbox.minX + (width * sizes.eventHandleShiftOnSize2) - (offset * eventHandleShiftAnchor2);
+				else if (handleIndex === 3)
+					x = bbox.maxX - (width * sizes.eventHandleShiftOnSize2) + (offset * eventHandleShiftAnchor2);
+			}
+			else if (nodeType === 'Rule') {
+				y = bbox.maxY - (height * sizes.ruleHandleShiftOnSize1) + (offset * ruleHandleShiftAnchor1);
+				if (handleIndex === 1)
+					x = bbox.minX + (width * sizes.ruleHandleShiftOnSize2) - (offset * ruleHandleShiftAnchor2);
+				else if (handleIndex === 3)
+					x = bbox.maxX - (width * sizes.ruleHandleShiftOnSize2) + (offset * ruleHandleShiftAnchor2);
+			}
         }
         
-        anchors[`bottom-${i}`] = { x, y };
+        anchors[`bottom-${handleIndex}`] = { x, y };
     }
 
     // Left edge - 3 anchors
-    for (let i = 1; i <= 3; i++) {
+    for (let handleIndex = 1; handleIndex <= 3; handleIndex++) {
         let x = bbox.minX - offset;
-        let y = bbox.minY + (height * i / 4);
+        let y = bbox.minY + (height * handleIndex / 4);
         
-        if ((nodeType === 'Event' || nodeType === 'Rule') && (i === 1 || i === 3)) {
-            x = bbox.minX - offset * 1.5;
-            const dx = x - centerX;
-            const dy = y - centerY;
-            
+        if ((nodeType === 'Event' || nodeType === 'Rule') && (handleIndex === 1 || handleIndex === 3)) {
             if (nodeType === 'Event') {
-                const shift = getEventShift(dx, dy, sizes.eventSize, 'left', i);
-                x = centerX + shift.shiftX;
-                y = centerY + shift.shiftY;
-            } else if (nodeType === 'Rule') {
-                const shift = getRuleShift(dx, dy, sizes.ruleSize, 'left', i);
-                x = centerX + shift.shiftX;
-                y = centerY + shift.shiftY;
-            }
-            if (i === 1) y = y - offset * 0.5;
-            if (i === 3) y = y + offset * 0.5;
+				x = bbox.minX + (width * sizes.eventHandleShiftOnSize1) - (offset * eventHandleShiftAnchor1);
+				if (handleIndex === 1)
+					y = bbox.minY + (height * sizes.eventHandleShiftOnSize2) - (offset * eventHandleShiftAnchor2);
+				else if (handleIndex === 3)
+					y = bbox.maxY - (height * sizes.eventHandleShiftOnSize2) + (offset * eventHandleShiftAnchor2);
+			}
+			else if (nodeType === 'Rule') {
+				x = bbox.minX + (width * sizes.ruleHandleShiftOnSize1) - (offset * ruleHandleShiftAnchor1);
+				if (handleIndex === 1)
+					y = bbox.minY + (height * sizes.ruleHandleShiftOnSize2) - (offset * ruleHandleShiftAnchor2);
+				else if (handleIndex === 3)
+					y = bbox.maxY - (height * sizes.ruleHandleShiftOnSize2) + (offset * ruleHandleShiftAnchor2);
+			}
         }
         
-        anchors[`left-${i}`] = { x, y };
+        anchors[`left-${handleIndex}`] = { x, y };
     }
 
     // Right edge - 3 anchors
-    for (let i = 1; i <= 3; i++) {
+    for (let handleIndex = 1; handleIndex <= 3; handleIndex++) {
         let x = bbox.maxX + offset;
-        let y = bbox.minY + (height * i / 4);
+        let y = bbox.minY + (height * handleIndex / 4);
         
-        if ((nodeType === 'Event' || nodeType === 'Rule') && (i === 1 || i === 3)) {
-            x = bbox.maxX + offset * 1.5;
-            const dx = x - centerX;
-            const dy = y - centerY;
-            
+        if ((nodeType === 'Event' || nodeType === 'Rule') && (handleIndex === 1 || handleIndex === 3)) {
             if (nodeType === 'Event') {
-                const shift = getEventShift(dx, dy, sizes.eventSize, 'right', i);
-                x = centerX + shift.shiftX;
-                y = centerY + shift.shiftY;
-            } else if (nodeType === 'Rule') {
-                const shift = getRuleShift(dx, dy, sizes.ruleSize, 'right', i);
-                x = centerX + shift.shiftX;
-                y = centerY + shift.shiftY;
-            }
-            if (i === 1) y = y - offset * 0.5;
-            if (i === 3) y = y + offset * 0.5;
-        }
+				x = bbox.maxX - (width * sizes.eventHandleShiftOnSize1) + (offset * eventHandleShiftAnchor1);
+				if (handleIndex === 1)
+					y = bbox.minY + (height * sizes.eventHandleShiftOnSize2) - (offset * eventHandleShiftAnchor2);
+				else if (handleIndex === 3)
+					y = bbox.maxY - (height * sizes.eventHandleShiftOnSize2) + (offset * eventHandleShiftAnchor2);
+			}
+			else if (nodeType === 'Rule') {
+				x = bbox.maxX - (width * sizes.ruleHandleShiftOnSize1) + (offset * ruleHandleShiftAnchor1);
+				if (handleIndex === 1)
+					y = bbox.minY + (height * sizes.ruleHandleShiftOnSize2) - (offset * ruleHandleShiftAnchor2);
+				else if (handleIndex === 3)
+					y = bbox.maxY - (height * sizes.ruleHandleShiftOnSize2) + (offset * ruleHandleShiftAnchor2);
+			}
+       }
         
-        anchors[`right-${i}`] = { x, y };
+        anchors[`right-${handleIndex}`] = { x, y };
     }
     
     return anchors;
@@ -479,24 +510,24 @@ function calculateAnchorHandles(bbox, nodeType, centerX, centerY, sizes) {
  * 
  * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
  * @param {Object} bbox - Bounding box with minX, maxX, minY, maxY
- * @param {string} fillColor - Fill color for the anchor circles
  * @param {string} nodeType - Type of the node ('Event', 'Task', or 'Rule')
  * @param {number} centerX - X coordinate of node center
  * @param {number} centerY - Y coordinate of node center
  * @param {Object} sizes - Size configuration for different node types
+ * @param {Object} colors - Color configuration
+ * @param {string|null} hoveredHandle - Key of the hovered handle (e.g., "top-1") or null
  */
-function drawAnchorHandles(ctx, bbox, fillColor, nodeType, centerX, centerY, sizes) {
+function drawAnchorHandles(ctx, bbox, nodeType, centerX, centerY, sizes, colors, hoveredHandle = null) {
     const anchors = calculateAnchorHandles(bbox, nodeType, centerX, centerY, sizes);
-    const radius = ANCHOR_HANDLE_DIAMETER * 0.5;
     
     // Draw all anchor handles
-    Object.values(anchors).forEach(anchor => {
+    Object.entries(anchors).forEach(([key, anchor]) => {
         ctx.beginPath();
-        ctx.arc(anchor.x, anchor.y, radius, 0, 2 * Math.PI);
-        ctx.fillStyle = fillColor;
+        ctx.arc(anchor.x, anchor.y, ANCHOR_HANDLE_DIAMETER * 0.5, 0, 2 * Math.PI);
+        ctx.fillStyle = (hoveredHandle === key) ? colors.AnchorHandleHover : colors.AnchorHandle;
         ctx.fill();
         ctx.strokeStyle = HANDLE_STROKE_COLOR;
-        ctx.lineWidth = HANDLE_STROKE_WIDTH;
+        ctx.lineWidth = HANDLE_STROKE_WIDTH * 0.75;
         ctx.stroke();
     });
 }
@@ -508,13 +539,14 @@ function drawAnchorHandles(ctx, bbox, fillColor, nodeType, centerX, centerY, siz
  * @param {Object} node - The node to draw handles for
  * @param {Object} sizes - Size configuration for different node types
  * @param {Object} colors - Color configuration
+ * @param {string|null} hoveredHandle - Key of the hovered handle (e.g., "top-1") or null
  */
-function drawNodeHandles(ctx, node, sizes, colors) {
+function drawNodeHandles(ctx, node, sizes, colors, hoveredHandle = null) {
     const bbox = getNodeBoundingBox(node, sizes);
-    drawCornerHandles(ctx, bbox, colors.Stroke);
-    drawAnchorHandles(ctx, bbox, HANDLE_BACK_COLOR, node.type, node.x, node.y, sizes);
+    drawCornerHandles(ctx, bbox);
+    drawAnchorHandles(ctx, bbox, node.type, node.x, node.y, sizes, colors, hoveredHandle);
 }
 
 if (typeof module !== 'undefined') {
-    module.exports = { getXOffset, drawWrappedText, drawNode, drawUnifiedArrow, render, getNodeBoundingBox, calculateAnchorHandles, drawNodeHandles };
+    module.exports = { calculateHandleOffsetX, drawWrappedText, drawNode, drawUnifiedArrow, render, getNodeBoundingBox, calculateAnchorHandles, drawNodeHandles };
 }

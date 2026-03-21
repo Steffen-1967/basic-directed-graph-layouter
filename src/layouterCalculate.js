@@ -152,6 +152,11 @@ function calculateGraphBoundings(nodes, sizes) {
             nodeMaxX = node.x + sizes.taskWidth * 0.5;
             nodeMinY = node.y - sizes.taskHeight * 0.5;
             nodeMaxY = node.y + sizes.taskHeight * 0.5;
+        } else if (node.type === 'SubProcess') {
+            nodeMinX = node.x - sizes.subProcessWidth * 0.5;
+            nodeMaxX = node.x + sizes.subProcessWidth * 0.5;
+            nodeMinY = node.y - sizes.subProcessHeight * 0.5;
+            nodeMaxY = node.y + sizes.subProcessHeight * 0.5;
         } else if (node.type === 'Rule') {
             nodeMinX = node.x - sizes.ruleSize * 0.5;
             nodeMaxX = node.x + sizes.ruleSize * 0.5;

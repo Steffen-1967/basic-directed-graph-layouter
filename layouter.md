@@ -42,17 +42,22 @@ Das intelligente Routing-System für Verbindungspfeile zwischen Knoten.
   - Name: einzeilig mit Ellipsis bei Überlauf
   - Description: 3 Zeilen mit Ellipsis bei Überlauf
   - Cursor wechselt zu Standard-Pfeil beim Hover über Knoten
+  - Hover-Erkennung für alle Typen: Event, Task, SubProcess, Rule
 - **Editable ON:** 
   - Handles werden angezeigt, Tooltip ist ausgeblendet
   - Cursor wechselt zu Standard-Pfeil beim Hover über Knoten
+  - Erweiterte Hover-Fläche: 10px (voller Anchor-Handle-Durchmesser) über Knotengrenzen hinaus
+  - Rule-Typ: Hover-Bereich als quadratische Raute (Manhattan-Distanz)
+  - Anchor-Handles: Hellblaue Füllung (#ADD8E6) beim Hover, sonst blau-violett (#8c97ff)
 
 ### Anchor-Handle-Positionierung
 Die 12 Anchor-Handles werden über die Funktion `calculateAnchorHandles()` berechnet und als Objekt mit Keys wie "top-1", "left-2", "bottom-3" zurückgegeben.
 
-#### Task-Typ (Rechteck)
+#### Task-Typ & SubProcess-Typ (Rechteck)
 - Handles werden gleichmäßig an den Kanten der Bounding Box verteilt
 - Offset: 2px von der Kante
 - Positionen: 1/4, 2/4 (Mitte), 3/4 auf jeder Seite
+- SubProcess hat zusätzlich doppelte Randstärke (4px) und Plus-Symbol im unteren Rechteck
 
 #### Event-Typ (Kreis)
 - Handles an Position 2/4 (Mitte): wie Task-Typ

@@ -17,6 +17,11 @@ Prozessvisualisierungs-Tool mit TypeScript/Canvas für komplexe gerichtete Graph
 - ✅ Dynamische Canvas-Größe (Bounding Box + Margins)
 - ✅ Rückschleifen-Support (Zyklen im Graphen)
 - ✅ Cursor-Feedback (move/default je nach Kontext)
+- ✅ SubProcess-Typ mit Plus-Symbol und doppelter Randstärke
+- ✅ Hover-Effekt für Anchor-Handles (hellblau)
+- ✅ Erweiterte Hover-Fläche im Edit-Modus (10px Expansion)
+- ✅ Zentrale Konfiguration in manifest.js
+- ✅ 4 Knotentypen: Event, Task, Rule, SubProcess
 
 ## Build & Run
 ```bash

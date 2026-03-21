@@ -1,13 +1,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
 const { calculateLayout, calculateGraphBoundings } = require('./layouterCalculate');
+const { CONFIG } = require('./manifest');
 
 /**
  * Node structure based on the provided JSON data.
  */
 interface ProcessNode {
     id: number;
-    type: 'Event' | 'Task' | 'Rule';
+    type: 'Event' | 'Task' | 'Rule' | 'SubProcess';
     name: string;
     predecessorIds: number[];
     x?: number; 
@@ -15,9 +16,6 @@ interface ProcessNode {
     level?: number; 
     isTopRow?: boolean; 
 }
-
-const COLUMN_WIDTH = 160;
-const ROW_HEIGHT = 100;
 
 /**
  * Generates the graph.htm file with a canvas element in the /out directory.
@@ -33,12 +31,14 @@ function generateGraphHtml(): void {
 
     const allTestData: { [key: string]: ProcessNode[] } = {};
     const files = fs.readdirSync(dataDir).filter(f => f.endsWith('.json'));
+    const columnWidth = CONFIG.colW;
+    const rowHeight = CONFIG.rowH;
     
     files.forEach(file => {
         try {
             const content = fs.readFileSync(path.join(dataDir, file), 'utf8');
             const nodes = JSON.parse(content);
-            calculateLayout(nodes, COLUMN_WIDTH, ROW_HEIGHT); 
+            calculateLayout(nodes, columnWidth, rowHeight); 
             allTestData[file] = nodes;
         } catch (e) {
             console.error(`Error loading ${file}:`, e);
@@ -48,6 +48,7 @@ function generateGraphHtml(): void {
     const testDataJson = JSON.stringify(allTestData);
 
     // Copy JS files to out directory
+    fs.copyFileSync(path.join(__dirname, 'manifest.js'), path.join(outDir, 'manifest.js'));
     fs.copyFileSync(path.join(__dirname, 'renderer.js'), path.join(outDir, 'renderer.js'));
     fs.copyFileSync(path.join(__dirname, 'layouterCalculate.js'), path.join(outDir, 'layouterCalculate.js'));
 
@@ -91,8 +92,14 @@ function generateGraphHtml(): void {
     </div>
     
     <!-- Link external JS files -->
+    <script src="manifest.js"></script>
     <script src="layouterCalculate.js"></script>
     <script src="renderer.js"></script>
+    
+    <script>
+        // Make constants available globally
+        const ANCHOR_HANDLE_DIAMETER = 10;
+    </script>
     
     <script>
         const allTestData = ${testDataJson};
@@ -103,21 +110,6 @@ function generateGraphHtml(): void {
         const loadBtn = document.getElementById('loadBtn');
         const centerBtn = document.getElementById('centerBtn');
         const toggleEditableBtn = document.getElementById('toggleEditableBtn');
-
-        const CONFIG = {
-            colors: {
-                Event: '#F8E1F1', Rule: '#FFFACD', Task: '#E0F7FA',
-                Stroke: '#495057', Text: '#212529', Arrow: '#888'
-            },
-            sizes: {
-                eventSize: 45,
-                taskWidth: 130,
-                taskHeight: 65,
-                ruleSize: 45
-            },
-            colW: 160,
-            rowH: 100
-        };
 
         let nodes = [];
         let offsetX = 0;
@@ -163,7 +155,7 @@ function generateGraphHtml(): void {
         }
 
         function renderAll() {
-            render(ctx, canvas, offsetX, offsetY, nodes, CONFIG.colors, CONFIG.sizes, CONFIG.colW, CONFIG.rowH);
+            render(ctx, canvas, offsetX, offsetY, nodes, CONFIG.sizes, CONFIG.colors, CONFIG.colW, CONFIG.rowH);
         }
 
         loadBtn.addEventListener('click', () => {
@@ -192,6 +184,7 @@ function generateGraphHtml(): void {
         });
 
         let hoveredNode = null;
+        let hoveredHandle = null;
 
         canvas.addEventListener('mousedown', (e) => { isDragging = true; startX = e.clientX - offsetX; startY = e.clientY - offsetY; });
         window.addEventListener('mousemove', (e) => {
@@ -200,11 +193,31 @@ function generateGraphHtml(): void {
             const worldX = mouseX - offsetX; const worldY = mouseY - offsetY; 
             let foundNode = null;
             
+            const hoverExpansion = 10; // Full diameter of anchor handle
+            
             nodes.forEach(node => {
                 let hit = false;
-                if (node.type === 'Event') { const dx = worldX - node.x; const dy = worldY - node.y; if (dx*dx + dy*dy <= CONFIG.sizes.eventSize * 0.5*CONFIG.sizes.eventSize * 0.5) hit = true; }
-                else if (node.type === 'Task') { if (worldX >= node.x - CONFIG.sizes.taskWidth*0.5 && worldX <= node.x + CONFIG.sizes.taskWidth*0.5 && worldY >= node.y - CONFIG.sizes.taskHeight*0.5 && worldY <= node.y + CONFIG.sizes.taskHeight*0.5) hit = true; }
-                else if (node.type === 'Rule') { if (Math.abs(worldX - node.x) + Math.abs(worldY - node.y) <= CONFIG.sizes.ruleSize) hit = true; }
+                if (node.type === 'Event') { 
+                    const dx = worldX - node.x; 
+                    const dy = worldY - node.y; 
+                    const expandedRadius = CONFIG.sizes.eventSize * 0.5 + hoverExpansion;
+                    if (dx*dx + dy*dy <= expandedRadius * expandedRadius) hit = true; 
+                }
+                else if (node.type === 'Task') { 
+                    if (worldX >= node.x - CONFIG.sizes.taskWidth*0.5 - hoverExpansion && 
+                        worldX <= node.x + CONFIG.sizes.taskWidth*0.5 + hoverExpansion && 
+                        worldY >= node.y - CONFIG.sizes.taskHeight*0.5 - hoverExpansion && 
+                        worldY <= node.y + CONFIG.sizes.taskHeight*0.5 + hoverExpansion) hit = true; 
+                }
+                else if (node.type === 'SubProcess') { 
+                    if (worldX >= node.x - CONFIG.sizes.subProcessWidth*0.5 - hoverExpansion && 
+                        worldX <= node.x + CONFIG.sizes.subProcessWidth*0.5 + hoverExpansion && 
+                        worldY >= node.y - CONFIG.sizes.subProcessHeight*0.5 - hoverExpansion && 
+                        worldY <= node.y + CONFIG.sizes.subProcessHeight*0.5 + hoverExpansion) hit = true; 
+                }
+                else if (node.type === 'Rule') { 
+                    if (Math.abs(worldX - node.x) + Math.abs(worldY - node.y) <= CONFIG.sizes.ruleSize * 0.5 + hoverExpansion) hit = true; 
+                }
                 
                 if (hit) {
                     foundNode = node;
@@ -212,12 +225,32 @@ function generateGraphHtml(): void {
             });
             
             if (isEditable) {
-                // In editable mode: show handles
-                if (foundNode !== hoveredNode) {
+                // In editable mode: show handles and detect handle hover
+                let foundHandle = null;
+                
+                if (foundNode) {
+                    const bbox = getNodeBoundingBox(foundNode, CONFIG.sizes);
+                    const anchors = calculateAnchorHandles(bbox, foundNode.type, foundNode.x, foundNode.y, CONFIG.sizes);
+                    
+                    // Check if mouse is over any anchor handle
+                    for (const [key, anchor] of Object.entries(anchors)) {
+                        const dx = worldX - anchor.x;
+                        const dy = worldY - anchor.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance <= ANCHOR_HANDLE_DIAMETER * 0.5) {
+                            foundHandle = key;
+                            break;
+                        }
+                    }
+                }
+                
+                if (foundNode !== hoveredNode || foundHandle !== hoveredHandle) {
                     hoveredNode = foundNode;
+                    hoveredHandle = foundHandle;
                     renderAll();
                     if (hoveredNode) {
-                        drawNodeHandles(ctx, hoveredNode, CONFIG.sizes, CONFIG.colors);
+                        drawNodeHandles(ctx, hoveredNode, CONFIG.sizes, CONFIG.colors, hoveredHandle);
                     }
                 }
                 tooltip.style.display = 'none';

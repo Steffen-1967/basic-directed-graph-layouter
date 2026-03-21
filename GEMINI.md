@@ -30,6 +30,20 @@ Ein TypeScript-Programm, das eine Prozessvisualisierung als HTML-Seite (`graph.h
 - **Handles:** Im editierbaren Modus werden beim Hover über Knoten Corner-Handles und Anchor-Handles angezeigt.
 
 ## Changelog
+### 2026-03-21
+- **Feature:** SubProcess-Typ hinzugefügt (Rechteck mit doppelter Randstärke und Plus-Symbol im unteren Rechteck)
+- **Feature:** Hover-Funktionalität für SubProcess-Typ in beiden Modi (editierbar/nicht-editierbar)
+- **Feature:** Hover-Fläche im Edit-Modus um vollen Anchor-Handle-Durchmesser (10px) erweitert
+- **Feature:** Hover-Bereich für Rule-Typ auf quadratische Raute (Manhattan-Distanz) angepasst
+- **Feature:** Hover-Effekt für Anchor-Handles mit hellblauer Füllfarbe (#ADD8E6)
+- **Refactoring:** CONFIG aus `src\index.ts` in neue Datei `src\manifest.js` verschoben
+- **Refactoring:** Layout-Variablen `columnWidth` und `rowHeight` mit `CONFIG.colW` und `CONFIG.rowH` initialisiert
+- **Refactoring:** Füllfarbe für Task auf blasses Grün (#D4EDDA) geändert
+- **Refactoring:** Füllfarbe für SubProcess auf Weiß (#FFFFFF) geändert
+- **Refactoring:** Anchor-Handle-Farbe in CONFIG ausgelagert (#8c97ff)
+- **Daten:** And-Split-Rule zwischen "Ausweis beantragen" und "Termin vereinbaren" in `test-01.json` eingefügt
+- **Daten:** SubProcess "Ausweis erstellen" als zweiter Nachfolger der And-Split-Rule hinzugefügt
+
 ### 2026-03-20
 - **Refactoring:** Numerische Werte auf 3 Nachkommastellen gekürzt (0.666666667 → 0.667)
 - **Optimierung:** Verkettete Multiplikationen kombiniert (eventSize * 0.5 * 2.8 → eventSize * 1.4)
@@ -86,26 +100,53 @@ Jeder Knoten hat folgende Eigenschaften:
 ```json
 {
   "id": 1,
-  "type": "Event|Task|Rule",
+  "type": "Event|Task|Rule|SubProcess",
   "name": "Kurzer Titel",
   "description": "Ausführliche Beschreibung (wird im Tooltip angezeigt)",
   "predecessorIds": [2, 3]
 }
 ```
 
+**Knotentypen:**
+- **Event:** Kreis (45px Durchmesser), rosa Füllung (#F8E1F1)
+- **Task:** Abgerundetes Rechteck (110×65px), blassgrüne Füllung (#D4EDDA)
+- **Rule:** Raute (45px Diagonale), gelbe Füllung (#FFFACD)
+- **SubProcess:** Abgerundetes Rechteck (110×65px) mit doppelter Randstärke (4px), weiße Füllung (#FFFFFF), kleines Rechteck mit Plus-Symbol am unteren Rand
+
 ### Konstanten & Konfiguration
+Die zentrale Konfiguration befindet sich in `src\manifest.js`:
+
 ```javascript
-// Layout
-COLUMN_WIDTH = 160   // Horizontaler Abstand zwischen Ebenen
-ROW_HEIGHT = 100     // Vertikaler Abstand zwischen Zeilen
+const CONFIG = {
+    colors: {
+        Event: '#F8E1F1',              // Rosa
+        Rule: '#FFFACD',               // Gelb
+        Task: '#D4EDDA',               // Blassgrün
+        SubProcess: '#FFFFFF',         // Weiß
+        Stroke: '#495057',             // Dunkelgrau
+        Text: '#212529',               // Fast Schwarz
+        Arrow: '#888',                 // Grau
+        AnchorHandle: '#8c97ff',       // Blau-Violett
+        AnchorHandleHover: '#ADD8E6'   // Hellblau
+    },
+    sizes: {
+        taskWidth: 110,
+        taskHeight: 65,
+        eventSize: 45,
+        ruleSize: 45,
+        subProcessWidth: 110,
+        subProcessHeight: 65,
+        subProcessSquareSize: 12,
+        eventHandleShiftOnSize1: 0.07,
+        eventHandleShiftOnSize2: 0.27,
+        ruleHandleShiftOnSize1: 0.17,
+        ruleHandleShiftOnSize2: 0.34
+    },
+    colW: 140,    // Horizontaler Abstand zwischen Ebenen
+    rowH: 100     // Vertikaler Abstand zwischen Zeilen
+};
 
-// Node-Größen
-eventSize = 45       // Durchmesser Event-Kreis
-taskWidth = 130      // Breite Task-Rechteck
-taskHeight = 65      // Höhe Task-Rechteck
-ruleSize = 45        // Diagonale Rule-Raute
-
-// Handles
+// Handles (in renderer.js)
 HANDLE_OFFSET = 2              // Abstand Handle zu Bounding Box
 CORNER_HANDLE_SIZE = 10        // Schenkellänge L-Form
 ANCHOR_HANDLE_DIAMETER = 10    // Durchmesser Anker-Kreis
@@ -118,6 +159,8 @@ HANDLE_STROKE_WIDTH = 2        // Linienstärke
 - [ ] **Verbindungen erstellen:** Drag von Anchor-Handle zu Anchor-Handle zum Erstellen neuer Kanten
 - [ ] **Auto-Routing:** Vermeidung von Knotenüberschneidungen durch Kanten (Hindernisvermeidung)
 - [ ] **Zoom-Funktionalität:** Mausrad-Zoom für große Graphen
-- [ ] **Sub-Prozesse:** Expandierbare Knoten für verschachtelte Abläufe
+- [ ] **Sub-Prozesse:** Expandierbare Knoten für verschachtelte Abläufe (✅ Basis-Typ implementiert)
 - [ ] **Export:** SVG/PNG Download-Funktion
 - [ ] **Persistenz:** Speichern von Layout-Änderungen zurück in JSON-Dateien
+- [ ] **Weitere Node-Typen:** Gateway-Typen (XOR, OR, AND) mit unterschiedlichen Symbolen
+- [ ] **Verbesserte Anchor-Handle-Interaktion:** Visuelles Feedback beim Drag-Start
