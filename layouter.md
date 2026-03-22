@@ -96,7 +96,8 @@ Das Layout wird in "Komponenten" (zusammenhängende Teilgraphen) berechnet.
 
 * **2.1 Identifikation der Wurzelknoten:**
     * Der Algorithmus sucht zuerst nach Knoten ohne Vorgänger (`predecessorIds.length === 0`).
-    * Diese werden sortiert und bilden die Startpunkte der Breitensuche (BFS).
+    * Diese bilden die Startpunkte der Breitensuche (BFS) **in der Reihenfolge, wie sie in der JSON-Datei erscheinen**.
+    * **Wichtig:** Die Reihenfolge der Wurzelknoten im JSON-Array bestimmt die vertikale Anordnung der Prozessbäume (von oben nach unten).
 * **2.2 Ebenen-Berechnung (Horizontale Achse):**
     * Die X-Koordinate ergibt sich aus dem `level` (Distanz zum Startknoten).
     * Formel: `x = startX + (level * 160)`.

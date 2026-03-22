@@ -1,86 +1,121 @@
 [
   {
-    "id": 1,
+    "id": "5b3f4940-c912-4f01-9a4b-e4364d4ca917",
     "type": "Event",
     "name": "Neuer Ausweis erforderlich",
     "description": "Ein neuer Ausweis ist erforderlich, wenn die Volljährigkeit erreicht wird, der alte Ausweis verloren oder gestohen wurde oder der alte Ausweis sein Ablaufdatum erreicht.",
-    "predecessorIds": []
+    "predecessorIds": [],
+    "successorIds": []
   },
   {
-    "id": 2,
+    "id": "f71d89d9-3c4d-42b0-97ac-274c85dbc617",
     "type": "Task",
     "name": "Unterlagen zusammenstellen",
     "description": "Die zusammenzustellenden Unterlagen beinhalten die Meldebestätigung der Stadt und beim erste Ausweis die Geburtsurkunde.",
-    "predecessorIds": [1]
+    "predecessorIds": [
+      "5b3f4940-c912-4f01-9a4b-e4364d4ca917"
+    ],
+    "successorIds": []
   },
   {
-    "id": 3,
+    "id": "ae232f3a-aa7b-41fa-927d-676a8ee24977",
     "type": "Task",
     "name": "Ausweis beantragen",
     "description": "Der Ausweis muss <i>vor Ort</i> beantragt werden, weil die Unterlagen von der Meldebehörte eingesehen werden müssen. Es empfiehlt sich einen Termin zu vereinbaren.",
-    "predecessorIds": [2]
+    "predecessorIds": [
+      "f71d89d9-3c4d-42b0-97ac-274c85dbc617"
+    ],
+    "successorIds": []
   },
   {
-    "id": 11,
+    "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
     "type": "Rule",
     "name": "And (split)",
     "description": "And (split)",
-    "predecessorIds": [3]
+    "predecessorIds": [
+      "ae232f3a-aa7b-41fa-927d-676a8ee24977"
+    ],
+    "successorIds": []
   },
   {
-    "id": 4,
+    "id": "ccf89282-ecbc-40b3-a8fc-cc823fd9108a",
     "type": "Task",
     "name": "Termin vereinbaren",
     "description": "Termin vereinbaren",
-    "predecessorIds": [11]
+    "predecessorIds": [
+      "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5"
+    ],
+    "successorIds": []
   },
   {
-    "id": 12,
+    "id": "de745e92-9ed7-4447-a72a-9d4260f0720b",
     "type": "SubProcess",
     "name": "Ausweis erstellen",
     "description": "Ausweis erstellen",
-    "predecessorIds": [11]
+    "predecessorIds": [
+      "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5"
+    ],
+    "successorIds": []
   },
   {
-    "id": 5,
+    "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
     "type": "Rule",
     "name": "And (split)",
     "description": "And (split)",
-    "predecessorIds": [4]
+    "predecessorIds": [
+      "ccf89282-ecbc-40b3-a8fc-cc823fd9108a"
+    ],
+    "successorIds": []
   },
   {
-    "id": 6,
+    "id": "c1d64572-2ffa-4a95-9c19-62566a7e8483",
     "type": "Task",
     "name": "Termin auf Wiedervorlage legen",
     "description": "Termin auf Wiedervorlage legen",
-    "predecessorIds": [5]
+    "predecessorIds": [
+      "ed2c5b0b-91bb-4eba-9036-146d89228e1b"
+    ],
+    "successorIds": []
   },
   {
-    "id": 7,
+    "id": "573d30f7-b052-4d76-a8ca-98e7a0e99d92",
     "type": "Task",
     "name": "Unterlagen zwischenlagern",
     "description": "Die Unterlagen zwischenlagern",
-    "predecessorIds": [5]
+    "predecessorIds": [
+      "ed2c5b0b-91bb-4eba-9036-146d89228e1b"
+    ],
+    "successorIds": []
   },
   {
-    "id": 8,
+    "id": "83d85021-5aa9-448a-922c-da2776c757d7",
     "type": "Rule",
     "name": "And (combine)",
     "description": "And (combine)",
-    "predecessorIds": [6, 7]
+    "predecessorIds": [
+      "c1d64572-2ffa-4a95-9c19-62566a7e8483",
+      "573d30f7-b052-4d76-a8ca-98e7a0e99d92"
+    ],
+    "successorIds": []
   },
   {
-    "id": 9,
+    "id": "842206c9-d99e-4c90-8aee-108995f92ac8",
     "type": "Task",
     "name": "Ausweis abholen",
     "description": "Der Ausweis muss <i>vor Ort</i> abgeholt werden.",
-    "predecessorIds": [8]
+    "predecessorIds": [
+      "83d85021-5aa9-448a-922c-da2776c757d7"
+    ],
+    "successorIds": []
   },
   {
-    "id": 10,
+    "id": "ff6fac82-5761-4dfe-a109-3dc991bd6e73",
     "type": "Event",
     "name": "Ausweis verfügbar",
     "description": "Der Ausweis ist an den Antragsteller übergeben und für diesen verfügbar.",
-    "predecessorIds": [9]
+    "predecessorIds": [
+      "842206c9-d99e-4c90-8aee-108995f92ac8"
+    ],
+    "successorIds": []
   }
 ]

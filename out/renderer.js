@@ -308,6 +308,38 @@ function drawNode(ctx, node, colors, sizes) {
 }
 
 /**
+ * Calculates the appropriate handle index (1, 2, or 3) for the source node
+ * of a connection based on the relative vertical position of the target.
+ * If the node has fewer than 2 successors, it always returns the center handle (2).
+ * 
+ * @param {Object} fromNode - The source node
+ * @param {Object} toNode - The target node
+ * @returns {number} Handle index (1 for top-biased, 2 for center, 3 for bottom-biased)
+ */
+function calculateSourceHandle(fromNode, toNode) {
+    if (!fromNode.successorIds || fromNode.successorIds.length < 2) return 2;
+    if (fromNode.y > toNode.y) return 1;
+    if (fromNode.y < toNode.y) return 3;
+    return 2;
+}
+
+/**
+ * Calculates the appropriate handle index (1, 2, or 3) for the target node
+ * of a connection based on the relative vertical position of the source.
+ * If the node has fewer than 2 predecessors, it always returns the center handle (2).
+ * 
+ * @param {Object} fromNode - The source node
+ * @param {Object} toNode - The target node
+ * @returns {number} Handle index (1 for top-biased, 2 for center, 3 for bottom-biased)
+ */
+function calculateTargetHandle(fromNode, toNode) {
+    if (!toNode.predecessorIds || toNode.predecessorIds.length < 2) return 2;
+    if (fromNode.y < toNode.y) return 1;
+    if (fromNode.y > toNode.y) return 3;
+    return 2;
+}
+
+/**
  * Draws a routed arrow connection between two nodes with intelligent path finding.
  * Implements Manhattan routing with special handling for backward edges (loops).
  * Arrows always enter from the left and exit to the right of nodes.
@@ -335,33 +367,13 @@ function drawNode(ctx, node, colors, sizes) {
 function drawUnifiedArrow(ctx, fromNode, toNode, sizes, colors, lvlW, rowH) {
     const headLength = 10;
     
-    let handleIndex = 2;
-	if (fromNode.y > toNode.y)
-		handleIndex = 1;
-	if (fromNode.y < toNode.y)
-		handleIndex = 3;
-	let startY1 = fromNode.y + calculateHandleOffsetY(fromNode, sizes, `right`, handleIndex);
-    
-	handleIndex = 2;
-	if (fromNode.y > toNode.y)
-		handleIndex = 1;
-	if (fromNode.y < toNode.y)
-		handleIndex = 3;
-    let startX1 = fromNode.x + calculateHandleOffsetX(fromNode, sizes, `right`, handleIndex);
+    const sourceHandle = calculateSourceHandle(fromNode, toNode);
+	const startY1 = fromNode.y + calculateHandleOffsetY(fromNode, sizes, `right`, sourceHandle);
+    const startX1 = fromNode.x + calculateHandleOffsetX(fromNode, sizes, `right`, sourceHandle);
 
-    handleIndex = 2;
-	if (fromNode.y < toNode.y)
-		handleIndex = 1;
-	if (fromNode.y > toNode.y)
-		handleIndex = 3;
-    let endY2 = toNode.y + calculateHandleOffsetY(toNode, sizes, `left`, handleIndex);
-    
-    handleIndex = 2;
-	if (fromNode.y < toNode.y)
-		handleIndex = 1;
-	if (fromNode.y > toNode.y)
-		handleIndex = 3;
-    let endX2 = toNode.x + calculateHandleOffsetX(toNode, sizes, `left`, handleIndex);
+    const targetHandle = calculateTargetHandle(fromNode, toNode);
+    const endY2 = toNode.y + calculateHandleOffsetY(toNode, sizes, `left`, targetHandle);
+    const endX2 = toNode.x + calculateHandleOffsetX(toNode, sizes, `left`, targetHandle);
 
     ctx.beginPath();
     ctx.strokeStyle = colors.Arrow;
@@ -436,7 +448,7 @@ function render(ctx, canvas, offsetX, offsetY, nodes, sizes, colors, lvlW, rowH)
  * @param {Object} sizes - Size configuration for different node types
  * @returns {Object} Bounding box with properties: minX, maxX, minY, maxY
  */
-function getNodeBoundingBox(node, sizes) {
+function calculateNodeBoundingBox(node, sizes) {
     let minX, maxX, minY, maxY;
 
     if (node.type === 'Event') {
@@ -681,11 +693,22 @@ function drawAnchorHandles(ctx, bbox, nodeType, centerX, centerY, sizes, colors,
  * @param {string|null} hoveredHandle - Key of the hovered handle (e.g., "top-1") or null
  */
 function drawNodeHandles(ctx, node, sizes, colors, hoveredHandle = null) {
-    const bbox = getNodeBoundingBox(node, sizes);
+    const bbox = calculateNodeBoundingBox(node, sizes);
     drawCornerHandles(ctx, bbox);
     drawAnchorHandles(ctx, bbox, node.type, node.x, node.y, sizes, colors, hoveredHandle);
 }
 
 if (typeof module !== 'undefined') {
-    module.exports = { calculateHandleOffsetX, drawWrappedText, drawNode, drawUnifiedArrow, render, getNodeBoundingBox, calculateAnchorHandles, drawNodeHandles };
+    module.exports = { 
+        calculateHandleOffsetX, 
+        drawWrappedText, 
+        drawNode, 
+        drawUnifiedArrow, 
+        render, 
+        calculateNodeBoundingBox, 
+        calculateAnchorHandles, 
+        drawNodeHandles,
+        calculateSourceHandle,
+        calculateTargetHandle
+    };
 }

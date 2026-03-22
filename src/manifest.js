@@ -1,4 +1,18 @@
 /**
+ * @typedef {Object} ProcessNode
+ * @property {string} id - Unique identifier (GUID)
+ * @property {'Event' | 'Task' | 'Rule' | 'SubProcess'} type - Type of the node
+ * @property {string} name - Short title
+ * @property {string[]} predecessorIds - IDs of incoming connections
+ * @property {string[]} successorIds - IDs of outgoing connections
+ * @property {string} [description] - Detailed text (optional)
+ * @property {number} [x] - Calculated X coordinate (optional)
+ * @property {number} [y] - Calculated Y coordinate (optional)
+ * @property {number} [level] - Calculated depth level (optional)
+ * @property {boolean} [isTopRow] - Routing flag for primary path (optional)
+ */
+
+/**
  * Central configuration object for the process visualization.
  * Contains all layout parameters, node sizes, and color definitions.
  */

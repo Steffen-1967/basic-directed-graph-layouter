@@ -1,100 +1,142 @@
 [
   {
-    "id": 1,
+    "id": "600af8a8-cc01-41b3-b8d9-c05cf75a622d",
     "type": "Event",
     "name": "Projekt gestartet",
     "description": "Projekt gestartet",
-    "predecessorIds": []
+    "predecessorIds": [],
+    "successorIds": []
   },
   {
-    "id": 2,
+    "id": "ec3b8b83-9d6e-458e-b178-990ba4790a9d",
     "type": "Task",
     "name": "Anforderungen sammeln",
     "description": "Anforderungen sammeln",
-    "predecessorIds": [1]
+    "predecessorIds": [
+      "600af8a8-cc01-41b3-b8d9-c05cf75a622d"
+    ],
+    "successorIds": []
   },
   {
-    "id": 3,
+    "id": "1bbd54cc-9aef-4183-abdb-6c940dd95f56",
     "type": "Rule",
     "name": "And (split)",
     "description": "And (split)",
-    "predecessorIds": [2]
+    "predecessorIds": [
+      "ec3b8b83-9d6e-458e-b178-990ba4790a9d"
+    ],
+    "successorIds": []
   },
   {
-    "id": 4,
+    "id": "98a17002-a618-4af4-9863-eaec5f25e987",
     "type": "Task",
     "name": "Design erstellen",
     "description": "Design erstellen",
-    "predecessorIds": [3]
+    "predecessorIds": [
+      "1bbd54cc-9aef-4183-abdb-6c940dd95f56"
+    ],
+    "successorIds": []
   },
   {
-    "id": 5,
+    "id": "45fd822b-5189-44fa-baac-4f373f91640d",
     "type": "Task",
     "name": "Spezifikation erstellen",
     "description": "Spezifikation erstellen",
-    "predecessorIds": [3]
+    "predecessorIds": [
+      "1bbd54cc-9aef-4183-abdb-6c940dd95f56"
+    ],
+    "successorIds": []
   },
   {
-    "id": 6,
+    "id": "56eafb3b-1c36-4f48-a4be-e26ae8fb916e",
     "type": "Rule",
     "name": "And (combine)",
     "description": "And (combine)",
-    "predecessorIds": [4, 5, 13]
+    "predecessorIds": [
+      "98a17002-a618-4af4-9863-eaec5f25e987",
+      "45fd822b-5189-44fa-baac-4f373f91640d",
+      "448abd45-a503-4332-89e1-3f7fed9d02a7"
+    ],
+    "successorIds": []
   },
   {
-    "id": 7,
+    "id": "36e51499-cce3-44e8-92c1-bffb96ae00fc",
     "type": "Task",
     "name": "Artefakt implementieren",
     "description": "Artefakt implementieren",
-    "predecessorIds": [6]
+    "predecessorIds": [
+      "56eafb3b-1c36-4f48-a4be-e26ae8fb916e"
+    ],
+    "successorIds": []
   },
   {
-    "id": 8,
+    "id": "136e18f3-395b-45d2-8e8b-b240a9c81094",
     "type": "Task",
     "name": "Artefakt testen",
     "description": "Artefakt testen",
-    "predecessorIds": [7]
+    "predecessorIds": [
+      "36e51499-cce3-44e8-92c1-bffb96ae00fc"
+    ],
+    "successorIds": []
   },
   {
-    "id": 9,
+    "id": "117b5c84-04cb-444a-addc-55dbc5278133",
     "type": "Rule",
     "name": "Xor (split)",
     "description": "Xor (split)",
-    "predecessorIds": [8]
+    "predecessorIds": [
+      "136e18f3-395b-45d2-8e8b-b240a9c81094"
+    ],
+    "successorIds": []
   },
   {
-    "id": 10,
+    "id": "8674bd9c-e2db-421f-a1d9-cd991c45b04b",
     "type": "Event",
     "name": "Test erfolgreich",
     "description": "Test erfolgreich",
-    "predecessorIds": [9]
+    "predecessorIds": [
+      "117b5c84-04cb-444a-addc-55dbc5278133"
+    ],
+    "successorIds": []
   },
   {
-    "id": 11,
+    "id": "88413bac-1562-4e09-af2f-6fb30646cff3",
     "type": "Event",
     "name": "Test fehlgeschlagen",
     "description": "Test fehlgeschlagen",
-    "predecessorIds": [9]
+    "predecessorIds": [
+      "117b5c84-04cb-444a-addc-55dbc5278133"
+    ],
+    "successorIds": []
   },
   {
-    "id": 12,
+    "id": "956cabcf-67b0-4b08-b6d2-c6dfb0954025",
     "type": "Task",
     "name": "Artefakt deployen",
     "description": "Artefakt deployen",
-    "predecessorIds": [10]
+    "predecessorIds": [
+      "8674bd9c-e2db-421f-a1d9-cd991c45b04b"
+    ],
+    "successorIds": []
   },
   {
-    "id": 13,
+    "id": "448abd45-a503-4332-89e1-3f7fed9d02a7",
     "type": "Task",
     "name": "Bugs fixen",
     "description": "Bugs fixen",
-    "predecessorIds": [11]
+    "predecessorIds": [
+      "88413bac-1562-4e09-af2f-6fb30646cff3"
+    ],
+    "successorIds": []
   },
   {
-    "id": 14,
+    "id": "4c2e4e3c-d638-4f26-a30d-536f11956e89",
     "type": "Event",
     "name": "Projekt abgeschlossen",
     "description": "Projekt abgeschlossen",
-    "predecessorIds": [12]
+    "predecessorIds": [
+      "956cabcf-67b0-4b08-b6d2-c6dfb0954025"
+    ],
+    "successorIds": []
   }
 ]
