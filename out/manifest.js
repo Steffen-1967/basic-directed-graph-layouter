@@ -1,22 +1,12 @@
 /**
- * @typedef {Object} ProcessNode
- * @property {string} id - Unique identifier (GUID)
- * @property {'Event' | 'Task' | 'Rule' | 'SubProcess'} type - Type of the node
- * @property {string} name - Short title
- * @property {string[]} predecessorIds - IDs of incoming connections
- * @property {string[]} successorIds - IDs of outgoing connections
- * @property {string} [description] - Detailed text (optional)
- * @property {number} [x] - Calculated X coordinate (optional)
- * @property {number} [y] - Calculated Y coordinate (optional)
- * @property {number} [level] - Calculated depth level (optional)
- * @property {boolean} [isTopRow] - Routing flag for primary path (optional)
+ * @file manifest.ts
+ * Central type definitions and configuration for the process visualization.
  */
-
 /**
  * Central configuration object for the process visualization.
  * Contains all layout parameters, node sizes, and color definitions.
  */
-const CONFIG = {
+export const CONFIG = {
     colors: {
         Event: '#F8E1F1',
         Rule: '#FFFACD',
@@ -42,9 +32,12 @@ const CONFIG = {
         ruleHandleShiftOnSize2: 0.34
     },
     colW: 140,
-    rowH: 100
+    rowH: 100,
+    interaction: {
+        doubleClickDelay: 350
+    }
 };
-
-if (typeof module !== 'undefined') {
-    module.exports = { CONFIG };
+// Also expose as global for browser if needed (legacy support during migration)
+if (typeof window !== 'undefined') {
+    window.CONFIG = CONFIG;
 }

@@ -1,93 +1,145 @@
-[
-  {
-    "id": "46328cd9-3250-4654-b56f-331e58e2468e",
-    "type": "Rule",
-    "name": "Xor (combine)",
-    "description": "Xor (combine)",
-    "predecessorIds": [
-      "1147c205-aa90-4795-b52a-a80b6f39d69b",
-      "5df4c48e-8934-4e69-93ab-0147e534d234"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "86f71527-6178-4ee3-b72b-7f840b370039",
-    "type": "Task",
-    "name": "Sonnenschein abwarten",
-    "description": "Sonnenschein abwarten",
-    "predecessorIds": [
-      "46328cd9-3250-4654-b56f-331e58e2468e"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "f64cd754-4dd0-4eeb-920e-99cec4665dd5",
-    "type": "Rule",
-    "name": "Xor (split)",
-    "description": "Xor (split)",
-    "predecessorIds": [
-      "86f71527-6178-4ee3-b72b-7f840b370039"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "2ec06e9c-6242-482d-9793-5c4584107631",
-    "type": "Event",
-    "name": "Sonne scheint",
-    "description": "Sonne scheint",
-    "predecessorIds": [
-      "f64cd754-4dd0-4eeb-920e-99cec4665dd5"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "a5bafe45-ad19-4c21-930e-fadb1ded4db5",
-    "type": "Task",
-    "name": "Liegestuhl aufbauen",
-    "description": "Liegestuhl aufbauen",
-    "predecessorIds": [
-      "2ec06e9c-6242-482d-9793-5c4584107631"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "7425e3af-edef-4bba-ba36-64ab7b63af1e",
-    "type": "Task",
-    "name": "Sonne tanken",
-    "description": "Sonne tanken",
-    "predecessorIds": [
-      "a5bafe45-ad19-4c21-930e-fadb1ded4db5"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "0bfa0dfe-c663-48eb-b008-89b4863d8ca2",
-    "type": "Task",
-    "name": "Liegestuhl abbauen",
-    "description": "Liegestuhl abbauen",
-    "predecessorIds": [
-      "7425e3af-edef-4bba-ba36-64ab7b63af1e"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "1147c205-aa90-4795-b52a-a80b6f39d69b",
-    "type": "Task",
-    "name": "Pause machen und abkühlen",
-    "description": "Pause machen und abkühlen",
-    "predecessorIds": [
-      "0bfa0dfe-c663-48eb-b008-89b4863d8ca2"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "5df4c48e-8934-4e69-93ab-0147e534d234",
-    "type": "Event",
-    "name": "Sonne scheint nicht",
-    "description": "Sonne scheint nicht",
-    "predecessorIds": [
-      "f64cd754-4dd0-4eeb-920e-99cec4665dd5"
-    ],
-    "successorIds": []
-  }
-]
+{
+  "scenarioName": "Sommer genießen",
+  "layoutType": "flow",
+  "nodes": [
+    {
+      "id": "46328cd9-3250-4654-b56f-331e58e2468e",
+      "type": "Rule",
+      "name": "Xor (combine)",
+      "description": "Xor (combine)",
+      "predecessors": [
+        {
+          "id": "1147c205-aa90-4795-b52a-a80b6f39d69b",
+          "weight": 1
+        },
+        {
+          "id": "5df4c48e-8934-4e69-93ab-0147e534d234",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "86f71527-6178-4ee3-b72b-7f840b370039",
+      "type": "Task",
+      "name": "Sonnenschein abwarten",
+      "description": "Sonnenschein abwarten",
+      "predecessors": [
+        {
+          "id": "46328cd9-3250-4654-b56f-331e58e2468e",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "f64cd754-4dd0-4eeb-920e-99cec4665dd5",
+      "type": "Rule",
+      "name": "Xor (split)",
+      "description": "Xor (split)",
+      "predecessors": [
+        {
+          "id": "86f71527-6178-4ee3-b72b-7f840b370039",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "2ec06e9c-6242-482d-9793-5c4584107631",
+      "type": "Event",
+      "name": "Sonne scheint",
+      "description": "Sonne scheint",
+      "predecessors": [
+        {
+          "id": "f64cd754-4dd0-4eeb-920e-99cec4665dd5",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "a5bafe45-ad19-4c21-930e-fadb1ded4db5",
+      "type": "Task",
+      "name": "Liegestuhl aufbauen",
+      "description": "Liegestuhl aufbauen",
+      "predecessors": [
+        {
+          "id": "2ec06e9c-6242-482d-9793-5c4584107631",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "7425e3af-edef-4bba-ba36-64ab7b63af1e",
+      "type": "Task",
+      "name": "Sonne tanken",
+      "description": "Sonne tanken",
+      "predecessors": [
+        {
+          "id": "a5bafe45-ad19-4c21-930e-fadb1ded4db5",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "0bfa0dfe-c663-48eb-b008-89b4863d8ca2",
+      "type": "Task",
+      "name": "Liegestuhl abbauen",
+      "description": "Liegestuhl abbauen",
+      "predecessors": [
+        {
+          "id": "7425e3af-edef-4bba-ba36-64ab7b63af1e",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "1147c205-aa90-4795-b52a-a80b6f39d69b",
+      "type": "Task",
+      "name": "Pause machen und abkühlen",
+      "description": "Pause machen und abkühlen",
+      "predecessors": [
+        {
+          "id": "0bfa0dfe-c663-48eb-b008-89b4863d8ca2",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "5df4c48e-8934-4e69-93ab-0147e534d234",
+      "type": "Event",
+      "name": "Sonne scheint nicht",
+      "description": "Sonne scheint nicht",
+      "predecessors": [
+        {
+          "id": "f64cd754-4dd0-4eeb-920e-99cec4665dd5",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    }
+  ]
+}

@@ -1,41 +1,35 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 /**
  * Generates the graph.htm file and copies supporting assets.
  */
-function generateGraphHtml(): void {
+function generateGraphHtml() {
     const outDir = path.join(__dirname, '..', 'out');
     const outFilePath = path.join(outDir, 'graph.htm');
-
     if (!fs.existsSync(outDir)) {
         fs.mkdirSync(outDir, { recursive: true });
     }
-
     // List of files to copy to out directory (only assets not handled by tsc)
     const filesToCopy = [
         'app.css'
     ];
-
     filesToCopy.forEach(file => {
         const srcPath = path.join(__dirname, '..', 'src', file); // Look in src folder
         if (fs.existsSync(srcPath)) {
             fs.copyFileSync(srcPath, path.join(outDir, file));
-        } else {
+        }
+        else {
             console.warn(`Warning: Asset ${file} not found in ${srcPath}`);
         }
     });
-
     // Copy Lucide Icons library
     const lucideSrc = path.join(__dirname, '..', 'node_modules', 'lucide', 'dist', 'umd', 'lucide.min.js');
     if (fs.existsSync(lucideSrc)) {
         fs.copyFileSync(lucideSrc, path.join(outDir, 'lucide.min.js'));
     }
-
     const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,13 +94,12 @@ function generateGraphHtml(): void {
     </script>
 </body>
 </html>`.trim();
-
     try {
         fs.writeFileSync(outFilePath, htmlContent, 'utf8');
         console.log(`Successfully generated: ${outFilePath}`);
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error generating the file:', error);
     }
 }
-
 generateGraphHtml();

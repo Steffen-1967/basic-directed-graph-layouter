@@ -1,0 +1,137 @@
+{
+  "scenarioName": "Bürgerbüro der Gemeinde",
+  "layoutType": "box",
+  "layoutPreferences": {"maxColumns": 4},
+  "nodes": [
+    {
+      "id": "e03a8fed-13f0-46d7-a683-892f1354c38a",
+      "type": "SubProcess",
+      "name": "Wohnung abmelden",
+      "description": "Wohnung abmelden",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "6cb0c958-da63-4ac2-b95b-686415599dd5",
+      "type": "SubProcess",
+      "name": "Wohnung anmelden",
+      "description": "Wohnung anmelden",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "2f4b8074-1ef8-46ef-a21f-5e6627fc38ca",
+      "type": "SubProcess",
+      "name": "Ausweis beantragen",
+      "description": "Ausweis beantragen",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "8ff4679b-62bc-49c9-94b7-9bb62ae3ffe0",
+      "type": "SubProcess",
+      "name": "Anwohner-Parkausweis beantragen",
+      "description": "Anwohner-Parkausweis beantragen",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "04864f4a-d439-4444-a10c-c0d877d70ee7",
+      "type": "SubProcess",
+      "name": "Kopien/Abschriften beglaubigen",
+      "description": "Kopien/Abschriften beglaubigen",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "8713d73f-9f7d-4f29-9adb-9b8252847cdb",
+      "type": "SubProcess",
+      "name": "Internationalen Führerschein beantragen",
+      "description": "Internationalen Führerschein beantragen",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "cdc10cd2-0e69-40f4-a17e-55f29cb10eec",
+      "type": "SubProcess",
+      "name": "Meldebescheinigung beantragen",
+      "description": "Meldebescheinigung beantragen",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "a7d029f0-08ff-4e84-bd0f-234f061acc45",
+      "type": "SubProcess",
+      "name": "Wechsel/Änderung der Hauptwohnung beantragen",
+      "description": "Wechsel/Änderung der Hauptwohnung beantragen",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "9d201ab4-82f0-4684-95da-7fcbd103da72",
+      "type": "SubProcess",
+      "name": "Verlängerung der Fahrerlaubnis beantragen",
+      "description": "Verlängerung der Fahrerlaubnis beantragen",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "2990260f-4c48-4aa9-be8f-5241f1a8dc58",
+      "type": "SubProcess",
+      "name": "Verlust Personalausweis melden",
+      "description": "Verlust Personalausweis melden",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "e8c06509-daa2-40f2-acb9-50713e321821",
+      "type": "SubProcess",
+      "name": "Verlust Reisepass melden",
+      "description": "Verlust Reisepass melden",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "b83da7fd-94c4-41da-9a40-415f000cc28c",
+      "type": "SubProcess",
+      "name": "Umschreibung ausländischer Führerschein beantragen",
+      "description": "Umschreibung ausländischer Führerschein beantragen",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "ab33ead3-2b1d-4b7d-8b81-b7e983e50396",
+      "type": "SubProcess",
+      "name": "Führungszeugnis beantragen",
+      "description": "Führungszeugnis beantragen",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    }
+  ]
+}

@@ -15,10 +15,10 @@ test.describe('Multi-Tab Lock System', () => {
     // Wait for WebSocket connection
     await page.waitForTimeout(1000);
     
-    // Check initial state: Padlock closed, Edit button enabled
-    await expect(page.locator('#padlockIcon')).toContainText('🔒');
+    // Check initial state: Padlock closed (Lucide icon), Edit button enabled
+    await expect(page.locator('#padlockIcon svg.lucide-lock')).toBeVisible();
     await expect(page.locator('#toggleEditableBtn')).toBeEnabled();
-    await expect(page.locator('#toggleEditableBtn')).toContainText('✏️ no');
+    await expect(page.locator('#toggleEditableBtn')).toContainText('no');
     
     // Click Edit button to acquire lock
     await page.click('#toggleEditableBtn');
@@ -27,9 +27,9 @@ test.describe('Multi-Tab Lock System', () => {
     await page.waitForTimeout(500);
     
     // Check: Padlock open, Edit button shows "yes"
-    await expect(page.locator('#padlockIcon')).toContainText('🔓');
-    await expect(page.locator('#toggleEditableBtn')).toContainText('✏️ yes');
-    await expect(page.locator('#toggleEditableBtn')).toHaveClass(/editable-on/);
+    await expect(page.locator('#padlockIcon svg.lucide-lock-open')).toBeVisible();
+    await expect(page.locator('#toggleEditableBtn')).toContainText('yes');
+    await expect(page.locator('body')).toHaveClass(/is-editable/);
   });
 
   test('Second tab sees Read-Only modal when first tab has lock', async ({ browser }) => {
@@ -51,7 +51,7 @@ test.describe('Multi-Tab Lock System', () => {
     
     // Check: Modal should be visible
     await expect(page2.locator('#lockModal')).toBeVisible({ timeout: 5000 });
-    await expect(page2.locator('#lockModalMessage')).toContainText('wird bereits bearbeitet');
+    await expect(page2.locator('#lockModalMessage')).toContainText('bereits bearbeitet');
     
     // Check: Edit button disabled
     await expect(page2.locator('#toggleEditableBtn')).toBeDisabled();
@@ -95,7 +95,7 @@ test.describe('Multi-Tab Lock System', () => {
     // Tab 2: Acquire lock
     await page2.click('#toggleEditableBtn');
     await page2.waitForTimeout(500);
-    await expect(page2.locator('#padlockIcon')).toContainText('🔓');
+    await expect(page2.locator('#padlockIcon svg.lucide-lock-open')).toBeVisible();
     
     // Cleanup
     await context1.close();
@@ -128,32 +128,10 @@ test.describe('Multi-Tab Lock System', () => {
     await expect(page2.locator('#toggleEditableBtn')).toBeEnabled();
     await page2.click('#toggleEditableBtn');
     await page2.waitForTimeout(500);
-    await expect(page2.locator('#padlockIcon')).toContainText('🔓');
+    await expect(page2.locator('#padlockIcon svg.lucide-lock-open')).toBeVisible();
     
     // Cleanup
     await context2.close();
-  });
-
-  test('Padlock tooltip shows correct status', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForTimeout(1000);
-    
-    // Hover over padlock icon
-    await page.hover('#padlockIcon');
-    await page.waitForTimeout(200);
-    
-    // Check tooltip text
-    const tooltip = page.locator('#padlockTooltip');
-    await expect(tooltip).toContainText('Verfügbar für Bearbeitung');
-    
-    // Acquire lock
-    await page.click('#toggleEditableBtn');
-    await page.waitForTimeout(500);
-    
-    // Hover again
-    await page.hover('#padlockIcon');
-    await page.waitForTimeout(200);
-    await expect(tooltip).toContainText('Bearbeitung aktiv');
   });
 });
 

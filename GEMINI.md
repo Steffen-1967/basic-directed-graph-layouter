@@ -4,140 +4,97 @@
 Ein TypeScript-Programm, das eine Prozessvisualisierung als HTML-Seite (`graph.htm`) im Verzeichnis `/out` generiert. Das System unterstützt komplexe gerichtete Graphen inklusive Rückschleifen (Zyklen) und bietet interaktive Funktionen im Browser.
 
 ## Tech Stack
-- TypeScript / Node.js
+- **TypeScript** (Frontend & Build-Logic)
+- **Node.js** (Server & Build-Runner)
+- **ES Modules (ESM)** (Konsistenter Standard für Client und Server)
 - HTML Canvas API
-- ts-node
 
 ## Konventionen & Architektur
 - **Ausgabe:** Alle generierten Dateien landen in `/out`. Die Hauptdatei ist `graph.htm`.
-- **Build-Prozess:** Änderungen werden nur in `/src` vorgenommen. Dateien in `/out` werden durch `npx ts-node src\index.ts` neu generiert.
+- **Build-Prozess:** Änderungen werden in `/src` vorgenommen. Kompilation und Generierung via `npm run build:all`.
 - **Datenquelle:** Dynamisches Einlesen aller `.json` Dateien aus `/data`.
 - **Logik-Trennung:** 
-    - `src/index.ts`: Generiert das HTML und bettet rohe JSON-Daten ein.
-    - `src/manifest.js`: Enthält die zentrale Konfiguration (`CONFIG`) und die JSDoc-Definition des `ProcessNode`.
-    - `src/layouterCalculate.js`: Enthält die gesamte Geschäftslogik (Validierung, Nachfolger-Berechnung, Layout-Algorithmus). Läuft im Browser.
-    - `src/renderer.js`: Enthält die Canvas-Zeichenlogik.
+    - `src/index.ts`: Orchestriert den Build-Prozess, generiert das HTML-Gerüst.
+    - `src/app.ts`: Zentrale Client-Logik (Event-Listener, Initialisierung, UI-Steuerung).
+    - `src/app.css`: Zentrale Stylesheets.
+    - `src/manifest.ts`: Zentrale Typ-Definitionen und Konfiguration.
+    - `src/layouterCalculate.ts`: Optimierte Layout-Algorithmen (Original-Logik aus JS migriert).
+    - `src/renderer.ts`: Canvas-Zeichenlogik und präzises Kanten-Routing.
+- **Icon-Standards (Lucide):**
+    - **Größe:** Alle Icons einheitlich auf `16px x 16px` (CSS: `svg.lucide`).
+    - **Strichstärke:** `2px`.
+    - **Abstand:** In Buttons ein `gap` von `8px` zwischen Icon und Text.
 - **Sprache:** Quellcode-Kommentare in Englisch. Dokumentation in Deutsch oder Englisch.
 
 ## Aktueller Status
-- **Modularisierung:** Die gesamte Layout- und Validierungslogik ist in `layouterCalculate.js` gekapselt und wird vom Browser ausgeführt.
-- **Struktur:** `ProcessNode` ist als JSDoc-Typedef in `manifest.js` manifestiert.
-- **Beziehungen:** `successorIds` werden zur Laufzeit über `evolveSuccessors` berechnet.
-- **UI:** Interaktive Szenarien-Auswahl, Auto-Zentrierung und persistenter Edit-Modus mit Handles (bleiben beim Drag sichtbar).
+- **Vollständige TypeScript-Migration:** Alle `.js` Dateien in `/src` wurden nach `.ts` portiert.
+- **ESM-Standard:** Das Projekt nutzt nun durchgehend ES Modules.
+- **Layout-Erweiterung:** Neuer `tree` Layout-Typ mit `switchToListLevel` Unterstützung.
+- **Optimierte Kanten-Interaktion:** Neues Overlay für Kantengewichte mit Bestätigungs-Workflow.
+- **Präzises Action-Modell:** Trennung von Knoten- und Kanten-Updates für saubereres Undo/Redo.
+
+## Strategie für Robustheit & Wartbarkeit
+Um versehentliche Fehler bei Erweiterungen zu minimieren, verfolgen wir diese 6 Punkte:
+1.  ✅ **TypeScript Migration:** Statische Typisierung zur Vermeidung von Laufzeitfehlern.
+2.  ✅ **Zentrales State-Objekt:** Konsolidierung aller globalen Variablen in einer "Single Source of Truth" (`src/state.ts`).
+3.  ✅ **Event-gesteuerte Architektur:** Entkoppelung der UI von der Logik durch Messaging.
+4.  ✅ **Typed Relations:** Explizite `Relation`-Objekte statt GUID-Strings für skalierbare Kanten-Metadaten.
+5.  [ ] **Inversion of Control (IoC):** Dependency Injection für Services (Renderer, Layouter) statt Zugriff auf globale Variablen.
+6.  [ ] **Modularisierung (Service-Pattern):** Aufteilung der `app.ts` in spezialisierte Service-Klassen.
 
 ## Changelog
-### 2026-03-22 (Fortsetzung 5) - Server-Logging-System
-- **Feature:** Server-Logger-Klasse (`server/logger.js`) mit täglicher Rotation
-  - Automatische Erstellung von `logs/app_YYYY-MM-DD.log`
-  - JSON-Format: `{timestamp, level, category, message, details}`
-  - Cleanup-Routine beim Start (löscht Logs älter als 7 Tage)
-- **Feature:** Client-Logger-Klasse (`src/logger.js`) mit Kategorie-Präfixen
-  - Instanzen: `wsLogger`, `lockLogger`, `apiLogger`, `historyLogger`
-  - Methoden: `log()`, `warn()`, `error()`, `child()`
-- **Feature:** Client-Endpoint `POST /api/log` für Browser-zu-Server-Logging
-- **Refactoring:** Alle `console.*` Aufrufe durch Logger-Instanzen ersetzt
-  - Client: `src/index.ts` (WebSocket, Lock, API, History)
-  - Server: `server/server.js`, `server/routes/scenarios.js`
-- **Refactoring:** Präfix-Standardisierung in allen Modulen
-  - `[WS]`, `[LOCK]`, `[API]`, `[HISTORY]`, `[ACTION]`, `[LAYOUT]`, `[WARN]`
-- **Refactoring:** Erweiterte Fehlermeldungen mit Kontext und Diagnose-Hinweisen
-- **Testing:** Log-Datei erfolgreich erstellt und verifiziert (`logs/app_2026-03-22.log`)
-- **Dokumentation:** Vollständige Beschreibung in `environment.md`
-- **Dokumentation:** Phase 9 (Server-Logging) als "Abgeschlossen" markiert
+### 2026-03-26 (Fortsetzung) - Tree Layout & Multi-Layout Support
+- **Feature:** Einführung des `tree` Layout-Typs für hierarchische Darstellungen.
+- **Layout-Logik:** Implementierung von `calculateTreeLayout` in `src/layouterCalculate.ts`.
+- **Anpassbarkeit:** Unterstützung für `switchToListLevel` in `layoutPreferences`, um ab einer bestimmten Ebene von horizontaler auf vertikale (Listen-)Anordnung umzuschalten.
+- **Typisierung:** Erweiterung der `TaskCollectionScenario` und `LayoutPreferences` Interfaces in `src/manifest.ts`.
 
-### 2026-03-22 (Fortsetzung 4)
-- **Feature:** WebSocket-basiertes Multi-Tab-Locking vollständig implementiert
-- **Feature:** Automatische Lock-Freigabe bei Tab-Schließung/Disconnect
-- **Feature:** Lock-Status-Broadcast an alle verbundenen Clients
-- **Feature:** Recovery-Dialog mit Timestamp-Vergleich und Konflikt-Warnung
-- **Testing:** Playwright End-to-End Tests für Lock-System (14 Tests, alle bestanden)
-- **Dokumentation:** Phase 7 (Server-Infrastruktur) als "Abgeschlossen" markiert
+### 2026-03-26 - Edge Weighting & Action Refactoring
+- **Feature:** Implementierung des `edgeWeightOverlay` für den "Change edge behavior" Button.
+- **UI:** Numerischer Spinner (1-10) mit [OK] und [Abbruch] Buttons inklusive Lucide Icons (`check`, `x`).
+- **Refactoring:** Aufteilung der `UpdatePropertyAction` in spezialisierte Klassen:
+    - `UpdateNodePropertyAction`: Für direkte Knoten-Eigenschaften (Name, Farbe).
+    - `UpdateEdgePropertyAction`: Für chirurgische Updates von Kanten-Metadaten (synchronisiert `successors` und `predecessors`).
+- **UX:** Änderungen an Kantengewichten werden erst beim Klick auf [OK] in die History (Undo/Redo) aufgenommen, um Spam bei Spinner-Interaktion zu vermeiden.
 
-### 2026-03-22 (Fortsetzung 3)
-- **Feature:** Mini-Server Setup mit Express (Port 3000)
-- **Feature:** API-Routen für Szenarien (`GET /api/scenarios`, `GET /api/scenario/:name`)
-- **Feature:** Statisches Serving von `/out` Verzeichnis
-- **Dokumentation:** Phase 7 (Server-Infrastruktur) gestartet
+### 2026-03-25 (Fortsetzung 2) - Relation Model & Weighting
+- **Migration:** Umstellung von `predecessorIds/successorIds` (Strings) auf `predecessors/successors` (Objekt-Array).
+- **Datenstruktur:** Einführung des `Relation` Interface (`{ id: string, weight: number }`) für gewichtete Verbindungen.
+- **Logik:** `evolveSuccessors` vererbt nun Gewichtungen; `DeleteNodeAction` bewahrt Gewichte beim Überbrücken.
+- **Interaktion:** Anpassung der Hover- und Selektionslogik an die neue Objektstruktur.
 
-### 2026-03-22 (Fortsetzung 2)
-- **Robustheit:** Defensive Checks in `updateHoverState()` gegen Race-Conditions (hoveredNode/editingNode-Validierung).
-- **Robustheit:** Action-Validierung in `DeleteNodeAction.execute()` mit Warnungen bei inkonsistenten Zuständen.
-- **Dokumentation:** Neuer Abschnitt "Race-Conditions & Fehlerbehandlung" in `undo-redo-plan.md` mit Hinweisen zu Async-Operationen und Multi-Tab-Szenarien.
-- **Dokumentation:** Implementierungsreihenfolge aktualisiert mit Phase 7 (Multi-Tab-Locking, Debug-Panel).
+### 2026-03-25 (Fortsetzung 1) - Icon-System Migration (Lucide)
+- **Migration:** Umstellung von Emojis auf **Lucide Icons** (`npm install lucide`).
+- **Build-Integration:** Automatisches Kopieren der `lucide.min.js` nach `/out` via `src/index.ts`.
+- **Styling:** Zentrale Steuerung der Icon-Größen (16px) und Abstände (8px Gap) in `src/app.css`.
 
-### 2026-03-22 (Fortsetzung)
-- **Refactoring:** GUID-Sortierung entfernt - Wurzelknoten werden nun in JSON-Reihenfolge verarbeitet, um User-Kontrolle über die vertikale Anordnung zu ermöglichen.
-- **Dokumentation:** `layouter.md` aktualisiert mit Hinweis zur JSON-Reihenfolge-Kontrolle.
+### 2026-03-25 - State Management & Event-Driven Architecture
+- **State-Refactoring:** Einführung eines zentralen `AppState`-Objekts in `src/state.ts`.
+- **Event-Bus:** Implementierung eines Event-gesteuerten Systems (`StateEventBus`) für entkoppelte Kommunikation.
+- **Event-Typen:** Vollständige Typisierung aller State-Change-Events (NODE_SELECTED, EDGE_SELECTED, HOVER_CHANGED, etc.).
+- **Robustheit:** Eliminierung globaler Variablen zugunsten der "Single Source of Truth".
+- **Logging:** Integration des Event-Bus mit dem Logger für besseres Debugging.
+- **Architektur:** Fortschritt bei Punkt 2 & 3 der Robustheitsstrategie (State-Objekt & Event-Driven).
 
-### 2026-03-22 (Fortsetzung 4)
-- **Dokumentation:** Playwright-Setup in `environment.md` dokumentiert (Installation, Konfiguration, Test-Ausführung).
-- **Cleanup:** Veraltete Dateien `src\render.js` und `out\render.js` aus Git-Repository entfernt (Git-Commit 8c76567).
-  - **Wichtig:** Diese Dateien existieren nicht mehr! Nur `src\renderer.js` wird verwendet.
+### 2026-03-24 (Fortsetzung 2) - TypeScript & Stabilitäts-Update
+- **Migration:** Vollständige Umstellung des Projekts auf **TypeScript**.
+- **Modernisierung:** Umstellung auf **ES Modules (ESM)** für Frontend und Backend.
+- **Build-Workflow:** Einführung von `npm run build:all` als zentralem Generierungs-Befehl.
+- **Refactoring:** Korrektur der `HistoryManager`-Logik (Dirty-Status und automatische LocalStorage-Bereinigung).
+- **Bugfixes:** 
+  - Wiederherstellung der originalen, optimierten Layout- und Routing-Algorithmen aus Git.
+  - Fix: Highlighting von Symbolen nur noch im `isEditable: yes` Modus.
+  - Fix: Bereinigung veralteter Recovery-Daten bei Szenario-Wechsel.
 
-### 2026-03-22
-- **Refactoring:** ID-Typ von `number` auf `string` (GUID) umgestellt in allen Dateien und Datensätzen.
-- **Cleanup:** Duplikate `out\render.js` und `src\renderer.js` entfernt - nur noch `src\renderer.js` existiert und wird nach `out\` kopiert.
+### 2026-03-24 (Fortsetzung 1) - Präzise Klick-Verarbeitung
+... [Bisheriger Inhalt bleibt] ...
 
-### 2026-03-21 (Fortsetzung 3)
-- **UI/UX:** Automatisches Entfernen der Marker (Handles) beim Start des In-Place-Editings zur Vermeidung von visuellen Irritationen.
-- **UI/UX:** Implementierung eines globalen Maus-Trackings (`lastMouseX`, `lastMouseY`) zur präzisen Status-Aktualisierung.
-- **Refactoring:** Extraktion der Hover- und Tooltip-Logik in eine zentrale Funktion `updateHoverState` in `src/index.ts`.
-- **UI/UX:** Sofortige Re-Aktivierung der Handles beim Verlassen des Editiermodus (Enter, Blur, Escape) unter Berücksichtigung der aktuellen Mausposition.
-- **Bugfix:** Korrektur der Tooltip-Positionierung und Behebung von TypeScript-Compilerfehlern bei der HTML-Generierung (Template-Literal Escaping).
-
-### 2026-03-21 (Fortsetzung 2)
-- **Feature:** In-Place-Editing des "name" Properties im Edit-Modus (Doppelklick).
-- **Feature:** HTML-Overlay (`<textarea>`) für intuitive Texteingabe mit Browser-nativen Features (Caret, Copy-Paste, Wrapping).
-- **Feature:** Dirty-Flag `nodes.isDirty` zur Verfolgung ungespeicherter Änderungen mit UI-Indikator im Header.
-- **Refactoring:** Zentrale Synchronisation von Overlay-Padding und Positionierung via `OVERLAY_PADDING` in `src/index.ts`.
-- **UI:** Dynamische Positionierung der Textbox basierend auf Knotentyp und Panning-Offset.
-
-### 2026-03-21 (Fortsetzung 1)
-- **Refactoring:** `getNodeBoundingBox` in `calculateNodeBoundingBox` umbenannt (src/renderer.js, src/index.ts).
-- **Refactoring:** Logik zur Handle-Index-Berechnung aus `drawUnifiedArrow` in neue Funktionen `calculateSourceHandle` und `calculateTargetHandle` extrahiert.
-- **Feature:** Intelligente Handle-Wahl: Wenn ein Knoten weniger als 2 Ein-/Ausgänge hat, wird automatisch der mittlere Handle (Index 2) verwendet.
-- **Bugfix:** Handles im Edit-Modus bleiben nun während des Draggings/Pannings sichtbar (Verschiebung der Zeichenlogik in `renderAll`).
-- **Feature:** Neue Funktion `evolveSuccessors` in `layouterCalculate.js` berechnet Nachfolger-IDs aus Vorgänger-IDs.
-- **Refactoring:** `ProcessNode`-Interface aus `src/index.ts` entfernt und als JSDoc-Typedef in `src/manifest.js` manifestiert.
-- **Refactoring:** Umfassende Modularisierung: Logik-Funktionen (`validateAndTransformGraph`, `calculateLayout`, `calculateGraphBoundings`) in `src/layouterCalculate.js` zentralisiert.
-- **Refactoring:** Layout-Berechnung findet nun vollständig Client-seitig im Browser statt; `index.ts` liefert nur noch Rohdaten.
-- **Feature:** SubProcess-Typ hinzugefügt (Rechteck mit doppelter Randstärke und Plus-Symbol im unteren Rechteck)
-- **Refactoring:** CONFIG in `src/manifest.js` ausgelagert.
-
-### 2026-03-20
-- **Feature:** Dynamische Canvas-Größe und Editierbarer Modus mit Handles.
-- **Refactoring:** `renderer.js` Modularisierung und JSDoc-Erweiterung.
-
-## Verwandte Dokumentation
-- **Layout-Algorithmus & Kanten-Routing:** Siehe `./layouter.md`
-- **Laufzeitumgebung:** Siehe `./environment.md`
-
-## Technische Details
-
-### JSON-Datenstruktur (Manifestiert in manifest.js)
-```javascript
-/**
- * @typedef {Object} ProcessNode
- * @property {string} id - Unique identifier (GUID)
- * @property {'Event' | 'Task' | 'Rule' | 'SubProcess'} type
- * @property {string} name
- * @property {string[]} predecessorIds - Array of GUIDs
- * @property {string[]} successorIds - Array of GUIDs
- * @property {string} [description]
- * @property {number} [x]
- * @property {number} [y]
- * @property {number} [level]
- * @property {boolean} [isTopRow]
- */
-```
-
-### Konstanten & Konfiguration
-Zentrale Steuerung über `CONFIG` in `src/manifest.js` (Farben, Größen, Abstände).
+### 2026-03-24 - Refaktoring & Daten-Update
+... [Bisheriger Inhalt bleibt] ...
 
 ## Nächste Schritte
-- [ ] **Handle-Interaktion:** Drag & Drop von Corner-Handles (Resize) und Anchor-Handles (Verbindungen)
-- [ ] **Knoten-Verschiebung:** Drag & Drop von Knoten im editierbaren Modus mit JSON-Update
-- [ ] **Verbindungen erstellen:** Drag von Anchor-Handle zu Anchor-Handle zum Erstellen neuer Kanten
-- [ ] **Auto-Routing:** Vermeidung von Knotenüberschneidungen durch Kanten
-- [ ] **Zoom-Funktionalität:** Mausrad-Zoom
-- [ ] **Export:** SVG/PNG Download-Funktion
+- [ ] **Zoom-Funktionalität:** Mausrad-Zoom für den Canvas.
+- [ ] **Service-Pattern:** Refactoring von `app.ts` in spezialisierte Service-Klassen.
+- [ ] **Eigenschafts-Dialog:** Implementierung von `handleEditProperties` für detaillierte Knoten-Metadaten.
+- [ ] **Handle-Interaktion:** Drag & Drop von Corner-Handles (Resize) und Anchor-Handles (Verbindungen).
+- [ ] **Unit Tests:** Absicherung der Layout-Logik gegen Regressionen.

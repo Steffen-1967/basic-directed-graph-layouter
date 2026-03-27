@@ -85,26 +85,27 @@ Die 12 Anchor-Handles werden über die Funktion `calculateAnchorHandles()` berec
 ---
 
 ### 1. Vorbereitung der Datenstruktur (Preprocessing)
-* **1.1 Knoten-Mapping:** Erstellung einer `nodeMap`, um über die ID direkten Zugriff auf die `ProcessNode`-Objekte zu erhalten.
-* **1.2 Adjazenzlisten-Transformation:** * Die ursprünglichen `predecessorIds` (Vorgänger) werden invertiert.
-    * Eine `successorsMap` speichert für jeden Knoten seine direkten Nachfolger, um die Traversierung von links nach rechts zu ermöglichen.
-* **1.3 Tracking & State:** * Ein `Set` namens `visited` verhindert die mehrfache Platzierung von Knoten (Vermeidung von Endlosschleifen bei Zyklen).
+* **1.1 Knoten-Mapping:** Erstellung einer `nodeMap`, um über die ID direkten Zugriff auf die `ScenarioNode`-Objekte zu erhalten.
+* **1.2 Adjazenzlisten-Transformation:**
+    * Die ursprünglichen `predecessors` (Vorgänger) werden invertiert.
+    * Eine `successors`-Liste wird für jeden Knoten berechnet. 
+    * **Neu:** Dabei wird die Gewichtung (`weight`) der Verbindung vom Vorgänger-Eintrag übernommen.
+* **1.3 Tracking & State:**
+    * Ein `Set` namens `visited` verhindert die mehrfache Platzierung von Knoten.
     * Eine `levelOccupancy`-Map speichert pro Ebene (X), welche vertikalen Slots (Y) bereits belegt sind.
 
 ### 2. Kern-Algorithmus (BFS-basiertes Layout)
 Das Layout wird in "Komponenten" (zusammenhängende Teilgraphen) berechnet.
 
 * **2.1 Identifikation der Wurzelknoten:**
-    * Der Algorithmus sucht zuerst nach Knoten ohne Vorgänger (`predecessorIds.length === 0`).
-    * Diese bilden die Startpunkte der Breitensuche (BFS) **in der Reihenfolge, wie sie in der JSON-Datei erscheinen**.
-    * **Wichtig:** Die Reihenfolge der Wurzelknoten im JSON-Array bestimmt die vertikale Anordnung der Prozessbäume (von oben nach unten).
+    * Der Algorithmus sucht zuerst nach Knoten ohne Vorgänger (`predecessors.length === 0`).
+    * Diese bilden die Startpunkte der Breitensuche (BFS).
 * **2.2 Ebenen-Berechnung (Horizontale Achse):**
     * Die X-Koordinate ergibt sich aus dem `level` (Distanz zum Startknoten).
-    * Formel: `x = startX + (level * 160)`.
 * **2.3 Positionierung & Kollisionsvermeidung (Vertikale Achse):**
     * **2.3.1 Initiales Target:** Ein Nachfolger wird primär auf der Y-Höhe seines Vorgängers eingeplant.
-    * **2.3.2 Auffächerung:** Haben Knoten mehrere Kinder, werden diese mit einem Versatz von `100px` (ROW_HEIGHT) untereinander gestapelt.
-    * **2.3.3 Dynamische Verschiebung:** Falls ein Slot belegt ist (`isYOccupied`), wird der Knoten rekursiv um jeweils 100px nach unten verschoben, bis ein freier Platz gefunden wird.
+    * **2.3.2 Auffächerung:** Haben Knoten mehrere Kinder (Einträge in `successors`), werden diese mit einem Versatz untereinander gestapelt.
+    * **2.3.3 Dynamische Verschiebung:** Falls ein Slot belegt ist, wird der Knoten rekursiv nach unten verschoben.
 * **2.4 Pfad-Optimierungs-Flags:**
     * Der erste Pfad eines Startknotens wird als `isTopRow = true` markiert. Dies dient später der visuellen Steuerung von Rückkopplungspfeilen.
 

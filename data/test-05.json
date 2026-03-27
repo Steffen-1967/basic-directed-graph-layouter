@@ -1,0 +1,229 @@
+{
+  "scenarioName": "Lebens-Szenarien",
+  "layoutType": "tree",
+  "layoutPreferences": {
+    "switchToListLevel": 1
+  },
+  "nodes": [
+    {
+      "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+      "type": "SubProcess",
+      "name": "Lebens-Szenarien",
+      "description": "Lebens-Szenarien",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "c58e0fe8-3075-440d-be27-92fb0a4460c6",
+      "type": "SubProcess",
+      "name": "Erwerbstätigkeit",
+      "description": "Erwerbstätigkeit",
+      "predecessors": [
+        {
+          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "7d2161a1-87e6-4741-aa09-53afce438211",
+      "type": "SubProcess",
+      "name": "Vermögensverwaltung",
+      "description": "Vermögensverwaltung",
+      "predecessors": [
+        {
+          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "622c5534-16f0-4a3c-896a-cf675ba6f731",
+      "type": "SubProcess",
+      "name": "Finanzielle Vorsorge",
+      "description": "Finanzielle Vorsorge",
+      "predecessors": [
+        {
+          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "61724dbd-6ceb-436d-bd4c-fa95238a087f",
+      "type": "SubProcess",
+      "name": "Gesundheitsvorsorge",
+      "description": "Gesundheitsvorsorge",
+      "predecessors": [
+        {
+          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "7cccee04-449c-4412-8490-ff343e487735",
+      "type": "SubProcess",
+      "name": "Mobilität",
+      "description": "Mobilität",
+      "predecessors": [
+        {
+          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "63f05d50-bd15-4370-aa67-bf213afe8059",
+      "type": "SubProcess",
+      "name": "Behörden- und Institutions-Kontakte",
+      "description": "Behörden- und Institutions-Kontakte",
+      "predecessors": [
+        {
+          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "c079889a-c84d-46ff-8611-b08b2066991b",
+      "type": "SubProcess",
+      "name": "Bürgerbüro der Gemeinde",
+      "description": "Bürgerbüro der Gemeinde",
+      "predecessors": [
+        {
+          "id": "63f05d50-bd15-4370-aa67-bf213afe8059",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "ad562351-d697-48a2-9b52-eccd3aed00ad",
+      "type": "SubProcess",
+      "name": "Ermittlungs- und Justiz-Behördern",
+      "description": "Ermittlungs- und Justiz-Behördern",
+      "predecessors": [
+        {
+          "id": "63f05d50-bd15-4370-aa67-bf213afe8059",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "9740216d-ca3f-467d-95d9-60134b645e96",
+      "type": "SubProcess",
+      "name": "Individuelles KFZ",
+      "description": "Individuelles KFZ",
+      "predecessors": [
+        {
+          "id": "7cccee04-449c-4412-8490-ff343e487735",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "af73da7b-450f-4434-99e5-55e619ebf631",
+      "type": "SubProcess",
+      "name": "Öffentlich zugängliche Verkehrsmittel",
+      "description": "Öffentlich zugängliche Verkehrsmittel",
+      "predecessors": [
+        {
+          "id": "7cccee04-449c-4412-8490-ff343e487735",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "3ffc271e-1efa-4b6d-8ed5-e9f72204e6f4",
+      "type": "SubProcess",
+      "name": "Bekämpfung akuter und chronischer Krankheiten",
+      "description": "Bekämpfung akuter und chronischer Krankheiten",
+      "predecessors": [
+        {
+          "id": "61724dbd-6ceb-436d-bd4c-fa95238a087f",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "0df968af-b98c-427e-ae25-48bea4f7f743",
+      "type": "SubProcess",
+      "name": "Immunitätsschutz und Vorsorgeuntersuchungen",
+      "description": "Immunitätsschutz und Vorsorgeuntersuchungen",
+      "predecessors": [
+        {
+          "id": "61724dbd-6ceb-436d-bd4c-fa95238a087f",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "d0b4370a-00eb-47b5-ad95-3e288c4cdd93",
+      "type": "SubProcess",
+      "name": "Rentenvorsorge",
+      "description": "Rentenvorsorge",
+      "predecessors": [
+        {
+          "id": "622c5534-16f0-4a3c-896a-cf675ba6f731",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "ae61b1fb-a23e-48c5-8392-3bfd29a8dfc4",
+      "type": "SubProcess",
+      "name": "Arbeitsunfähigkeitsvorsorge",
+      "description": "Arbeitsunfähigkeitsvorsorge",
+      "predecessors": [
+        {
+          "id": "622c5534-16f0-4a3c-896a-cf675ba6f731",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    }
+  ]
+}

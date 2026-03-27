@@ -1,121 +1,185 @@
-[
-  {
-    "id": "5b3f4940-c912-4f01-9a4b-e4364d4ca917",
-    "type": "Event",
-    "name": "Neuer Ausweis erforderlich",
-    "description": "Ein neuer Ausweis ist erforderlich, wenn die Volljährigkeit erreicht wird, der alte Ausweis verloren oder gestohen wurde oder der alte Ausweis sein Ablaufdatum erreicht.",
-    "predecessorIds": [],
-    "successorIds": []
-  },
-  {
-    "id": "f71d89d9-3c4d-42b0-97ac-274c85dbc617",
-    "type": "Task",
-    "name": "Unterlagen zusammenstellen",
-    "description": "Die zusammenzustellenden Unterlagen beinhalten die Meldebestätigung der Stadt und beim erste Ausweis die Geburtsurkunde.",
-    "predecessorIds": [
-      "5b3f4940-c912-4f01-9a4b-e4364d4ca917"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "ae232f3a-aa7b-41fa-927d-676a8ee24977",
-    "type": "Task",
-    "name": "Ausweis beantragen",
-    "description": "Der Ausweis muss <i>vor Ort</i> beantragt werden, weil die Unterlagen von der Meldebehörte eingesehen werden müssen. Es empfiehlt sich einen Termin zu vereinbaren.",
-    "predecessorIds": [
-      "f71d89d9-3c4d-42b0-97ac-274c85dbc617"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
-    "type": "Rule",
-    "name": "And (split)",
-    "description": "And (split)",
-    "predecessorIds": [
-      "ae232f3a-aa7b-41fa-927d-676a8ee24977"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "ccf89282-ecbc-40b3-a8fc-cc823fd9108a",
-    "type": "Task",
-    "name": "Termin vereinbaren",
-    "description": "Termin vereinbaren",
-    "predecessorIds": [
-      "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "de745e92-9ed7-4447-a72a-9d4260f0720b",
-    "type": "SubProcess",
-    "name": "Ausweis erstellen",
-    "description": "Ausweis erstellen",
-    "predecessorIds": [
-      "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
-    "type": "Rule",
-    "name": "And (split)",
-    "description": "And (split)",
-    "predecessorIds": [
-      "ccf89282-ecbc-40b3-a8fc-cc823fd9108a"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "c1d64572-2ffa-4a95-9c19-62566a7e8483",
-    "type": "Task",
-    "name": "Termin auf Wiedervorlage legen",
-    "description": "Termin auf Wiedervorlage legen",
-    "predecessorIds": [
-      "ed2c5b0b-91bb-4eba-9036-146d89228e1b"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "573d30f7-b052-4d76-a8ca-98e7a0e99d92",
-    "type": "Task",
-    "name": "Unterlagen zwischenlagern",
-    "description": "Die Unterlagen zwischenlagern",
-    "predecessorIds": [
-      "ed2c5b0b-91bb-4eba-9036-146d89228e1b"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "83d85021-5aa9-448a-922c-da2776c757d7",
-    "type": "Rule",
-    "name": "And (combine)",
-    "description": "And (combine)",
-    "predecessorIds": [
-      "c1d64572-2ffa-4a95-9c19-62566a7e8483",
-      "573d30f7-b052-4d76-a8ca-98e7a0e99d92"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "842206c9-d99e-4c90-8aee-108995f92ac8",
-    "type": "Task",
-    "name": "Ausweis abholen",
-    "description": "Der Ausweis muss <i>vor Ort</i> abgeholt werden.",
-    "predecessorIds": [
-      "83d85021-5aa9-448a-922c-da2776c757d7"
-    ],
-    "successorIds": []
-  },
-  {
-    "id": "ff6fac82-5761-4dfe-a109-3dc991bd6e73",
-    "type": "Event",
-    "name": "Ausweis verfügbar",
-    "description": "Der Ausweis ist an den Antragsteller übergeben und für diesen verfügbar.",
-    "predecessorIds": [
-      "842206c9-d99e-4c90-8aee-108995f92ac8"
-    ],
-    "successorIds": []
-  }
-]
+{
+  "scenarioName": "Ausweis beantragen",
+  "layoutType": "flow",
+  "nodes": [
+    {
+      "id": "5b3f4940-c912-4f01-9a4b-e4364d4ca917",
+      "type": "Event",
+      "name": "Neuer Ausweis erforderlich",
+      "description": "Ein neuer Ausweis ist erforderlich, wenn die Volljährigkeit erreicht wird, der alte Ausweis verloren oder gestohen wurde oder der alte Ausweis sein Ablaufdatum erreicht.",
+      "predecessors": [],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "f71d89d9-3c4d-42b0-97ac-274c85dbc617",
+      "type": "Task",
+      "name": "Unterlagen zusammenstellen",
+      "description": "Die zusammenzustellenden Unterlagen beinhalten die Meldebestätigung der Stadt und beim erste Ausweis die Geburtsurkunde.",
+      "predecessors": [
+        {
+          "id": "5b3f4940-c912-4f01-9a4b-e4364d4ca917",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "ae232f3a-aa7b-41fa-927d-676a8ee24977",
+      "type": "Task",
+      "name": "Ausweis beantragen",
+      "description": "Der Ausweis muss <i>vor Ort</i> beantragt werden, weil die Unterlagen von der Meldebehörte eingesehen werden müssen. Es empfiehlt sich einen Termin zu vereinbaren.",
+      "predecessors": [
+        {
+          "id": "f71d89d9-3c4d-42b0-97ac-274c85dbc617",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
+      "type": "Rule",
+      "name": "And (split)",
+      "description": "And (split)",
+      "predecessors": [
+        {
+          "id": "ae232f3a-aa7b-41fa-927d-676a8ee24977",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "ccf89282-ecbc-40b3-a8fc-cc823fd9108a",
+      "type": "Task",
+      "name": "Termin vereinbaren",
+      "description": "Termin vereinbaren",
+      "predecessors": [
+        {
+          "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
+          "weight": 2
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "de745e92-9ed7-4447-a72a-9d4260f0720b",
+      "type": "SubProcess",
+      "name": "Ausweis erstellen",
+      "description": "Ausweis erstellen",
+      "predecessors": [
+        {
+          "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
+      "type": "Rule",
+      "name": "And (split)",
+      "description": "And (split)",
+      "predecessors": [
+        {
+          "id": "ccf89282-ecbc-40b3-a8fc-cc823fd9108a",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "c1d64572-2ffa-4a95-9c19-62566a7e8483",
+      "type": "Task",
+      "name": "Termin auf Wiedervorlage legen",
+      "description": "Termin auf Wiedervorlage legen",
+      "predecessors": [
+        {
+          "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "573d30f7-b052-4d76-a8ca-98e7a0e99d92",
+      "type": "Task",
+      "name": "Unterlagen zwischenlagern",
+      "description": "Die Unterlagen zwischenlagern",
+      "predecessors": [
+        {
+          "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "83d85021-5aa9-448a-922c-da2776c757d7",
+      "type": "Rule",
+      "name": "And (combine)",
+      "description": "And (combine)",
+      "predecessors": [
+        {
+          "id": "c1d64572-2ffa-4a95-9c19-62566a7e8483",
+          "weight": 1
+        },
+        {
+          "id": "573d30f7-b052-4d76-a8ca-98e7a0e99d92",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "842206c9-d99e-4c90-8aee-108995f92ac8",
+      "type": "Task",
+      "name": "Ausweis abholen",
+      "description": "Der Ausweis muss <i>vor Ort</i> abgeholt werden.",
+      "predecessors": [
+        {
+          "id": "83d85021-5aa9-448a-922c-da2776c757d7",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    },
+    {
+      "id": "ff6fac82-5761-4dfe-a109-3dc991bd6e73",
+      "type": "Event",
+      "name": "Ausweis verfügbar",
+      "description": "Der Ausweis ist an den Antragsteller übergeben und für diesen verfügbar.",
+      "predecessors": [
+        {
+          "id": "842206c9-d99e-4c90-8aee-108995f92ac8",
+          "weight": 1
+        }
+      ],
+      "successors": [],
+      "overrideFillColor": null,
+      "overrideStrokeColor": null
+    }
+  ]
+}

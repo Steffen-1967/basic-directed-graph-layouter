@@ -1,14 +1,19 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const WebSocket = require('ws');
-const http = require('http');
-const ServerLogger = require('./logger');
+import express from 'express';
+import path from 'path';
+import fs from 'fs';
+import { WebSocketServer } from 'ws';
+import http from 'http';
+import { fileURLToPath } from 'url';
+import ServerLogger from './logger.js';
+import scenariosRouter from './routes/scenarios.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocketServer({ server });
 
 // Initialize Server Logger
 const logger = new ServerLogger({
@@ -66,9 +71,8 @@ app.post('/api/log', (req, res) => {
     }
 });
 
-// Import routes
-const scenariosRouter = require('./routes/scenarios');
-scenariosRouter.setLogger(logger); // Inject logger into routes
+// Inject logger into routes
+scenariosRouter.setLogger(logger); 
 app.use('/api', scenariosRouter);
 
 // Lock Manager
@@ -207,7 +211,7 @@ wss.on('connection', (ws) => {
 function broadcast(message, excludeClientId = null) {
     const messageStr = JSON.stringify(message);
     wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN && client.clientId !== excludeClientId) {
+        if (client.readyState === 1 && client.clientId !== excludeClientId) { // 1 = OPEN
             client.send(messageStr);
         }
     });

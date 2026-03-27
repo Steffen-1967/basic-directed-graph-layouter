@@ -10,9 +10,11 @@ Prozessvisualisierungs-Tool mit TypeScript/Canvas für komplexe gerichtete Graph
 ## Features
 
 ### Visualisierung & Interaktion
-- ✅ Interaktive Szenarien-Auswahl (Dropdown)
+- ✅ Interaktive Szenarien-Auswahl mit Klarnamen-Anzeige
 - ✅ Auto-Zentrierung & Panning (Drag & Drop)
 - ✅ Editierbarer Modus mit Toggle-Button (✏️ no/yes)
+- ✅ Dynamisches visuelles Feedback: Canvas-Schatten ändert sich (Gelb=Edit, Grau=Read-Only)
+- ✅ Benutzerdefinierte CSS-Modale ("Ja"/"Nein") statt Browser-Standard-Dialoge
 - ✅ Corner-Handles & Anchor-Handles beim Hover (12 Anker pro Knoten)
 - ✅ Typabhängige Anchor-Positionierung (Event/Rule berühren Form)
 - ✅ Intelligente Tooltips (Name + Description, max. 260px)
@@ -23,23 +25,23 @@ Prozessvisualisierungs-Tool mit TypeScript/Canvas für komplexe gerichtete Graph
 - ✅ Hover-Effekt für Anchor-Handles (hellblau)
 - ✅ Erweiterte Hover-Fläche im Edit-Modus (10px Expansion)
 - ✅ 4 Knotentypen: Event, Task, Rule, SubProcess
-- ✅ JSON-Reihenfolge-Kontrolle: Vertikale Anordnung der Prozessbäume durch Reihenfolge der Wurzelknoten im JSON-Array steuerbar
+- ✅ Knoten-Toolbox für Schnellaktionen (Farbe, Löschen, Eigenschaften)
+- ✅ Color-Picker mit 8 vordefinierten Farbschemata
 
 ### Undo/Redo & Persistenz
 - ✅ Command-Pattern-basiertes Undo/Redo-System
-- ✅ LocalStorage-Persistierung ungespeicherter Änderungen
-- ✅ Recovery-Dialog mit Timestamp-Vergleich
-- ✅ Keyboard-Shortcuts (Ctrl+Z, Ctrl+Y, Ctrl+Shift+Z)
+- ✅ LocalStorage-Persistierung ungespeicherter Änderungen inklusive Szenario-Metadaten
+- ✅ Recovery-Dialog mit Timestamp-Vergleich und Warnung bei Server-Konflikten
 - ✅ In-Place-Editing von Node-Namen (Doppelklick)
 - ✅ Dirty-Flag-Indikator im Header
 
-### Multi-Tab & Server
-- ✅ WebSocket-basiertes Multi-Tab-Locking
-- ✅ Automatische Lock-Freigabe bei Tab-Schließung
-- ✅ Read-Only-Modus bei Lock-Konflikten
-- ✅ Padlock-Icon mit Status-Tooltip
+### Datenstruktur & API
+- ✅ Erweiterte JSON-Struktur (`TaskCollectionScenario`) mit Metadaten (`scenarioName`, `layoutType`)
+- ✅ Abwärtskompatibilität für alte JSON-Formate
 - ✅ Express-Server mit REST-API (`/api/scenarios`, `/api/scenario/:name`)
 - ✅ Statisches Serving von `/out` Verzeichnis
+- ✅ Automatisierte Daten-Migration via Skript
+
 
 ### Logging & Debugging
 - ✅ Server-Logging mit täglicher Rotation (`logs/app_YYYY-MM-DD.log`)
@@ -50,10 +52,12 @@ Prozessvisualisierungs-Tool mit TypeScript/Canvas für komplexe gerichtete Graph
 - ✅ Playwright End-to-End Tests (14 Tests)
 
 ### Konfiguration & Architektur
-- ✅ Zentrale Konfiguration in `manifest.js`
-- ✅ Modularisierte Codebasis (Renderer, Layouter, Actions, History)
-- ✅ TypeScript-Build-Prozess mit ts-node
+- ✅ Zentrale Konfiguration in `src/manifest.ts`
+- ✅ Modularisierte Codebasis (Renderer, Layouter, Actions, History, State)
+- ✅ TypeScript-Build-Prozess mit `tsc`
 - ✅ Nodemon für automatischen Server-Neustart
+- ✅ Zentrales State-Management (`src/state.ts`)
+- ✅ Event-Driven Architecture mit `StateEventBus`
 
 ## Build & Run
 ```bash

@@ -1,8 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const fs = require('fs');
-const path = require('path');
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const router = express.Router();
 const DATA_DIR = path.join(__dirname, '..', '..', 'data');
 
 // Logger will be injected by server.js
@@ -90,4 +94,44 @@ router.get('/scenario/:name', (req, res) => {
     }
 });
 
-module.exports = router;
+/**
+ * POST /api/scenario/:name
+ * Saves the content of a specific scenario file.
+ */
+router.post('/scenario/:name', (req, res) => {
+    try {
+        const fileName = req.params.name;
+        const data = req.body;
+        
+        // Security: Prevent directory traversal
+        if (fileName.includes('..') || fileName.includes('/') || fileName.includes('\\')) {
+            if (logger) logger.warn('API', 'Invalid file name attempt', { fileName });
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid file name'
+            });
+        }
+        
+        const filePath = path.join(DATA_DIR, fileName);
+        
+        // Write file
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+        
+        if (logger) logger.info('API', 'Scenario saved', { fileName, nodeCount: data.nodes ? data.nodes.length : 0 });
+        
+        res.json({
+            success: true,
+            fileName: fileName,
+            timestamp: Date.now()
+        });
+    } catch (error) {
+        console.error('[API] Error saving scenario:', error);
+        if (logger) logger.error('API', 'Failed to save scenario file', { fileName: req.params.name, error: error.message });
+        res.status(500).json({
+            success: false,
+            error: 'Failed to save scenario file'
+        });
+    }
+});
+
+export default router;

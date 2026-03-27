@@ -1,6 +1,7 @@
 {
   "name": "mylife-app",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -13,7 +14,8 @@
     "server": "node server/server.js",
     "server:dev": "nodemon server/server.js",
     "dev": "concurrently \"npm run server:dev\" \"timeout /t 2 /nobreak && start http://localhost:3000\"",
-    "generate": "ts-node src/index.ts && echo HTML generated in /out"
+    "generate": "node out/index.js && echo HTML generated in /out",
+    "build:all": "npm run build && npm run generate"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +31,7 @@
   },
   "dependencies": {
     "express": "^5.2.1",
+    "lucide": "^1.7.0",
     "ws": "^8.18.0"
   }
 }

@@ -1,5 +1,9 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Server-side Logger with daily rotation and automatic cleanup.
@@ -10,7 +14,7 @@ const path = require('path');
  * - JSON format for structured logging
  * - Configurable log directory
  */
-class ServerLogger {
+export default class ServerLogger {
     constructor(options = {}) {
         this.logDir = options.logDir || path.join(__dirname, '..', 'logs');
         this.maxAge = options.maxAge || 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
@@ -146,5 +150,3 @@ class ServerLogger {
         }
     }
 }
-
-module.exports = ServerLogger;
