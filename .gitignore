@@ -1,5 +1,7 @@
 /node_modules
-.aider*
-logs/*.log
-per
+/logs/*.log
 /playwright-report
+/.next
+/XXX_run_PG_und_AGE.bat
+/XXX_switch-gemini-key.bat
+.env

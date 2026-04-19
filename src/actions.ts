@@ -4,31 +4,72 @@
  * These actions are used for undo/redo functionality and state management.
  */
 
-import { ScenarioNode, Relation } from './manifest.js';
-import { Action } from './historyManager.js';
+import { GraphNode, GraphEdge, Envelope, iterateAllNodes } from './manifest';
+import { Action } from './historyManager';
 
 /**
  * Action to update a property of a node.
  * Implements the Command pattern for node property updates.
  */
 export class UpdateNodePropertyAction implements Action {
+    private targetNode: GraphNode | undefined = undefined;
+
     constructor(
-        public nodes: ScenarioNode[],
+        public nodes: GraphNode[],
         public nodeId: string,
         public property: string,
         public newValue: any,
         public oldValue: any
     ) {}
 
+    private findNode(): GraphNode | undefined {
+        if (this.targetNode) return this.targetNode;
+        
+        // Search in flat array first (for backwards compatibility)
+        let found = this.nodes.find(n => n.id === this.nodeId);
+        if (found) {
+            this.targetNode = found;
+            return found;
+        }
+        
+        // If nodes is actually an Envelope structure, search recursively
+        // This handles cases where the action is created with state.nodes which might be the full hierarchy
+        for (const node of this.nodes) {
+            if (node.id === this.nodeId) {
+                this.targetNode = node;
+                return node;
+            }
+            if (node.nodes && Array.isArray(node.nodes)) {
+                const searchInChildren = (children: GraphNode[]): GraphNode | undefined => {
+                    for (const child of children) {
+                        if (child.id === this.nodeId) return child;
+                        if (child.nodes) {
+                            const found = searchInChildren(child.nodes);
+                            if (found) return found;
+                        }
+                    }
+                    return undefined;
+                };
+                found = searchInChildren(node.nodes);
+                if (found) {
+                    this.targetNode = found;
+                    return found;
+                }
+            }
+        }
+        
+        return undefined;
+    }
+
     execute(): void {
-        const node = this.nodes.find(n => n.id === this.nodeId);
+        const node = this.findNode();
         if (node) {
             (node as any)[this.property] = this.newValue;
         }
     }
 
     undo(): void {
-        const node = this.nodes.find(n => n.id === this.nodeId);
+        const node = this.findNode();
         if (node) {
             (node as any)[this.property] = this.oldValue;
         }
@@ -40,12 +81,12 @@ export class UpdateNodePropertyAction implements Action {
 }
 
 /**
- * Action to update a property of an edge (relation).
- * Handles updates in both source (successors) and target (predecessors) node relations.
+ * Action to update a property of an edge (GraphEdge).
+ * Handles updates in both source (outgoing) and target (incoming) node relations.
  */
 export class UpdateEdgePropertyAction implements Action {
     constructor(
-        public nodes: ScenarioNode[],
+        public nodes: GraphNode[],
         public fromId: string,
         public toId: string,
         public property: string,
@@ -65,13 +106,13 @@ export class UpdateEdgePropertyAction implements Action {
         const startNode = this.nodes.find(n => n.id === this.fromId);
         const endNode = this.nodes.find(n => n.id === this.toId);
 
-        if (startNode && startNode.successors) {
-            const rel = startNode.successors.find(s => s.id === this.toId);
+        if (startNode && startNode.outgoing) {
+            const rel = startNode.outgoing.find(s => s.id === this.toId);
             if (rel) (rel as any)[this.property] = value;
         }
 
-        if (endNode && endNode.predecessors) {
-            const rel = endNode.predecessors.find(p => p.id === this.fromId);
+        if (endNode && endNode.incoming) {
+            const rel = endNode.incoming.find(p => p.id === this.fromId);
             if (rel) (rel as any)[this.property] = value;
         }
     }
@@ -109,13 +150,13 @@ export class CompositeAction implements Action {
  * Action to delete a node from the graph.
  */
 export class DeleteNodeAction implements Action {
-    public deletedNode: ScenarioNode | null = null;
+    public deletedNode: GraphNode | null = null;
     public predecessorId: string | null = null;
     public successorId: string | null = null;
-    public originalPredecessorSuccessors: Map<string, Relation[]> = new Map();
-    public originalSuccessorPredecessors: Map<string, Relation[]> = new Map();
+    public oldIncomingOutgoing: Map<string, GraphEdge[]> = new Map();
+    public oldOutgoingIncoming: Map<string, GraphEdge[]> = new Map();
 
-    constructor(public nodes: ScenarioNode[], public nodeId: string) {
+    constructor(public nodes: GraphNode[], public nodeId: string) {
         const index = nodes.findIndex(n => n.id === nodeId);
         
         if (index !== -1) {
@@ -135,62 +176,64 @@ export class DeleteNodeAction implements Action {
         if (index === -1) return;
 
         const node = this.nodes[index];
-        const hasPredecessors = node.predecessors && node.predecessors.length > 0;
-        const hasSuccessors = node.successors && node.successors.length > 0;
+        const hasIncoming = node.incoming && node.incoming.length > 0;
+        const hasOutgoing = node.outgoing && node.outgoing.length > 0;
 
-        // Remember predecessor's successor list and remove this node from list.
-        if (hasPredecessors) {
-            node.predecessors.forEach(predEntry => {
+        // Remember predecessor's outgoing list and remove this node from list.
+        if (hasIncoming) {
+            node.incoming.forEach(predEntry => {
                 const predNode = this.nodes.find(n => n.id === predEntry.id);
                 if (predNode) {
-                    this.originalPredecessorSuccessors.set(predEntry.id, [...predNode.successors]);
-                    predNode.successors = predNode.successors.filter(s => s.id !== this.nodeId);
+                    this.oldIncomingOutgoing.set(predEntry.id, [...predNode.outgoing]);
+                    predNode.outgoing = predNode.outgoing.filter(s => s.id !== this.nodeId);
                 }
             });
         }
 
-        // Remember successor's predecessor list and remove this node from list.
-        if (hasSuccessors) {
-            node.successors.forEach(succEntry => {
+        // Remember successor's incoming list and remove this node from list.
+        if (hasOutgoing) {
+            node.outgoing.forEach(succEntry => {
                 const succNode = this.nodes.find(n => n.id === succEntry.id);
                 if (succNode) {
-                    this.originalSuccessorPredecessors.set(succEntry.id, [...succNode.predecessors]);
-                    succNode.predecessors = succNode.predecessors.filter(p => p.id !== this.nodeId);
+                    this.oldOutgoingIncoming.set(succEntry.id, [...succNode.incoming]);
+                    succNode.incoming = succNode.incoming.filter(p => p.id !== this.nodeId);
                 }
             });
         }
 
-        if (hasPredecessors && hasSuccessors) {
-            // Reconnect logic: bridge the gap between the FIRST predecessor and all successors.
-			// Use the FIRST predecessor only to prevent problems with successor nodes, that don't support multiple predecessors.
-            // We use the weight of the connection FROM the predecessor TO the deleted node.
-            const firstPredEntry = node.predecessors[0];
+        if (hasIncoming && hasOutgoing) {
+            // Reconnect logic: bridge the gap between the FIRST incoming node and all outgoing nodes.
+            // Use the FIRST incoming only to prevent problems with outgoing nodes, that don't support multiple incoming connections.
+            // We use the weight of the connection FROM the incoming node TO the deleted node.
+            const firstPredEntry = node.incoming[0];
             const reconnectWeight = firstPredEntry.weight;
             const predNode = this.nodes.find(n => n.id === firstPredEntry.id);
 
             if (predNode) {
-                node.successors.forEach(succEntry => {
+                node.outgoing.forEach(succEntry => {
                     const succNode = this.nodes.find(n => n.id === succEntry.id);
                     if (!succNode) return;
 
-                    // Reconnect predecessor -> successor using the weight from the predecessor's original edge
-                    if (!predNode.successors.some(s => s.id === succEntry.id)) {
-                        predNode.successors.push({ id: succEntry.id, weight: reconnectWeight });
+                    // Reconnect incoming -> outgoing using the weight from the incoming's original edge
+                    if (!predNode.outgoing.some(s => s.id === succEntry.id)) {
+                        predNode.outgoing.push({ id: succEntry.id, weight: reconnectWeight, locked: false });
                     }
 
-                    // Reconnect successor -> predecessor using the same weight
-                    if (!succNode.predecessors.some(p => p.id === predNode.id)) {
-                        succNode.predecessors.push({ id: predNode.id, weight: reconnectWeight });
+                    // Reconnect outgoing -> incoming using the same weight and preserving type if it exists
+                    if (!succNode.incoming.some(p => p.id === predNode.id)) {
+                        const newRel: GraphEdge = { 
+                            id: predNode.id, 
+                            weight: reconnectWeight,
+                            locked: false
+                        };
+                        if (firstPredEntry.type) newRel.type = firstPredEntry.type;
+                        succNode.incoming.push(newRel);
                     }
                 });
             }
         }
         
         this.nodes.splice(index, 1);
-
-        if ((window as any).refreshGraph) {
-            (window as any).refreshGraph();
-        }
     }
 
     undo(): void {
@@ -220,19 +263,15 @@ export class DeleteNodeAction implements Action {
             this.nodes.push(this.deletedNode);
         }
 
-        this.originalPredecessorSuccessors.forEach((oldSuccs, predId) => {
+        this.oldIncomingOutgoing.forEach((oldSuccs, predId) => {
             const predNode = this.nodes.find(n => n.id === predId);
-            if (predNode) predNode.successors = oldSuccs;
+            if (predNode) predNode.outgoing = oldSuccs;
         });
 
-        this.originalSuccessorPredecessors.forEach((oldPreds, succId) => {
+        this.oldOutgoingIncoming.forEach((oldPreds, succId) => {
             const succNode = this.nodes.find(n => n.id === succId);
-            if (succNode) succNode.predecessors = oldPreds;
+            if (succNode) succNode.incoming = oldPreds;
         });
-
-        if ((window as any).refreshGraph) {
-            (window as any).refreshGraph();
-        }
     }
 
     focus(): string {
@@ -244,11 +283,11 @@ export class DeleteNodeAction implements Action {
  * Action to add a new node to the graph.
  */
 export class AddNodeAction implements Action {
-    public newNode: ScenarioNode;
+    public newNode: GraphNode;
     public predecessorId: string | null = null;
     public successorId: string | null = null;
 
-    constructor(public nodes: ScenarioNode[], newNode: ScenarioNode, public insertAfterId: string | null = null) {
+    constructor(public nodes: GraphNode[], newNode: GraphNode, public insertAfterId: string | null = null) {
         this.newNode = JSON.parse(JSON.stringify(newNode));
     }
 
@@ -280,6 +319,99 @@ export class AddNodeAction implements Action {
     }
 }
 
+/**
+ * Action to create a new edge between two nodes.
+ */
+export class CreateEdgeAction implements Action {
+    constructor(
+        public nodes: GraphNode[],
+        public fromId: string,
+        public toId: string,
+        public type?: string,
+        public weight: number = 1
+    ) {}
+
+    execute(): void {
+        const fromNode = this.nodes.find(n => n.id === this.fromId);
+        const toNode = this.nodes.find(n => n.id === this.toId);
+
+        if (fromNode && toNode) {
+            fromNode.outgoing = fromNode.outgoing || [];
+            if (!fromNode.outgoing.some(e => e.id === this.toId)) {
+                fromNode.outgoing.push({ id: this.toId, weight: this.weight, type: this.type });
+            }
+
+            toNode.incoming = toNode.incoming || [];
+            if (!toNode.incoming.some(e => e.id === this.fromId)) {
+                toNode.incoming.push({ id: this.fromId, weight: this.weight, type: this.type });
+            }
+        }
+    }
+
+    undo(): void {
+        const fromNode = this.nodes.find(n => n.id === this.fromId);
+        const toNode = this.nodes.find(n => n.id === this.toId);
+
+        if (fromNode && fromNode.outgoing) {
+            fromNode.outgoing = fromNode.outgoing.filter(e => e.id !== this.toId);
+        }
+        if (toNode && toNode.incoming) {
+            toNode.incoming = toNode.incoming.filter(e => e.id !== this.fromId);
+        }
+    }
+
+    focus(): string {
+        return this.fromId;
+    }
+}
+
+/**
+ * Action to delete an edge between two nodes.
+ */
+export class DeleteEdgeAction implements Action {
+    private deletedEdge: GraphEdge | undefined;
+
+    constructor(
+        public nodes: GraphNode[],
+        public fromId: string,
+        public toId: string
+    ) {}
+
+    execute(): void {
+        const fromNode = this.nodes.find(n => n.id === this.fromId);
+        const toNode = this.nodes.find(n => n.id === this.toId);
+
+        if (fromNode && fromNode.outgoing) {
+            const index = fromNode.outgoing.findIndex(e => e.id === this.toId);
+            if (index !== -1) {
+                this.deletedEdge = fromNode.outgoing[index];
+                fromNode.outgoing.splice(index, 1);
+            }
+        }
+        if (toNode && toNode.incoming) {
+            toNode.incoming = toNode.incoming.filter(e => e.id !== this.fromId);
+        }
+    }
+
+    undo(): void {
+        if (!this.deletedEdge) return;
+        const fromNode = this.nodes.find(n => n.id === this.fromId);
+        const toNode = this.nodes.find(n => n.id === this.toId);
+
+        if (fromNode && toNode) {
+            fromNode.outgoing = fromNode.outgoing || [];
+            fromNode.outgoing.push(this.deletedEdge);
+            
+            toNode.incoming = toNode.incoming || [];
+            toNode.incoming.push({ ...this.deletedEdge, id: this.fromId });
+        }
+    }
+
+    focus(): string {
+        return this.fromId;
+    }
+}
+
 // Global exposure for browser (legacy)
 if (typeof window !== 'undefined') {
     (window as any).UpdateNodePropertyAction = UpdateNodePropertyAction;
@@ -287,4 +419,6 @@ if (typeof window !== 'undefined') {
     (window as any).CompositeAction = CompositeAction;
     (window as any).DeleteNodeAction = DeleteNodeAction;
     (window as any).AddNodeAction = AddNodeAction;
+    (window as any).CreateEdgeAction = CreateEdgeAction;
+    (window as any).DeleteEdgeAction = DeleteEdgeAction;
 }

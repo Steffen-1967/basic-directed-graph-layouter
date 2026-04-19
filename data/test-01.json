@@ -1,185 +1,434 @@
 {
-  "scenarioName": "Ausweis beantragen",
-  "layoutType": "flow",
+  "exporter": "mylife.org v0.2",
+  "name": [
+    {
+      "lcid": 1031,
+      "value": "Ausweis beantragen"
+    }
+  ],
+  "description": [
+    {
+      "lcid": 1031,
+      "value": "Ausweis beantragen"
+    }
+  ],
+  "layoutType": "Flow",
+  "layoutPreferences": {},
+  "root": "a5f25885-9f5d-4697-b1b9-0457acfcb9d1",
   "nodes": [
     {
-      "id": "5b3f4940-c912-4f01-9a4b-e4364d4ca917",
-      "type": "Event",
-      "name": "Neuer Ausweis erforderlich",
-      "description": "Ein neuer Ausweis ist erforderlich, wenn die Volljährigkeit erreicht wird, der alte Ausweis verloren oder gestohen wurde oder der alte Ausweis sein Ablaufdatum erreicht.",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "f71d89d9-3c4d-42b0-97ac-274c85dbc617",
-      "type": "Task",
-      "name": "Unterlagen zusammenstellen",
-      "description": "Die zusammenzustellenden Unterlagen beinhalten die Meldebestätigung der Stadt und beim erste Ausweis die Geburtsurkunde.",
-      "predecessors": [
+      "id": "a5f25885-9f5d-4697-b1b9-0457acfcb9d1",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Ausweis beantragen"
+        }
+      ],
+      "version": "1.1",
+      "versionable": "independently",
+      "type": "SubProcess",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Ausweis beantragen"
+        }
+      ],
+      "nodes": [
         {
           "id": "5b3f4940-c912-4f01-9a4b-e4364d4ca917",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "ae232f3a-aa7b-41fa-927d-676a8ee24977",
-      "type": "Task",
-      "name": "Ausweis beantragen",
-      "description": "Der Ausweis muss <i>vor Ort</i> beantragt werden, weil die Unterlagen von der Meldebehörte eingesehen werden müssen. Es empfiehlt sich einen Termin zu vereinbaren.",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Event",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Neuer Ausweis erforderlich"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Ein neuer Ausweis ist erforderlich, wenn die Volljährigkeit erreicht wird, der alte Ausweis verloren oder gestohen wurde oder der alte Ausweis sein Ablaufdatum erreicht."
+            }
+          ],
+          "incoming": [],
+          "outgoing": [
+            {
+              "id": "f71d89d9-3c4d-42b0-97ac-274c85dbc617",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "f71d89d9-3c4d-42b0-97ac-274c85dbc617",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
-      "type": "Rule",
-      "name": "And (split)",
-      "description": "And (split)",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Unterlagen zusammenstellen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Die zusammenzustellenden [Unterlagen][id] beinhalten die Meldebestätigung der Stadt und beim erste Ausweis die Geburtsurkunde.\n\n[id]: http://mylife.org/aa"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "5b3f4940-c912-4f01-9a4b-e4364d4ca917",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "ae232f3a-aa7b-41fa-927d-676a8ee24977",
+              "weight": 1
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "ae232f3a-aa7b-41fa-927d-676a8ee24977",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "ccf89282-ecbc-40b3-a8fc-cc823fd9108a",
-      "type": "Task",
-      "name": "Termin vereinbaren",
-      "description": "Termin vereinbaren",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Ausweis beantragen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Der Ausweis muss **vor Ort** beantragt werden, weil die Unterlagen von der Meldebehörte eingesehen werden müssen. Es empfiehlt sich einen Termin zu vereinbaren."
+            }
+          ],
+          "incoming": [
+            {
+              "id": "f71d89d9-3c4d-42b0-97ac-274c85dbc617",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
-          "weight": 2
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "de745e92-9ed7-4447-a72a-9d4260f0720b",
-      "type": "SubProcess",
-      "name": "Ausweis erstellen",
-      "description": "Ausweis erstellen",
-      "predecessors": [
-        {
-          "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
-      "type": "Rule",
-      "name": "And (split)",
-      "description": "And (split)",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Rule",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "And (split)"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "And (split)"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "ae232f3a-aa7b-41fa-927d-676a8ee24977",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "ccf89282-ecbc-40b3-a8fc-cc823fd9108a",
+              "weight": 2,
+              "type": "output"
+            },
+            {
+              "id": "de745e92-9ed7-4447-a72a-9d4260f0720b",
+              "weight": 1
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "ccf89282-ecbc-40b3-a8fc-cc823fd9108a",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "c1d64572-2ffa-4a95-9c19-62566a7e8483",
-      "type": "Task",
-      "name": "Termin auf Wiedervorlage legen",
-      "description": "Termin auf Wiedervorlage legen",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Termin vereinbaren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Termin vereinbaren"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
+              "weight": 2,
+              "type": "output"
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
+        {
+          "id": "de745e92-9ed7-4447-a72a-9d4260f0720b",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Ausweis erstellen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Ausweis erstellen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "ad7e45ca-9e2b-4ea1-90cf-d8c4998d09b5",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "971bb3fe-c701-48a5-a7db-59f8891f305f"
+        },
         {
           "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "573d30f7-b052-4d76-a8ca-98e7a0e99d92",
-      "type": "Task",
-      "name": "Unterlagen zwischenlagern",
-      "description": "Die Unterlagen zwischenlagern",
-      "predecessors": [
-        {
-          "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "83d85021-5aa9-448a-922c-da2776c757d7",
-      "type": "Rule",
-      "name": "And (combine)",
-      "description": "And (combine)",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Rule",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "And (split)"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "And (split)"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "ccf89282-ecbc-40b3-a8fc-cc823fd9108a",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "c1d64572-2ffa-4a95-9c19-62566a7e8483",
+              "weight": 1,
+              "type": "output"
+            },
+            {
+              "id": "573d30f7-b052-4d76-a8ca-98e7a0e99d92",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "c1d64572-2ffa-4a95-9c19-62566a7e8483",
-          "weight": 1
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Termin auf Wiedervorlage legen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Termin auf Wiedervorlage legen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "83d85021-5aa9-448a-922c-da2776c757d7",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
         },
         {
           "id": "573d30f7-b052-4d76-a8ca-98e7a0e99d92",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "842206c9-d99e-4c90-8aee-108995f92ac8",
-      "type": "Task",
-      "name": "Ausweis abholen",
-      "description": "Der Ausweis muss <i>vor Ort</i> abgeholt werden.",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Unterlagen zwischenlagern"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Die Unterlagen zwischenlagern"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "ed2c5b0b-91bb-4eba-9036-146d89228e1b",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "83d85021-5aa9-448a-922c-da2776c757d7",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "83d85021-5aa9-448a-922c-da2776c757d7",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "ff6fac82-5761-4dfe-a109-3dc991bd6e73",
-      "type": "Event",
-      "name": "Ausweis verfügbar",
-      "description": "Der Ausweis ist an den Antragsteller übergeben und für diesen verfügbar.",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Rule",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "And (combine)"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "And (combine)"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "c1d64572-2ffa-4a95-9c19-62566a7e8483",
+              "weight": 1,
+              "type": "output"
+            },
+            {
+              "id": "573d30f7-b052-4d76-a8ca-98e7a0e99d92",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "842206c9-d99e-4c90-8aee-108995f92ac8",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "842206c9-d99e-4c90-8aee-108995f92ac8",
-          "weight": 1
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Ausweis abholen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Der Ausweis muss **vor Ort** abgeholt werden."
+            }
+          ],
+          "incoming": [
+            {
+              "id": "83d85021-5aa9-448a-922c-da2776c757d7",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "ff6fac82-5761-4dfe-a109-3dc991bd6e73",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
+        {
+          "id": "ff6fac82-5761-4dfe-a109-3dc991bd6e73",
+          "versionable": "by-parent",
+          "type": "Event",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Ausweis verfügbar"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Der Ausweis ist an den Antragsteller übergeben und für diesen verfügbar."
+            }
+          ],
+          "incoming": [
+            {
+              "id": "842206c9-d99e-4c90-8aee-108995f92ac8",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
         }
       ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
+      "versionContainer": "0fe1d0a1-8f89-4c2a-a37b-2b020dab5ab7"
     }
   ]
 }

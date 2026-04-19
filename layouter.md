@@ -1,12 +1,29 @@
-# Layout-Algorithmus & Kanten-Routing
+# Layout-Architektur & Zustandsverwaltung
 
-## Layout-Algorithmus
-Der Algorithmus in der Funktion `calculateLayout` verwendet einen ebenenbasierten Ansatz (ähnlich dem Sugiyama-Prinzip), um Knoten eines gerichteten Graphen automatisch auf einer 2D-Fläche (Canvas) zu positionieren.
+## Zentrale Layout-Engine (`src/layoutEngine.ts`)
+Die gesamte Layout-Logik ist in der Klasse `LayoutEngine` konsolidiert. Sie ist verantwortlich für die strukturelle Analyse, die Koordinaten-Zuweisung für verschiedene Layout-Typen sowie die Validierung und Transformation der Datenstrukturen.
 
-### Eigenschaften
+### Konsolidierung (Refactoring 2026-04-15)
+- Die Datei `layouterCalculate.ts` wurde entfernt. Alle Algorithmen (Flow, CompactFlow, Tree, Box, TaskList) wurden als Methoden in die `LayoutEngine` integriert.
+- **Vorteil:** Einheitliche Fehlerbehandlung, reduzierter Code-Duplizierung und verbesserte Testbarkeit.
+
+### Layout-Algorithmus (Sugiyama-Prinzip)
+Die Engine verwendet einen ebenenbasierten Ansatz, um Knoten automatisch auf einer 2D-Fläche (Canvas) zu positionieren.
+
+#### Eigenschaften
 - **Robustes BFS-Layout:** Breitensuche zur stabilen Berechnung von Ebenen (Levels), auch bei Rückschleifen.
 - **Hierarchische Pfadführung:** Erster Nachfolger bleibt auf Y-Höhe des Vorgängers.
 - **Kollisionsvermeidung:** Automatische Y-Verschiebung bei Überlagerungen in derselben Ebene.
+- **Layout-Sperre (Protection):** Ein Zeit- und Key-basierter Lock verhindert redundante Neuberechnungen innerhalb von 500ms für identische Konfigurationen.
+
+## Zustandsverwaltung (`src/stateManager.ts`)
+Zur Stabilisierung der Anwendung wurde ein zentraler `StateManager` eingeführt.
+
+### Konzept
+- **Single Source of Truth:** Alle Zustände (Envelope, Nodes, View, Interaction) werden zentral verwaltet.
+- **Controlled Updates:** Änderungen am Zustand erfolgen über definierte Methoden, die Konsistenzprüfungen durchführen können.
+- **Event-Bus:** Der `StateManager` nutzt den `StateEventBus` (`src/state.ts`), um Komponenten und Services über Änderungen (z.B. `NODE_SELECTED`, `VIEW_CHANGED`) zu informieren.
+- **Entkopplung:** Services kommunizieren nicht mehr direkt miteinander über gegenseitige Referenzen, sondern reagieren auf Zustandsänderungen.
 
 ## Kanten-Routing (Unified Routing)
 Das intelligente Routing-System für Verbindungspfeile zwischen Knoten.
@@ -85,11 +102,11 @@ Die 12 Anchor-Handles werden über die Funktion `calculateAnchorHandles()` berec
 ---
 
 ### 1. Vorbereitung der Datenstruktur (Preprocessing)
-* **1.1 Knoten-Mapping:** Erstellung einer `nodeMap`, um über die ID direkten Zugriff auf die `ScenarioNode`-Objekte zu erhalten.
-* **1.2 Adjazenzlisten-Transformation:**
-    * Die ursprünglichen `predecessors` (Vorgänger) werden invertiert.
-    * Eine `successors`-Liste wird für jeden Knoten berechnet. 
-    * **Neu:** Dabei wird die Gewichtung (`weight`) der Verbindung vom Vorgänger-Eintrag übernommen.
+* **1.1 Knoten-Mapping:** Erstellung einer `nodeMap`, um über die ID direkten Zugriff auf die `GraphNode`-Objekte zu erhalten.
+* **1.2 Adjazenzlisten-Transformation (Speziell für Flow-Layout):**
+    * In der Funktion **`evolveOutgoingPredecessorsForFlow`** werden die ursprünglichen `incoming` Relationen vom Typ `predecessor` invertiert.
+    * Eine temporäre `outgoing`-Liste wird für jeden Knoten berechnet, um das schnelle reverse Lookup für die Breitensuche (BFS) zu ermöglichen.
+    * **Wichtig:** Diese doppelte Datenhaltung findet exklusiv für das Flow-Layout statt. Alle anderen Layouts (Tree, Box, ForceAtlas) arbeiten direkt auf den ursprünglichen Relationen.
 * **1.3 Tracking & State:**
     * Ein `Set` namens `visited` verhindert die mehrfache Platzierung von Knoten.
     * Eine `levelOccupancy`-Map speichert pro Ebene (X), welche vertikalen Slots (Y) bereits belegt sind.
@@ -118,3 +135,19 @@ Das Layout wird in "Komponenten" (zusammenhängende Teilgraphen) berechnet.
 * **4.2 Intelligente Pfeilführung (Manhattan-Routing):**
     * **Vorwärtsgerichtet:** Pfeile werden rechtwinklig über einen Mittelpunkt (`midX`) zwischen den Ebenen geführt.
     * **Rückwärtsgerichtet (Loops):** Wenn ein Zielknoten links vom Startknoten liegt, wird der Pfeil in einem weiten Bogen (Detour) oberhalb oder unterhalb der Knoten geführt, um Text-Überlagerungen zu minimieren.
+
+## ForceAtlas2 (Server-Side)
+Für komplexe, nicht-hierarchische Graphen wird der ForceAtlas2-Algorithmus serverseitig via `graphology` berechnet.
+
+### Strukturierte Initialisierung (Warm-up)
+Um eine stabile und reproduzierbare Ausrichtung zu gewährleisten, werden die Knoten vor dem Start des Algorithmus in drei Zonen vorpositioniert:
+1.  **Standard-Zone (Linie):** Knoten vom Typ `Event`, `Rule` und `Task` werden auf einer horizontalen Linie im oberen Bereich (`y = -3 * size`) verteilt.
+2.  **Prozess-Zone (Linie):** `SubProcess`-Knoten werden zentriert auf der Nulllinie (`y = 0`) angeordnet.
+3.  **Support-Zone (Kreis):** Alle anderen Knotentypen werden kreisförmig im unteren Bereich (`y = +5 * size`) positioniert.
+
+### Algorithmische Parameter
+- **Gravity:** Adaptiv (16.0 bis 6.4), sinkt mit steigender Knotenanzahl zur Vermeidung von Klumpenbildung.
+- **Scaling Ratio:** Adaptiv (2000 bis 3800), steigt mit der Knotenanzahl für mehr Leerraum.
+- **Strong Gravity Mode:** Aktiviert für kompaktere Komponenten.
+- **LinLog Mode:** Aktiviert für bessere Cluster-Trennung.
+- **Outbound Attraction:** Aktiviert, um Hubs ins Zentrum zu rücken.

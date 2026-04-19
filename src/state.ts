@@ -4,8 +4,34 @@
  * Includes event-driven state change notification system.
  */
 
-import { ScenarioNode, TaskCollectionScenario } from './manifest.js';
-import { Edge } from './renderer.js';
+import { GraphNode, Envelope } from './manifest';
+import { Edge } from './renderer';
+
+/**
+ * Overlay types for the UI.
+ */
+export enum OverlayType {
+    NodeProperties = 'NodeProperties',
+    EdgeProperties = 'EdgeProperties',
+    EdgeWeight = 'EdgeWeight',
+    ColorPicker = 'ColorPicker',
+    DataList = 'DataList',
+    Modal = 'Modal',
+    NodeToolbox = 'NodeToolbox',
+    EdgeToolbox = 'EdgeToolbox',
+    NodeInlineEdit = 'NodeInlineEdit'
+}
+
+/**
+ * States for the InteractionService state machine.
+ */
+export enum InteractionState {
+    Idle = 'Idle',
+    DraggingCanvas = 'DraggingCanvas',
+    DraggingNode = 'DraggingNode',
+    LinkingNodes = 'LinkingNodes',
+    Editing = 'Editing'
+}
 
 /**
  * Event types for state changes.
@@ -17,9 +43,11 @@ export type StateChangeEvent =
     | { type: 'VIEW_CHANGED', offsetX: number, offsetY: number }
     | { type: 'EDIT_MODE_CHANGED', isEditable: boolean }
     | { type: 'DIRTY_STATE_CHANGED', isDirty: boolean }
-    | { type: 'SCENARIO_LOADED', scenarioName: string }
+    | { type: 'ENVELOPE_LOADED', name: any }
     | { type: 'GRAPH_REFRESHED' }
-    | { type: 'HOVER_CHANGED', nodeId: string | null, edgeFromId: string | null, edgeToId: string | null };
+    | { type: 'HOVER_CHANGED', nodeId: string | null, edgeFromId: string | null, edgeToId: string | null }
+    | { type: 'UI_OVERLAY_CHANGED', overlay: OverlayType | null }
+    | { type: 'RENDER_REQUESTED' };
 
 export type StateChangeListener = (event: StateChangeEvent) => void;
 
@@ -83,53 +111,70 @@ export interface ViewState {
     zoom: number; 
 }
 
-export interface InteractionState {
+export interface InteractionData {
+    state: InteractionState;
     isEditable: boolean;
     isDragging: boolean;
     startX: number;
     startY: number;
+    startOffsetX?: number;
+    startOffsetY?: number;
     lastMouseX: number;
     lastMouseY: number;
     
     // Hover states
-    hoveredNode: ScenarioNode | null;
+    hoveredNode: GraphNode | null;
     hoveredNodeHandle: NodeHandle | null;
     hoveredEdge: Edge | null;
     hoveredEdgeHandle: number | null;
     
     // Selection states
-    selectedNode: ScenarioNode | null;
+    selectedNode: GraphNode | null;
     selectedEdge: Edge | null;
     
     // UI Overlays
-    editingNode: ScenarioNode | null;
-    toolboxTargetNode: ScenarioNode | null;
+    editingNode: GraphNode | null;
+    toolboxTargetNode: GraphNode | null;
 }
 
 export interface NetworkState {
     ws: WebSocket | null;
     clientId: string | null;
-    currentScenarioLock: { scenario: string, holder: string } | null;
+    currentEnvelopeLock: { envelope: string, holder: string } | null;
     isLockedByOther: boolean;
 }
 
+export interface UIState {
+    activeOverlay: OverlayType | null;
+    overlayData: any | null; 
+    overlayPosition: { x: number, y: number } | null;
+    isNodeToolboxOpen: boolean;
+    isEdgeToolboxOpen: boolean;
+    toolboxPosition: { x: number, y: number } | null;
+}
+
 export interface AppState {
-    scenario: TaskCollectionScenario | null;
-    nodes: ScenarioNode[];
+    envelope: Envelope | null;
+    nodes: GraphNode[];
     view: ViewState;
-    interaction: InteractionState;
+    interaction: InteractionData;
+    ui: UIState;
     network: NetworkState;
     isDirty: boolean;
+    storageImport: Envelope | null;
+    currentFileName: string | null;
+    currentDataSource: 'fs' | 'age' | 'firebase';
 }
 
 /**
  * Initial application state.
  */
 export const initialAppState: AppState = {
-    scenario: null,
+    envelope: null,
     nodes: [],
-    view: { offsetX: 0, offsetY: 0, zoom: 1.0 },
+    view: { offsetX: 100, offsetY: 100, zoom: 1.0 },
     interaction: {
+        state: InteractionState.Idle,
         isEditable: false,
         isDragging: false,
         startX: 0,
@@ -145,11 +190,22 @@ export const initialAppState: AppState = {
         editingNode: null,
         toolboxTargetNode: null
     },
+    ui: {
+        activeOverlay: null,
+        overlayData: null,
+        overlayPosition: null,
+        isNodeToolboxOpen: false,
+        isEdgeToolboxOpen: false,
+        toolboxPosition: null
+    },
     network: {
         ws: null,
         clientId: null,
-        currentScenarioLock: null,
+        currentEnvelopeLock: null,
         isLockedByOther: false
     },
-    isDirty: false
+    isDirty: false,
+    storageImport: null,
+    currentFileName: null,
+    currentDataSource: 'fs'
 };

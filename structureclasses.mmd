@@ -1,0 +1,53 @@
+classDiagram
+
+    class UseCase {
+        <<GraphNode>>
+        isJsonRoot : true
+        node : GraphNode[0..*]
+        incoming : GraphEdge[0..*]
+        outgoing : GraphEdge[0..*]
+    }
+
+    class Scenario {
+        <<GraphNode>>
+        isJsonRoot : true
+        node : GraphNode[0..*]
+        incoming : GraphEdge[0..*]
+        outgoing : GraphEdge[0..*]
+    }
+
+    class SubProcess {
+        <<GraphNode>>
+        isJsonRoot : true
+        node : GraphNode[0..*]
+        incoming : GraphEdge[0..*]
+        outgoing : GraphEdge[0..*]
+    }
+
+    class Event {
+        <<GraphNode>>
+        incoming : GraphEdge[0..*]
+        outgoing : GraphEdge[0..*]
+    }
+
+    class Task {
+        <<GraphNode>>
+        incoming : GraphEdge[0..*]
+        outgoing : GraphEdge[0..*]
+    }
+
+    class Rule {
+        <<GraphNode>>
+        incoming : GraphEdge[0..*]
+        outgoing : GraphEdge[0..*]
+    }
+
+    %% GraphEdge is referenced but not shown as a box
+
+    %% Parent relationships derived from "node"
+    UseCase --> Scenario : parent
+    UseCase --> SubProcess : parent
+    Scenario --> SubProcess : parent
+    SubProcess --> Event : parent
+    SubProcess --> Task : parent
+    SubProcess --> Rule : parent

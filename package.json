@@ -4,34 +4,42 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "ts-node src/index.ts",
+    "build": "next build",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:report": "playwright show-report",
-    "test:with-server": "concurrently -k -s first \"npm run server:dev\" \"npx wait-on http://localhost:3000 && npm test\"",
-    "server": "node server/server.js",
-    "server:dev": "nodemon server/server.js",
-    "dev": "concurrently \"npm run server:dev\" \"timeout /t 2 /nobreak && start http://localhost:3000\"",
-    "generate": "node out/index.js && echo HTML generated in /out",
-    "build:all": "npm run build && npm run generate"
+    "test:with-server": "concurrently -k -s first \"npm run dev\" \"npx wait-on http://localhost:3000 && npm test\"",
+    "dev": "next dev",
+    "clean": "rimraf .next"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Next.js Migration of MyLife App",
   "devDependencies": {
     "@playwright/test": "^1.58.2",
-    "@types/node": "^25.5.0",
+    "@types/node": "^20.0.0",
+    "@types/pg": "^8.20.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
     "concurrently": "^9.2.1",
-    "nodemon": "^3.1.14",
+    "rimraf": "^5.0.10",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.0.0"
   },
   "dependencies": {
-    "express": "^5.2.1",
+    "firebase": "^12.12.0",
+    "firebase-admin": "^13.8.0",
+    "graphology": "^0.26.0",
+    "graphology-layout": "^0.6.1",
+    "graphology-layout-forceatlas2": "^0.10.1",
     "lucide": "^1.7.0",
-    "ws": "^8.18.0"
+    "lucide-react": "^0.479.0",
+    "next": "^16.2.3",
+    "pg": "^8.20.0",
+    "pg-age": "^1.0.0-alpha",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   }
 }

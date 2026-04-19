@@ -1,0 +1,2670 @@
+{
+  "exporter": "mylife.org v0.2",
+  "name": [
+    {
+      "lcid": 1031,
+      "value": "Use Case Sales"
+    }
+  ],
+  "layoutType": "ForceAtlas",
+  "layoutPreferences": {},
+  "description": [
+    {
+      "lcid": 1031,
+      "value": "Use Case Sales, ein wirklich großes ForceAtlas Layout."
+    }
+  ],
+  "root": "2ba81a20-997a-3d17-4079-beb98cea7e8c",
+  "nodes": [
+    {
+      "id": "2ba81a20-997a-3d17-4079-beb98cea7e8c",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Use Case Sales"
+        }
+      ],
+      "versionable": "no",
+      "type": "UseCase",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Use Case Sales, ein wirklich großes ForceAtlas Layout."
+        }
+      ],
+      "nodes": []
+    },
+    {
+      "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "CRM-Daten"
+        }
+      ],
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Eintrag im CRM-System zur Lead-Bewertung, Angebots- und Vertragserstellung, Dokumentation des Fortschritts u.s.w."
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "versionContainer": "f0790a61-9937-48cf-9dd0-88c3d9c3f82a"
+    },
+    {
+      "id": "8f1c1c4e-3f7c-4e4a-9c3a-4c2d9b8b1a10",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Markt-Segment"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Beschreibt ein spezifisches Marktsegment zur Zielgruppenbestimmung."
+        }
+      ],
+      "versionContainer": "413d3d69-2d86-474d-af94-745575c2086e"
+    },
+    {
+      "id": "c2c8d6c1-1c3e-4b8d-9e3f-1f2a4b6d9c77",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Ideal Customer Profile"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Definiert das ideale Kundenprofil für zielgerichtete Akquise."
+        }
+      ],
+      "versionContainer": "59446a5c-161e-4606-bb68-ebc935a61e40"
+    },
+    {
+      "id": "b1f9d3a4-7c2e-4f1b-8e3d-9c4a1b2f7d55",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Branchen-Verzeichnisse"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Sammlung relevanter Brancheninformationen zur Lead-Recherche."
+        }
+      ],
+      "versionContainer": "37dc8f03-862e-4e0c-8970-e7d7df6418e9"
+    },
+    {
+      "id": "c4b7e2f1-9d3a-4f8e-8c2b-1a9d3f4e7b22",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Zielkunden-Liste"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Enthält eine Liste potenzieller Zielkunden."
+        }
+      ],
+      "incoming": [],
+      "outgoing": [
+        {
+          "id": "8f1c1c4e-3f7c-4e4a-9c3a-4c2d9b8b1a10",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "c2c8d6c1-1c3e-4b8d-9e3f-1f2a4b6d9c77",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "b1f9d3a4-7c2e-4f1b-8e3d-9c4a1b2f7d55",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "versionContainer": "63831e07-c478-4176-ae06-f6a23a053ec2"
+    },
+    {
+      "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Lead"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Ein einzelner Lead-Datensatz mit Basisinformationen."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [
+        {
+          "id": "b1f9d3a4-7c2e-4f1b-8e3d-9c4a1b2f7d55",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "versionContainer": "844f157d-a71a-4f58-9b14-4ed6ed8c4471"
+    },
+    {
+      "id": "d9e1c4b2-7f3a-4c8e-9d1b-3a4e5f6c7b44",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Unternehmens-Struktur Kunde"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Informationen zur Struktur eines Zielunternehmens."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "7515d572-4250-4d84-9f01-d83438bcd06a"
+    },
+    {
+      "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Kontakt"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Kontaktinformationen einer relevanten Person im Unternehmen."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "8be6fc95-cf26-496a-b610-8910f001eb5e"
+    },
+    {
+      "id": "e4c3b2a1-9d8f-4c7e-8b1a-3f2d4e5c6b77",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Produkt-Beschreibung"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Beschreibung des angebotenen Produkts oder der Lösung."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "ade4f2fd-2884-48a0-bebb-6592e3328413"
+    },
+    {
+      "id": "b3e2c1d4-7a9f-4c8e-9b1d-2f3e4a5c7d88",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Gesprächs-Leitfaden"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Leitfaden zur Strukturierung von Verkaufsgesprächen."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "f34504b1-4679-4f23-9596-84c7d18ec97b"
+    },
+    {
+      "id": "ce9f7d81-a2b3-4c4d-9e1f-5a6b7c8d9e99",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Nachricht"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Vorbereitete Nachricht für die Kundenkommunikation."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "6363bc83-b392-4169-b69d-26c635cf9432"
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4a7b-8c9d-1e2f3a4b5c00",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Gesprächsnotiz"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Notizen aus einem Kunden- oder Verkaufsgespräch."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "3d462f00-61cd-463b-a6ac-565851b7f990"
+    },
+    {
+      "id": "d4c3b2a1-8f9e-4c7d-9b1a-2e3d4f5c6a11",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Reaktion (dokumentiert)"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokumentiert die Reaktion eines Leads oder Kunden."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [
+        {
+          "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "versionContainer": "06975f7a-1efe-4e02-8106-9fe371c7c23b"
+    },
+    {
+      "id": "9b95e431-4c40-064d-f394-c2a9a4bf1147",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Termin"
+        }
+      ],
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Informationen zu einem vereinbarten Termin."
+        }
+      ],
+      "versionable": "independently",
+      "version": "1.0",
+      "type": "Constraint",
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "bcf4f041-6c79-4079-b8ca-f4e81337ba87"
+    },
+    {
+      "id": "b4c5d6e7-f8a9-4b1c-8d2e-4f5a6b7c8d55",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Follow-up-Task"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Aufgabe für ein geplantes Follow-up."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "67c1ce6e-4a4e-43ca-b367-3e3746c2c09b"
+    },
+    {
+      "id": "c6d7e8f9-a1b2-4c3d-9e4f-5a6b7c8d9e66",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Bedarf"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokumentation des Kundenbedarfs."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "0cd22216-91c1-4456-8cdd-52ddcbd2bcf7"
+    },
+    {
+      "id": "d8e9f1a2-b3c4-4d5e-8f6a-7b8c9d0e1f77",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Pain Points"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Liste der Herausforderungen und Probleme des Kunden."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "d96e6f05-7ace-4a0f-9537-dc0ac00cfe91"
+    },
+    {
+      "id": "e9f1a2b3-c4d5-4e6f-9a7b-8c9d0e1f2a88",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Discovery-Infos"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Informationen aus dem Discovery-Prozess."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [
+        {
+          "id": "c6d7e8f9-a1b2-4c3d-9e4f-5a6b7c8d9e66",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "versionContainer": "d21847d7-815f-4a70-9d26-b527b545938d"
+    },
+    {
+      "id": "f0a1b2c3-d4e5-4f6a-8b7c-9d0e1f2a3b99",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Stakeholder-Liste"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Liste relevanter Stakeholder im Unternehmen."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "dc8402d2-a922-490d-9d30-5ceffabfbb11"
+    },
+    {
+      "id": "a3b4c5d6-e7f8-4a9b-8c1d-2e3f4a5b6c10",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Use-Case-Liste"
+        }
+      ],
+      "type": "BusinessObject",
+      "versionable": "independently",
+      "version": "0.1",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokument mit detaillierten Use Cases."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "c7d8e9f1-a2b3-4c4d-9e1f-5a6b7c8d9e30",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "ba303fd5-0faa-4912-af7d-910b7162c5ec"
+    },
+    {
+      "id": "b8c9d0e1-f2a3-4b4c-9d5e-6f7a8b9c0d45",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Anforderungen"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Zusammenfassung der funktionalen und technischen Kundenanforderungen, die abgedeckt werden müssen."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "e8af58a4-4db2-48b9-9492-54a5d96388f9"
+    },
+    {
+      "id": "c7d8e9f1-a2b3-4c4d-9e1f-5a6b7c8d9e30",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Use Case"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Sammlung definierter Use Cases."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "b8c9d0e1-f2a3-4b4c-9d5e-6f7a8b9c0d45",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "d9e1f2a3-b4c5-4d6e-8f7a-1b2c3d4e5f40",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "20be7f44-d36e-47c3-873d-08b1f28c6c62"
+    },
+    {
+      "id": "d9e1f2a3-b4c5-4d6e-8f7a-1b2c3d4e5f40",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Nutzen-Argumentation"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokument zur Darstellung des Kundennutzens."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "b6c14cb7-f1f0-4419-84d7-03da00daec36"
+    },
+    {
+      "id": "e1f2a3b4-c5d6-4e7f-8a9b-1c2d3e4f5b50",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Demo-Umgebung"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Beschreibung oder Zugang zur Demo-Umgebung."
+        }
+      ],
+      "versionContainer": "c8b50586-d6b9-4bb0-8ccb-2c6019cedd53"
+    },
+    {
+      "id": "f2a3b4c5-d6e7-4f8a-9b1c-2d3e4f5a6b60",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Präsentation"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Präsentationsunterlagen für Kundentermine."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "7c138009-8f90-4e80-9514-9486e49d51e8"
+    },
+    {
+      "id": "a4b5c6d7-e8f9-4a1b-8c2d-3e4f5a6b7c70",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Feedback (dokumentiert)"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Gesammeltes Feedback des Kunden."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "d27996f3-9fc1-4136-87ee-698ca45957b4"
+    },
+    {
+      "id": "b6c7d8e9-f1a2-4b3c-9d4e-5f6a7b8c9d80",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Einwände (dokumentiert)"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Liste der vom Kunden geäußerten Einwände."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "5f793dd7-d327-4c0e-9f82-afd9b5a7d9df"
+    },
+    {
+      "id": "c8d9e1f2-a3b4-4c5d-9e6f-7a8b9c0d1e90",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Service Levels"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokumentation der vereinbarten Service Levels."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "2c433e01-50ac-4638-80c1-63a8a0946953"
+    },
+    {
+      "id": "d1e2f3a4-b5c6-4d7e-8f9a-0b1c2d3e4f01",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Einwand-Behandlung"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Strategien und Antworten zur Einwandbehandlung."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "153d21a8-eeed-423b-999e-2eb982a2810d"
+    },
+    {
+      "id": "e3f4a5b6-c7d8-4e9f-8a1b-2c3d4e5f6a12",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Stakeholder"
+        }
+      ],
+      "type": "Role",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokument mit Stakeholder-Informationen."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "d1391cca-36db-4abe-80ea-cb18feea38b5"
+    },
+    {
+      "id": "f5a6b7c8-d9e1-4f2a-8b3c-4d5e6f7a8b23",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Entscheidungsplan"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Plan des Entscheidungsprozesses beim Kunden."
+        }
+      ],
+      "versionContainer": "c8c88fdb-e7ba-4375-a1ae-4f0025acaf27"
+    },
+    {
+      "id": "a6b7c8d9-e1f2-4a3b-9c4d-5e6f7a8b9c34",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Budgetrahmen"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokumentation des verfügbaren Budgets."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "1889e0e2-cb8c-4344-be56-4b4272b0a38c"
+    },
+    {
+      "id": "c9d0e1f2-a3b4-4c5d-9e6f-7a8b9c0d1e56",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Proof of Concept Plan"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Planung eines Proof of Concept."
+        }
+      ],
+      "versionContainer": "fe9b21c2-cb6b-4a07-8716-a2778da50aad"
+    },
+    {
+      "id": "d0e1f2a3-b4c5-4d6e-8f7a-1b2c3d4e5f67",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Interne Freigaben"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Interne Freigaben für den weiteren Prozess."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "f215dbda-2aa7-4e87-a554-a7e5791e39ae"
+    },
+    {
+      "id": "e2f3a4b5-c6d7-4e8f-9a1b-2c3d4e5f6a78",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Opportunity"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Daten zur Opportunity im CRM."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+          "type": "predecessor",
+          "weight": 1
+        },
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "12a67b5a-1e8b-4a40-b1e5-181096520c31"
+    },
+    {
+      "id": "f3a4b5c6-d7e8-4f9a-8b1c-3d4e5f6a7b89",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Pipeline-Status"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Status der Opportunity in der Pipeline."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "3798adc0-c7de-4fb0-8b66-836fab877573"
+    },
+    {
+      "id": "b9c0d1e2-f3a4-4b5c-9d6e-7f8a9b0c1d01",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Preisliste"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Liste der Preise für Produkte oder Services."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "914a6931-c0e2-41ee-a408-cced7f2d01c4"
+    },
+    {
+      "id": "c0d1e2f3-a4b5-4c6d-9e7f-8a9b0c1d2e12",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Angebot"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Erstelltes Angebot für den Kunden."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [
+        {
+          "id": "e4f5a6b7-c8d9-4e1f-9a2b-3c4d5e6f7a34",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "b9c0d1e2-f3a4-4b5c-9d6e-7f8a9b0c1d01",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "d0e1f2a3-b4c5-4d6e-8f7a-1b2c3d4e5f67",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "a6b7c8d9-e1f2-4a3b-9c4d-5e6f7a8b9c34",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "b8c9d0e1-f2a3-4b4c-9d5e-6f7a8b9c0d45",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "c7d8e9f1-a2b3-4c4d-9e1f-5a6b7c8d9e30",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "c8d9e1f2-a3b4-4c5d-9e6f-7a8b9c0d1e90",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "versionContainer": "0366ec23-8852-44ee-a282-79efb3467439"
+    },
+    {
+      "id": "e4f5a6b7-c8d9-4e1f-9a2b-3c4d5e6f7a34",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Konditionen"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokumentation der verhandelten Konditionen."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "50acda2e-22cb-4504-a6ab-66445a881fbe"
+    },
+    {
+      "id": "f6a7b8c9-d0e1-4f2a-8b3c-4d5e6f7a8b45",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Zustimmung (dokumentiert)"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Kundenseitige Zustimmung zum Angebot."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "d2776a43-d1c9-4566-a571-f9a1f5b4bb25"
+    },
+    {
+      "id": "a8b9c0d1-e2f3-4a4b-9c5d-6e7f8a9b0c56",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "AGB"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Allgemeine Geschäftsbedingungen."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "9f1d2eb4-1ac8-49cf-9a38-b74d5c664dbb"
+    },
+    {
+      "id": "b0c1d2e3-f4a5-4b6c-9d7e-8f9a0b1c2d67",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Vertrag"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Vertrag zwischen Anbieter und Kunde."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [
+        {
+          "id": "e4f5a6b7-c8d9-4e1f-9a2b-3c4d5e6f7a34",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "b9c0d1e2-f3a4-4b5c-9d6e-7f8a9b0c1d01",
+          "type": "uses",
+          "weight": 3
+        },
+        {
+          "id": "c8d9e1f2-a3b4-4c5d-9e6f-7a8b9c0d1e90",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "versionContainer": "d98a8046-8b9b-4eda-8763-e77e94f46a0e"
+    },
+    {
+      "id": "d4e5f6a7-b8c9-4d1e-8f2a-1b2c3d4e5f89",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Übergabe-Dokument"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokument zur Übergabe an das Delivery-Team."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "41056cc4-5a7d-441c-8580-11f11be55c7b"
+    },
+    {
+      "id": "e6f7a8b9-c0d1-4e2f-9a3b-2c3d4e5f6a90",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Won/Lost-Status"
+        }
+      ],
+      "type": "BusinessObject",
+      "version": "0.1",
+      "versionable": "independently",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dokumentation des finalen Won/Lost-Status."
+        }
+      ],
+      "incoming": [
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "736b2574-d64d-4414-9b9c-8c7631a391a5"
+    },
+    {
+      "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Leads ermitteln"
+        }
+      ],
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dieser Teil-Prozess umfasst alle Schritte zur Identifikation, Ansprache und Erstqualifikation neuer Leads."
+        }
+      ],
+      "type": "SubProcess",
+      "version": "0.1",
+      "versionable": "independently",
+      "layoutType": "Flow",
+      "layoutPreferences": {},
+      "incoming": [
+        {
+          "id": "2ba81a20-997a-3d17-4079-beb98cea7e8c",
+          "type": "parent",
+          "weight": 6
+        }
+      ],
+      "outgoing": [
+        {
+          "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+          "type": "output (optional)",
+          "weight": 1
+        }
+      ],
+      "versionContainer": "07ea5708-b2e6-4555-bb15-730bd1b433e1",
+      "nodes": [
+        {
+          "id": "16782fba-4721-4db4-a987-098234567890",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Zielkunden & Segmente definieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Definiert relevante Zielkunden und Marktsegmente für die Lead-Generierung."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+          "incoming": [
+            {
+              "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "8f1c1c4e-3f7c-4e4a-9c3a-4c2d9b8b1a10",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "c2c8d6c1-1c3e-4b8d-9e3f-1f2a4b6d9c77",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "c4b7e2f1-9d3a-4f8e-8c2b-1a9d3f4e7b22",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "2bd8e9c1-3f4a-4c2d-8e1b-9a8b7c6d5e4f",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Unternehmen & potenzielle Leads recherchieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Recherchiert Unternehmen und identifiziert potenzielle Leads."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+          "incoming": [
+            {
+              "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "16782fba-4721-4db4-a987-098234567890",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "b1f9d3a4-7c2e-4f1b-8e3d-9c4a1b2f7d55",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+              "type": "output (optional)",
+              "weight": 1,
+              "description": [
+                {
+                  "lcid": 1031,
+                  "value": "potentiell"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Qualifizierten Ansprechpartner identifizieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Findet die passende Kontaktperson im Zielunternehmen."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+          "incoming": [
+            {
+              "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "2bd8e9c1-3f4a-4c2d-8e1b-9a8b7c6d5e4f",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "d9e1c4b2-7f3a-4c8e-9d1b-3a4e5f6c7b44",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Erstansprache vorbereiten"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Bereitet eine personalisierte Erstansprache für den Lead vor."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+          "incoming": [
+            {
+              "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "e4c3b2a1-9d8f-4c7e-8b1a-3f2d4e5c6b77",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+              "type": "input",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "b3e2c1d4-7a9f-4c8e-9b1d-2f3e4a5c7d88",
+              "type": "output (optional)",
+              "weight": 1
+            },
+            {
+              "id": "ce9f7d81-a2b3-4c4d-9e1f-5a6b7c8d9e99",
+              "type": "output (optional)",
+              "weight": 1
+            },
+            {
+              "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+              "type": "input",
+              "weight": 1,
+              "description": [
+                {
+                  "lcid": 1031,
+                  "value": "vorbereitet für Ansprache"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Kontaktaufnahme durchführen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Nimmt Kontakt zum Lead über geeignete Kanäle auf."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+          "incoming": [
+            {
+              "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "a1b2c3d4-e5f6-4a7b-8c9d-1e2f3a4b5c00",
+              "type": "output (optional)",
+              "weight": 1
+            },
+            {
+              "id": "d4c3b2a1-8f9e-4c7d-9b1a-2e3d4f5c6a11",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Erstqualifikation durchführen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Bewertet den Lead anhand erster Kriterien zur Qualifikation."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+          "incoming": [
+            {
+              "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+              "type": "input",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+              "type": "output",
+              "weight": 1,
+              "description": [
+                {
+                  "lcid": 1031,
+                  "value": "qualifiziert"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Erstgespräch vereinbaren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Vereinbart ein erstes Gespräch mit dem qualifizierten Lead."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+          "incoming": [
+            {
+              "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+              "type": "input",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "9b95e431-4c40-064d-f394-c2a9a4bf1147",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "CRM-Dokumentation & Follow-up"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Dokumentiert den Lead im CRM und plant Follow-up-Aktivitäten."
+            }
+          ],
+          "incoming": [
+            {
+              "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "a7c4e1d2-9b3f-4f8e-8c1a-2d3f4b5e6a11",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+              "type": "output (optional)",
+              "weight": 1
+            },
+            {
+              "id": "b4c5d6e7-f8a9-4b1c-8d2e-4f5a6b7c8d55",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Opportunity generieren"
+        }
+      ],
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dieser Teil-Prozess beschreibt den Prozess der Bedarfsermittlung, Stakeholder-Analyse und Entwicklung einer qualifizierten Opportunity."
+        }
+      ],
+      "type": "SubProcess",
+      "version": "0.1",
+      "versionable": "independently",
+      "layoutType": "Flow",
+      "layoutPreferences": {},
+      "incoming": [
+        {
+          "id": "2ba81a20-997a-3d17-4079-beb98cea7e8c",
+          "type": "parent",
+          "weight": 6
+        },
+        {
+          "id": "f0c9a1d2-3b4e-4f6a-9c1d-2e3f4a5b6c70",
+          "type": "predecessor",
+          "weight": 1
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "70f91254-edc2-4db6-8d21-19ef80c8c17b",
+      "nodes": [
+        {
+          "id": "b1c2d3e4-f5a6-4b7c-8d9e-0f1a2b3c4d5e",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Discovery-Call durchführen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Führt einen Discovery-Call durch, um Bedarf und Situation zu verstehen."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "e4c3b2a1-9d8f-4c7e-8b1a-3f2d4e5c6b77",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "c6d7e8f9-a1b2-4c3d-9e4f-5a6b7c8d9e66",
+              "type": "output (optional)",
+              "weight": 1
+            },
+            {
+              "id": "d8e9f1a2-b3c4-4d5e-8f6a-7b8c9d0e1f77",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "b2d3e4f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Stakeholder identifizieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Identifiziert relevante Stakeholder im Kundenunternehmen."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b1c2d3e4-f5a6-4b7c-8d9e-0f1a2b3c4d5e",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "e9f1a2b3-c4d5-4e6f-9a7b-8c9d0e1f2a88",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "f0a1b2c3-d4e5-4f6a-8b7c-9d0e1f2a3b99",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "b3e4f5a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Use Cases & Anforderungen definieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Erarbeitet Use Cases und Anforderungen gemeinsam mit dem Kunden."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b2d3e4f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "c6d7e8f9-a1b2-4c3d-9e4f-5a6b7c8d9e66",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "e4c3b2a1-9d8f-4c7e-8b1a-3f2d4e5c6b77",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "a3b4c5d6-e7f8-4a9b-8c1d-2e3f4a5b6c10",
+              "type": "output (optional)",
+              "weight": 1
+            },
+            {
+              "id": "b8c9d0e1-f2a3-4b4c-9d5e-6f7a8b9c0d45",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "b4f5a6b7-c8d9-4e0f-1a2b-3c4d5e6f7a8b",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Value Proposition & Nutzenargumentation schärfen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Formuliert eine überzeugende Nutzenargumentation für den Kunden."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b3e4f5a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "c7d8e9f1-a2b3-4c4d-9e1f-5a6b7c8d9e30",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "e4c3b2a1-9d8f-4c7e-8b1a-3f2d4e5c6b77",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "d9e1f2a3-b4c5-4d6e-8f7a-1b2c3d4e5f40",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "b5a6b7c8-d9e0-4f1a-2b3c-4d5e6f7a8b9c",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Lösung präsentieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Präsentiert die Lösung und zeigt deren Mehrwert auf."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b4f5a6b7-c8d9-4e0f-1a2b-3c4d5e6f7a8b",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "e1f2a3b4-c5d6-4e7f-8a9b-1c2d3e4f5b50",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "f2a3b4c5-d6e7-4f8a-9b1c-2d3e4f5a6b60",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "a4b5c6d7-e8f9-4a1b-8c2d-3e4f5a6b7c70",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "b6b7c8d9-e0f1-4a2b-3c4d-5e6f7a8b9c0d",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Einwände behandeln"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Beantwortet Einwände und klärt offene Fragen des Kunden."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b5a6b7c8-d9e0-4f1a-2b3c-4d5e6f7a8b9c",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "b6c7d8e9-f1a2-4b3c-9d4e-5f6a7b8c9d80",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "c8d9e1f2-a3b4-4c5d-9e6f-7a8b9c0d1e90",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "d1e2f3a4-b5c6-4d7e-8f9a-0b1c2d3e4f01",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "b7c8d9e0-f1a2-4b3c-4d5e-6f7a8b9c0d1e",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Budget & Entscheidungsprozess klären"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Klärt Budgetrahmen und Entscheidungsprozess beim Kunden."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b6b7c8d9-e0f1-4a2b-3c4d-5e6f7a8b9c0d",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "f1a2b3c4-d5e6-4f7a-8b9c-1d2e3f4a5b66",
+              "type": "input (optional)",
+              "weight": 1
+            },
+            {
+              "id": "e3f4a5b6-c7d8-4e9f-8a1b-2c3d4e5f6a12",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "f5a6b7c8-d9e1-4f2a-8b3c-4d5e6f7a8b23",
+              "type": "output (optional)",
+              "weight": 1
+            },
+            {
+              "id": "a6b7c8d9-e1f2-4a3b-9c4d-5e6f7a8b9c34",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "b8d9e0f1-a2b3-4c4d-5e6f-7a8b9c0d1e2f",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Proof of Concept planen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Plant einen Proof of Concept zur Validierung der Lösung."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b7c8d9e0-f1a2-4b3c-4d5e-6f7a8b9c0d1e",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "b8c9d0e1-f2a3-4b4c-9d5e-6f7a8b9c0d45",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "c9d0e1f2-a3b4-4c5d-9e6f-7a8b9c0d1e56",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "b9e0f1a2-b3c4-4d5e-6f7a-8b9c0d1e2f3a",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Interne Abstimmung"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Koordiniert interne Abstimmungen zur Opportunity."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b8d9e0f1-a2b3-4c4d-5e6f-7a8b9c0d1e2f",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "b8c9d0e1-f2a3-4b4c-9d5e-6f7a8b9c0d45",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "d0e1f2a3-b4c5-4d6e-8f7a-1b2c3d4e5f67",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "b0f1a2b3-c4d5-4e6f-7a8b-9c0d1e2f3a4b",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Opportunity im CRM pflegen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Pflegt die Opportunity-Daten im CRM-System."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "incoming": [
+            {
+              "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b9e0f1a2-b3c4-4d5e-6f7a-8b9c0d1e2f3a",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "e2f3a4b5-c6d7-4e8f-9a1b-2c3d4e5f6a78",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "f3a4b5c6-d7e8-4f9a-8b1c-3d4e5f6a7b89",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Angebot & Abschluss"
+        }
+      ],
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Dieser Teil-Prozess umfasst die Erstellung, Präsentation und Verhandlung eines Angebots bis hin zum Vertragsabschluss."
+        }
+      ],
+      "type": "SubProcess",
+      "version": "0.1",
+      "versionable": "independently",
+      "layoutType": "Flow",
+      "layoutPreferences": {},
+      "incoming": [
+        {
+          "id": "2ba81a20-997a-3d17-4079-beb98cea7e8c",
+          "type": "parent",
+          "weight": 6
+        },
+        {
+          "id": "e1aa22bb-3344-5566-7788-99aabbccdde0",
+          "type": "predecessor",
+          "weight": 1
+        },
+        {
+          "id": "a2b3c4d5-e6f7-4a8b-9c1d-3e4f5a6b7c44",
+          "type": "uses",
+          "weight": 3
+        }
+      ],
+      "outgoing": [],
+      "versionContainer": "22884c68-42c6-48c2-a8cf-9ffa713ad027",
+      "nodes": [
+        {
+          "id": "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Angebotsanforderung analysieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Analysiert die Anforderungen für ein Angebot."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+          "incoming": [
+            {
+              "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "b8c9d0e1-f2a3-4b4c-9d5e-6f7a8b9c0d45",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "b9c0d1e2-f3a4-4b5c-9d6e-7f8a9b0c1d01",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "c2e3f4a5-b6c7-4d8e-9f0a-1b2c3d4e5f6a",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Preisgestaltung vorbereiten"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Bereitet die Preisgestaltung für das Angebot vor."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+          "incoming": [
+            {
+              "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "b9c0d1e2-f3a4-4b5c-9d6e-7f8a9b0c1d01",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "c0d1e2f3-a4b5-4c6d-9e7f-8a9b0c1d2e12",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "c3f4a5b6-c7d8-4e9f-0a1b-2c3d4e5f6a7b",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Angebot erstellen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Erstellt ein vollständiges Angebot basierend auf den Anforderungen."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+          "incoming": [
+            {
+              "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "c2e3f4a5-b6c7-4d8e-9f0a-1b2c3d4e5f6a",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "c0d1e2f3-a4b5-4c6d-9e7f-8a9b0c1d2e12",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "c0d1e2f3-a4b5-4c6d-9e7f-8a9b0c1d2e12",
+              "type": "output (optional)",
+              "weight": 1,
+              "description": [
+                {
+                  "lcid": 1031,
+                  "value": "freigegeben"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c4a5b6c7-d8e9-4f0a-1b2c-3d4e5f6a7b8c",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Angebot präsentieren & verhandeln"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Präsentiert das Angebot und führt Verhandlungen."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+          "incoming": [
+            {
+              "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "c3f4a5b6-c7d8-4e9f-0a1b-2c3d4e5f6a7b",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "c0d1e2f3-a4b5-4c6d-9e7f-8a9b0c1d2e12",
+              "type": "input (optional)",
+              "weight": 1,
+              "description": [
+                {
+                  "lcid": 1031,
+                  "value": "freigegeben"
+                }
+              ]
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "e4f5a6b7-c8d9-4e1f-9a2b-3c4d5e6f7a34",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "c5b6c7d8-e9f0-4a1b-2c3d-4e5f6a7b8c9d",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Konditionen finalisieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Finalisiert die Konditionen des Angebots."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+          "incoming": [
+            {
+              "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "c4a5b6c7-d8e9-4f0a-1b2c-3d4e5f6a7b8c",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "e4f5a6b7-c8d9-4e1f-9a2b-3c4d5e6f7a34",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "f6a7b8c9-d0e1-4f2a-8b3c-4d5e6f7a8b45",
+              "type": "output (optional)",
+              "weight": 1,
+              "description": [
+                {
+                  "lcid": 1031,
+                  "value": "verhandelt"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c6c7d8e9-f0a1-4b2c-3d4e-5f6a7b8c9d0e",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Vertrag erstellen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Erstellt den finalen Vertragsentwurf."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+          "incoming": [
+            {
+              "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "c5b6c7d8-e9f0-4a1b-2c3d-4e5f6a7b8c9d",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "a8b9c0d1-e2f3-4a4b-9c5d-6e7f8a9b0c56",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "b0c1d2e3-f4a5-4b6c-9d7e-8f9a0b1c2d67",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "c7d8e9f0-a1b2-4c3d-4e5f-6a7b8c9d0e1f",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Vertrag unterzeichnen lassen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Koordiniert die Unterzeichnung des Vertrags."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+          "incoming": [
+            {
+              "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "c6c7d8e9-f0a1-4b2c-3d4e-5f6a7b8c9d0e",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "b0c1d2e3-f4a5-4b6c-9d7e-8f9a0b1c2d67",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "b0c1d2e3-f4a5-4b6c-9d7e-8f9a0b1c2d67",
+              "type": "output (optional)",
+              "weight": 1,
+              "description": [
+                {
+                  "lcid": 1031,
+                  "value": "signiert"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c8e9f0a1-b2c3-4d4e-5f6a-7b8c9d0e1f2a",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Übergabe an Delivery"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Überträgt das Projekt an das Delivery-Team."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+          "incoming": [
+            {
+              "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "c7d8e9f0-a1b2-4c3d-4e5f-6a7b8c9d0e1f",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "b0c1d2e3-f4a5-4b6c-9d7e-8f9a0b1c2d67",
+              "type": "input (optional)",
+              "weight": 1,
+              "description": [
+                {
+                  "lcid": 1031,
+                  "value": "signiert"
+                }
+              ]
+            }
+          ],
+          "outgoing": [
+            {
+              "id": "d4e5f6a7-b8c9-4d1e-8f2a-1b2c3d4e5f89",
+              "type": "output (optional)",
+              "weight": 1
+            }
+          ]
+        },
+        {
+          "id": "c9f0a1b2-c3d4-4e5f-6a7b-8c9d0e1f2a3b",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Won/Lost dokumentieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Dokumentiert den finalen Won/Lost-Status."
+            }
+          ],
+          "type": "Task",
+          "versionable": "by-parent",
+          "versionParent": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+          "incoming": [
+            {
+              "id": "f2bb33cc-4455-6677-8899-aabbccddeeff",
+              "type": "parent",
+              "weight": 6
+            },
+            {
+              "id": "c8e9f0a1-b2c3-4d4e-5f6a-7b8c9d0e1f2a",
+              "type": "predecessor",
+              "weight": 1
+            },
+            {
+              "id": "e6f7a8b9-c0d1-4e2f-9a3b-2c3d4e5f6a90",
+              "type": "input (optional)",
+              "weight": 1
+            }
+          ],
+          "outgoing": []
+        }
+      ]
+    }
+  ]
+}

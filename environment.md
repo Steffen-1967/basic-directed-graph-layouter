@@ -2,95 +2,118 @@
 
 * NODE v.20.20.1
 * NPM v.10.8.2
+* Docker Desktop, docker v.29.3.1 und apache/age
+
+## Schnellstart
+
+### Server starten (1 Konsole erforderlich)
+
+Das Projekt ist eine Next.js-Anwendung, die sowohl Frontend als auch Backend (API) in einem Prozess verwaltet.
+
+**Anwendung starten:**
+```powershell
+npm run dev
+```
+
+**Datenbank (PostgreSQL mit Apache AGE) starten:**
+Stelle sicher, dass Docker Desktop läuft.
+```powershell
+./XXX_run_PG_und_AGE.bat
+```
+
+### Anwendung öffnen
+
+- Browser: **http://localhost:3001** (Standardport für Entwicklung)
+- API-Status: **http://localhost:3001/api/age/scenarios**
+
+---
 
 ## Development and Test - Tools and Workflow
 
-### Konsolen-Setup (2 Konsolen erforderlich)
+### Konsolen-Setup
 
-**Konsole 1 (Aider/Development):**
-- Hier arbeitest du mit Aider und führst Build-Befehle aus.
-- **Workflow:** Seit der TypeScript-Migration erfolgt die Generierung in einem kombinierten Prozess.
-- **Zentraler Befehl:** `npm run build:all`
-  - Kompiliert alle `.ts` Dateien aus `/src` nach `/out` (via `tsc`).
-  - Generiert die `out/graph.htm` und kopiert Assets (via `node out/index.js`).
-
-**Konsole 2 (Server):**
-- Hier läuft dauerhaft: `npm run server:dev`
-- **nodemon** überwacht automatisch Änderungen an `server/server.js` und `server/routes/*.js`.
-- Bei Änderungen startet der Server **automatisch neu**.
-- Da der Server nun als **ES Module (ESM)** konfiguriert ist, nutzt er die moderne `import`/`export` Syntax.
+**Entwicklung:**
+- `npm run dev` startet den Next.js Entwicklungsserver mit Hot-Reloading.
+- Änderungen an `src/**/*.ts` oder `src/**/*.tsx` werden sofort im Browser reflektiert.
 
 ### Test-Endpunkte
 
-- **http://localhost:3000** - Hauptanwendung (lädt `out/graph.htm`)
-- **http://localhost:3000/api/scenarios** - API-Test (Liste aller Szenarien)
-- **http://localhost:3000/api/scenario/test-01.json** - API-Test (Einzelnes Szenario)
-
-### API-Tests mit curl
-
-**Voraussetzungen:**
-- Server muss laufen (`npm run server:dev` in zweiter Konsole)
-- `curl` muss installiert sein (in Windows 10+ standardmäßig vorhanden)
-
-**Test-Befehle:**
-
-```bash
-# Liste aller Szenarien abrufen
-curl http://localhost:3000/api/scenarios
-
-# Einzelnes Szenario laden
-curl http://localhost:3000/api/scenario/test-01.json
-
-# Health-Check
-curl http://localhost:3000/api/health
-```
+- **http://localhost:3001** - Hauptanwendung
+- **http://localhost:3001/api/age/scenarios** - Liste aller Szenarien aus PostgreSQL AGE
+- **http://localhost:3001/api/fs/dataFiles** - Liste aller JSON-Dateien im Dateisystem
 
 ### Workflow nach Code-Änderungen
 
 | Änderung an | Aktion | Browser |
 |-------------|--------|---------|
-| **Frontend-Code** (`src/*.ts`, `src/*.css`) | `npm run build:all` ausführen | Neu laden (F5) |
-| **Server-Code** (`server/*.js`) | Automatischer Neustart durch nodemon | Neu laden (F5) |
+| **Frontend/API** (`src/**/*`) | Hot-Reloading (automatisch) | Sofort aktiv |
 | **JSON-Daten** (`data/*.json`) | Keine Aktion nötig | Neu laden (F5) |
+| **Datenbank** | Batch-Skript ausführen | Neu laden (F5) |
 
 ### Technischer Stack & Modernisierung
 
-**TypeScript & ESM:**
-- Das Projekt wurde vollständig auf **TypeScript** migriert.
-- Alle Module (Frontend & Server) verwenden nun **ES Modules (ESM)**.
-- In `package.json` ist `"type": "module"` gesetzt.
-- Browser-Scripte werden in `graph.htm` mit `type="module"` eingebunden.
-- Imports in `.ts` Dateien müssen die Endung `.js` enthalten (z.B. `import { x } from './file.js'`), damit der Browser sie nach der Kompilation korrekt auflösen kann.
+**React & Next.js:**
+- Das Projekt nutzt **Next.js 14+** (App Router) und **React 18**.
+- Die gesamte UI ist in **TypeScript (TSX)** implementiert.
+- Backend-Routen liegen unter `src/app/api/`.
+
+## Datenbereinigung & Persistenz
+
+### Bereinigungs-Funktionen
+Das System verwendet eine zentrale Bereinigungs-Funktion für unterschiedliche Persistierungs-Szenarien:
+
+1. **`cleanupEnvelopeForPersistence()` (in `LayoutEngine`):**
+   - Entfernt Laufzeit-Eigenschaften: `x`, `y`, `level`, `isTopRow`
+   - Entfernt alle Properties, die mit `_` beginnen (via JSON replacer)
+   - Entfernt `edge.locked` von allen Kanten (incoming/outgoing), wenn `cleanEdges` wahr ist
+   - Behält `node.locked` bei (repräsentiert Versionsstatus)
+   - Wird sowohl für PostgreSQL AGE Persistierung als auch beim Speichern in JSON-Dateien verwendet
+
+
+### Gesperrt-Status-Berechnung
+Die zentrale Funktion `isLockedByVersionNumber(version, fallback)` in `manifest.ts`:
+- Prüft ob eine Versionsnummer auf `.0` endet (Release-Status)
+- Wird sowohl im Frontend (`LayoutEngine`) als auch im Backend (`usecases.ts`) verwendet
+- Unterstützt einen optionalen Fallback-Wert für unbekannte Zustände
 
 ## Architektur & Konventionen
 
-### State Management
-- **Zentrales State-Objekt:** Alle globalen Variablen sind in `src/state.ts` als `AppState` definiert.
-- **Single Source of Truth:** Niemals parallele Variablen außerhalb von `state` anlegen.
-- **Zugriff:** Immer über `state.interaction.xyz`, `state.view.xyz`, etc.
-- **Struktur:**
-  - `state.scenario`: Aktuelles Szenario (Metadaten + Knoten)
-  - `state.nodes`: Direkte Referenz auf `scenario.nodes` (für Performance)
-  - `state.view`: Viewport-Transformation (offsetX, offsetY, zoom)
-  - `state.interaction`: UI-Zustand (Hover, Selection, Editing)
-  - `state.network`: WebSocket & Lock-Status
-  - `state.isDirty`: Unsaved-Changes-Flag
+### State Management (StateManager)
+Das System nutzt eine kontrollierte Zustandsverwaltung via `src/stateManager.ts`.
+- **StateManager:** Kapselt den `AppState` und bietet Methoden für atomare Updates.
+- **UI Command Queue (Event-Pipeline):** Um Race-Conditions bei komplexen UI-Übergängen (z.B. Wechsel von der Datenliste zum Wiederherstellungs-Modal) zu verhindern, nutzt der StateManager eine Promise-basierte Warteschlange (`executeUISequence`). Diese garantiert, dass asynchrone Aktionen (wie `closeOverlay` gefolgt von `openOverlay`) streng sequentiell und deterministisch abgearbeitet werden.
+- **Referenz-Stabilität:** Methoden wie `setEnvelope` erzwingen neue Objekt-Referenzen (`{...envelope}`, `[...nodes]`), um React-Re-Renders zuverlässig auszulösen (essenziell für das erneute Laden desselben Datensatzes).
+- **Zentrale Steuerung:** Alle UI-Zustände (Selektion, Overlays, Edit-Modus) werden ausschließlich über den `StateManager` geändert.
+
+### Zentrale Overlay-Steuerung
+Interaktive UI-Elemente (Editoren, Toolboxen, Modals) werden zentral über den `OverlayController` verwaltet.
+- **OverlayType:** Alle Overlays sind in `src/state.ts` typisiert (z.B. `NodeToolbox`, `EdgeProperties`).
+- **Positionierung:** Toolboxes nutzen `position: fixed` mit Koordinaten, die im `InteractionService` unter Berücksichtigung von Zoom und Canvas-Offset (BoundingClientRect) berechnet werden.
+- **Backdrop-Logik:** Ein globaler, transparenter Layer fängt Klicks außerhalb der Overlays ab und schließt diese automatisch.
+- **Z-Index:** Overlays liegen in einem dedizierten Layer (Z-Index 9000+), um Überlappungen zu vermeiden.
 
 ### Event-Driven Architecture
 - **Event-Bus:** Zentrale Event-Verwaltung in `src/state.ts` via `StateEventBus`.
 - **Event-Typen:** Alle verfügbaren Events sind als `StateChangeEvent` Union-Type definiert.
-- **Konvention:** Jede wichtige State-Änderung **muss** ein Event emittieren.
-- **Format:** `stateEvents.emit({ type: 'EVENT_NAME', ...data })`
+- **RENDER_REQUESTED:** Ein spezielles Event, das React signalisiert, den kompletten UI-Zustand neu aus den Services zu lesen.
 - **Verfügbare Events:**
-  - `NODE_SELECTED`: Knoten wurde ausgewählt/deselektiert
-  - `NODE_UPDATED`: Knoten-Property wurde geändert
-  - `EDGE_SELECTED`: Kante wurde ausgewählt/deselektiert
-  - `VIEW_CHANGED`: Viewport wurde verschoben/gezoomt
-  - `EDIT_MODE_CHANGED`: Edit-Modus wurde umgeschaltet
-  - `DIRTY_STATE_CHANGED`: Unsaved-Changes-Status hat sich geändert
-  - `SCENARIO_LOADED`: Neues Szenario wurde geladen
-  - `GRAPH_REFRESHED`: Layout wurde neu berechnet
-  - `HOVER_CHANGED`: Hover-Zustand hat sich geändert
+  - `NODE_SELECTED`, `EDGE_SELECTED`: Selektionsänderung
+  - `UI_OVERLAY_CHANGED`: Overlay wurde geöffnet/geschlossen
+  - `SCENARIO_LOADED`: Daten wurden erfolgreich geladen
+  - `VIEW_CHANGED`: Viewport-Verschiebung
+  - `EDIT_MODE_CHANGED`: Modus-Umschaltung
+
+### Database (PostgreSQL / Apache AGE)
+Das Backend nutzt PostgreSQL mit der Apache AGE Extension.
+- **Daten-Mapping:** Der `GraphTransformer` (Server) und `LayoutEngine` (Client) sorgen für eine nahtlose Konvertierung zwischen Cypher-Ergebnissen und dem `Envelope`-Modell.
+- **Layout-Persistenz:** Für AGE-Datensätze wird standardmäßig `ForceAtlas` als Layout erzwungen, sofern keine spezifische Konfiguration im Knoten vorliegt.
+- **Lade-Sequenz:** Die Sequenz ist massiv stabilisiert und bewältigt Race-Conditions zwischen verschiedenen Overlays (z.B. DataList vs. RecoveryModal).
+
+### Server-Logging & Client-Proxy
+- **Logging-Proxy:** Client-Logs werden via `/api/log` an den Server gesendet.
+- **Speicherung:** Logs werden in `logs/cli_*.log` (Client) und `logs/srv_*.log` (Server) gespeichert.
+- **Rotation:** Die Log-Dateien werden täglich rotiert und im JSON-Format abgelegt.
+- **Fehlersuche:** Der `ServerLogger` berechnet Pfade bei jedem Schreibvorgang neu, um maximale Robustheit zu gewährleisten.
 
 ### Neue Features implementieren
 1. **State erweitern:** Neue Properties in `src/state.ts` → `AppState` Interface hinzufügen.
@@ -154,6 +177,49 @@ npx playwright test
 
 ## Datenmodell & Relationen
 
+### Envelope-Struktur (Single-Root mit Hierarchie)
+
+Das aktuelle Datenmodell nutzt eine **Single-Root-Architektur**:
+
+```typescript
+interface Envelope {
+    exporter: string;
+    name: MultiLangProp;
+    description: MultiLangProp;
+    layoutType: 'Flow' | 'Box' | 'Tree' | 'ForceAtlas';
+    layoutPreferences: LayoutPreferences;
+    root: string;  // GUID des Root-Knotens
+    nodes: GraphNode[];  // Array von Top-Level-Knoten
+}
+```
+
+**Wichtige Konzepte:**
+- `Envelope.nodes[]` ist ein **Array** und kann theoretisch mehrere Top-Level-Knoten enthalten
+- Der Root-Knoten wird via `nodes.find(n => n.id === root)` identifiziert
+- Die eigentlichen Prozess-Knoten liegen in `rootNode.nodes[]` (verschachtelt)
+- **Veraltetes `roots[]` Property:** Wurde vollständig entfernt (Stand: 2026-04-01)
+
+**Zentrale Hilfsfunktionen (in `manifest.ts`):**
+```typescript
+// Rekursive Iteration über alle Knoten
+iterateAllNodes(envelope, (node, isRoot, depth) => {
+    console.log(`Node: ${node.name.value}, Root: ${isRoot}, Depth: ${depth}`);
+});
+
+// Alle Knoten in flaches Array sammeln
+const allNodes = collectAllNodes(envelope);
+
+// Root-Knoten direkt finden
+const rootNode = findRootNode(envelope);
+```
+
+**Best Practices:**
+- **Niemals** manuell `state.envelope.nodes.find(n => n.id === state.envelope.root)` verwenden
+- **Immer** die zentralen Funktionen `findRootNode()` oder `collectAllNodes()` nutzen
+- **Für Iterationen:** `iterateAllNodes()` mit Callback-Pattern verwenden
+
+### GraphEdge-Struktur (Verbindungen zwischen Knoten)
+
 Das System verwendet ein explizites Modell für Verbindungen (Edges) zwischen Knoten, um Gewichtungen und andere Metadaten zu unterstützen.
 
 ### Relation-Struktur
@@ -188,36 +254,40 @@ interface Relation {
 
 Das Projekt verwendet **Lucide Icons** für eine konsistente und professionelle UI. Die Bibliothek wird lokal über `node_modules` eingebunden.
 
+*   **Quelle:** [Lucide GitHub](https://github.com/lucide-icons/lucide) / NPM `lucide`
+*   **Lizenz:** ISC License (freie Nutzung in privaten und kommerziellen Projekten, erfordert Auslieferung des Copyleft)
+
 ### Technische Einbindung
 1. **Bibliothek:** Die Datei `lucide.min.js` wird beim Build-Prozess (`npm run build:all`) automatisch von `node_modules/lucide/dist/umd/` nach `/out` kopiert.
 2. **HTML:** Die Einbindung erfolgt statisch in `src/index.ts` über ein `<script src="lucide.min.js">` Tag.
 3. **Initialisierung:** Am Ende des HTML-Dokuments wird `lucide.createIcons()` beim `DOMContentLoaded` Event aufgerufen.
 
-### Nutzung im HTML (Statisch)
-Icons werden über das `data-lucide` Attribut an einem Element (vorzugsweise `<i>`) definiert:
-```html
-<button id="loadBtn"><i data-lucide="file-digit"></i> Load</button>
-```
+... [rest of Lucide section] ...
 
-### Nutzung in TypeScript (Dynamisch)
-Bei dynamischen DOM-Änderungen (z.B. Ändern des Schloss-Icons) muss `lucide.createIcons()` manuell aufgerufen werden, um die Platzhalter in SVGs umzuwandeln:
-```typescript
-function updateIcon(nodeId: string, iconName: string) {
-    const element = document.getElementById(nodeId);
-    if (element) {
-        element.innerHTML = `<i data-lucide="${iconName}"></i>`;
-        // @ts-ignore (lucide is global via script tag)
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-}
-```
+## ForceAtlas Layout-Engine
+
+Für komplexe, organische Netzwerk-Darstellungen nutzt das System den **ForceAtlas2** Algorithmus.
+
+### Dynamische Parameter-Skalierung
+Um eine optimale räumliche Verteilung bei unterschiedlichen Graphen-Größen zu gewährleisten, passt die API (`/api/layout/force-atlas`) die Parameter `gravity` und `scalingRatio` dynamisch an:
+- **Kleine Graphen (<25 Knoten):** Nutzen die Standardwerte der `RENDER_CONFIG`.
+- **Mittlere Graphen (25-75 Knoten):** Reduzieren die Schwerkraft und erhöhen die Abstoßung schrittweise (bis zu 12-fache Skalierung).
+- **Große Graphen (>75 Knoten):** Maximale Ausdehnung (24-fache Skalierung) bei minimaler Zentrums-Schwerkraft.
+- **Kein künstliches Scaling:** Die `LayoutEngine` verwendet die nativen Koordinaten des Algorithmus ohne zusätzliche Kompression, um den natürlichen Raumfluss zu erhalten.
+
+### Technische Einbindung
+1.  **Berechnung:** Erfolgt in `src/app/api/layout/force-atlas/route.ts`.
+2.  **Simulation:** Der Algorithmus läuft synchron für eine definierte Anzahl an Iterationen (Standard: 100).
+3.  **Form-Konstanz:** Im ForceAtlas-Modus werden alle Knoten unabhängig von ihrem Typ als **Kreise (50x50)** dargestellt, um die visuelle Klarheit im Netzwerk zu maximieren. Die semantische Unterscheidung erfolgt weiterhin über die Hintergrundfarbe.
+
+### Nutzung im TSX (Modern)
+Icons und Komponenten werden als native React-Komponenten (`lucide-react`) eingebunden. Dynamische Änderungen lösen über den `StateManager` automatisch Re-Renders aus.
 
 ### Design-Standards & CSS
 Um ein einheitliches Erscheinungsbild zu gewährleisten, gelten folgende Standards (definiert in `src/app.css`):
-- **Größe:** `16px x 16px` (Selektor: `svg.lucide`).
-- **Strichstärke:** `2px` (`stroke-width: 2px`).
-- **Abstand:** In Buttons wird ein `gap` von `8px` verwendet.
-- **Alignment:** Buttons nutzen `display: inline-flex` und `align-items: center`.
+- **Overlays:** Nutzen `position: fixed` und einen Z-Index von 9000+.
+- **Buttons:** Nutzen `gap: 8px` und einheitliche `lucide-react` Icons.
+- **Toolboxen:** Erscheinen kontextsensitiv oberhalb des selektierten Elements.
 
 ---
 [End of environment.md]

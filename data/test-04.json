@@ -1,137 +1,409 @@
 {
-  "scenarioName": "Bürgerbüro der Gemeinde",
-  "layoutType": "box",
-  "layoutPreferences": {"maxColumns": 4},
+  "exporter": "mylife.org v0.2",
+  "name": [
+    {
+      "lcid": 1031,
+      "value": "Bürgerbüro der Gemeinde"
+    }
+  ],
+  "description": [
+    {
+      "lcid": 1031,
+      "value": "Bürgerbüro der Gemeinde"
+    }
+  ],
+  "layoutType": "Box",
+  "layoutPreferences": {
+    "maxColumns": 4
+  },
+  "root": "4c9abb78-214c-45a9-b0f5-2978c366c804",
   "nodes": [
     {
-      "id": "e03a8fed-13f0-46d7-a683-892f1354c38a",
-      "type": "SubProcess",
-      "name": "Wohnung abmelden",
-      "description": "Wohnung abmelden",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "6cb0c958-da63-4ac2-b95b-686415599dd5",
-      "type": "SubProcess",
-      "name": "Wohnung anmelden",
-      "description": "Wohnung anmelden",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "2f4b8074-1ef8-46ef-a21f-5e6627fc38ca",
-      "type": "SubProcess",
-      "name": "Ausweis beantragen",
-      "description": "Ausweis beantragen",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "8ff4679b-62bc-49c9-94b7-9bb62ae3ffe0",
-      "type": "SubProcess",
-      "name": "Anwohner-Parkausweis beantragen",
-      "description": "Anwohner-Parkausweis beantragen",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "04864f4a-d439-4444-a10c-c0d877d70ee7",
-      "type": "SubProcess",
-      "name": "Kopien/Abschriften beglaubigen",
-      "description": "Kopien/Abschriften beglaubigen",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "8713d73f-9f7d-4f29-9adb-9b8252847cdb",
-      "type": "SubProcess",
-      "name": "Internationalen Führerschein beantragen",
-      "description": "Internationalen Führerschein beantragen",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "cdc10cd2-0e69-40f4-a17e-55f29cb10eec",
-      "type": "SubProcess",
-      "name": "Meldebescheinigung beantragen",
-      "description": "Meldebescheinigung beantragen",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "a7d029f0-08ff-4e84-bd0f-234f061acc45",
-      "type": "SubProcess",
-      "name": "Wechsel/Änderung der Hauptwohnung beantragen",
-      "description": "Wechsel/Änderung der Hauptwohnung beantragen",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "9d201ab4-82f0-4684-95da-7fcbd103da72",
-      "type": "SubProcess",
-      "name": "Verlängerung der Fahrerlaubnis beantragen",
-      "description": "Verlängerung der Fahrerlaubnis beantragen",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "2990260f-4c48-4aa9-be8f-5241f1a8dc58",
-      "type": "SubProcess",
-      "name": "Verlust Personalausweis melden",
-      "description": "Verlust Personalausweis melden",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "e8c06509-daa2-40f2-acb9-50713e321821",
-      "type": "SubProcess",
-      "name": "Verlust Reisepass melden",
-      "description": "Verlust Reisepass melden",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "b83da7fd-94c4-41da-9a40-415f000cc28c",
-      "type": "SubProcess",
-      "name": "Umschreibung ausländischer Führerschein beantragen",
-      "description": "Umschreibung ausländischer Führerschein beantragen",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "ab33ead3-2b1d-4b7d-8b81-b7e983e50396",
-      "type": "SubProcess",
-      "name": "Führungszeugnis beantragen",
-      "description": "Führungszeugnis beantragen",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
+      "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Bürgerbüro der Gemeinde"
+        }
+      ],
+      "version": "1.1",
+      "versionable": "independently",
+      "type": "ProcessArchitecture",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Bürgerbüro der Gemeinde"
+        }
+      ],
+      "locked": false,
+      "nodes": [
+        {
+          "id": "e03a8fed-13f0-46d7-a683-892f1354c38a",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Wohnung abmelden"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Wohnung abmelden"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "94393ce2-19bf-4701-ae6f-34e7820b2d3c"
+        },
+        {
+          "id": "6cb0c958-da63-4ac2-b95b-686415599dd5",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Wohnung anmelden"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Wohnung anmelden"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "c4e80a26-ac65-4df8-850d-43f2c9ea5d9b"
+        },
+        {
+          "id": "2f4b8074-1ef8-46ef-a21f-5e6627fc38ca",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Ausweis beantragen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Ausweis beantragen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "36ee85fb-e86d-41b4-83f2-1acde42d1e20"
+        },
+        {
+          "id": "8ff4679b-62bc-49c9-94b7-9bb62ae3ffe0",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Anwohner-Parkausweis beantragen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Anwohner-Parkausweis beantragen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "58553cd1-7972-4883-9aeb-ad1b03ce6776"
+        },
+        {
+          "id": "04864f4a-d439-4444-a10c-c0d877d70ee7",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Kopien/Abschriften beglaubigen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Kopien/Abschriften beglaubigen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "92f381b0-d36b-4b8e-8453-b628f13a0d0f"
+        },
+        {
+          "id": "8713d73f-9f7d-4f29-9adb-9b8252847cdb",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Internationalen Führerschein beantragen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Internationalen Führerschein beantragen"
+            }
+          ],
+          "incoming": [],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "d823adfc-da5d-4099-bf0b-781f512623b1"
+        },
+        {
+          "id": "cdc10cd2-0e69-40f4-a17e-55f29cb10eec",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Meldebescheinigung beantragen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Meldebescheinigung beantragen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "9c8ad937-4c2d-4b47-93d0-1e10913bf1d5"
+        },
+        {
+          "id": "a7d029f0-08ff-4e84-bd0f-234f061acc45",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Wechsel/Änderung der Hauptwohnung beantragen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Wechsel/Änderung der Hauptwohnung beantragen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "fc2b9932-6150-4d2b-9e21-f6b4cce514ea"
+        },
+        {
+          "id": "9d201ab4-82f0-4684-95da-7fcbd103da72",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Verlängerung der Fahrerlaubnis beantragen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Verlängerung der Fahrerlaubnis beantragen"
+            }
+          ],
+          "incoming": [],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "ed1b89b0-14e8-4994-a95b-32ce5c372af7"
+        },
+        {
+          "id": "2990260f-4c48-4aa9-be8f-5241f1a8dc58",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Verlust Personalausweis melden"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Verlust Personalausweis melden"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "a5dc10b3-1dec-4494-9f9c-d11f2523a663"
+        },
+        {
+          "id": "e8c06509-daa2-40f2-acb9-50713e321821",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Verlust Reisepass melden"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Verlust Reisepass melden"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "e3d0fd94-a130-4bae-90f9-a9e6c1e5af75"
+        },
+        {
+          "id": "b83da7fd-94c4-41da-9a40-415f000cc28c",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Umschreibung ausländischer Führerschein beantragen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Umschreibung ausländischer Führerschein beantragen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "2bba40bf-5fb2-4336-85c0-846797583b6c"
+        },
+        {
+          "id": "ab33ead3-2b1d-4b7d-8b81-b7e983e50396",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Führungszeugnis beantragen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Führungszeugnis beantragen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "4c9abb78-214c-45a9-b0f5-2978c366c804",
+              "type": "parent",
+              "weight": 6
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "553a2475-e7a5-4003-a277-7fd274e9c047"
+        }
+      ],
+      "versionContainer": "6862ad4a-07e4-437a-9a75-8746f30b7f73"
     }
   ]
 }

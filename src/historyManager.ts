@@ -1,192 +1,168 @@
 /**
  * @file historyManager.ts
- * Generic History Manager for Command-Pattern Actions.
- * Handles Undo, Redo, and LocalStorage Persistence.
+ * Manages undo/redo stacks and handles action execution via the Command-Pattern.
  */
 
-import { ScenarioNode, TaskCollectionScenario } from './manifest.js';
+import { LayoutEngine } from './layoutEngine';
+import { Envelope } from './manifest';
+import { stateEvents } from './state';
 
+/**
+ * Interface for any action that can be executed and undone.
+ */
 export interface Action {
     execute(): void;
     undo(): void;
+    focus?(): string | null; // Returns the ID of the node to focus after action
 }
 
-export interface HistoryOptions {
-    maxSteps?: number;
+interface HistoryOptions {
+    maxStackSize?: number;
     persistenceKey?: string;
 }
 
+/**
+ * Manages the undo/redo stacks and handles action execution.
+ */
 export class HistoryManager {
-    public maxSteps: number;
-    public persistenceKey: string;
-    public undoStack: Action[];
-    public redoStack: Action[];
-    public savePointer: number;
-    private tabId: string | null = null;
+    public undoStack: Action[] = [];
+    public redoStack: Action[] = [];
+    private maxStackSize: number;
+    public persistenceKey: string | null;
+    private dirty: boolean = false;
 
-    /**
-     * @param {HistoryOptions} options
-     */
     constructor(options: HistoryOptions = {}) {
-        this.maxSteps = options.maxSteps || 50;
-        this.persistenceKey = options.persistenceKey || 'mylife_snapshot';
-        this.undoStack = [];
-        this.redoStack = [];
-        this.savePointer = -1;
+        this.maxStackSize = options.maxStackSize || 50;
+        this.persistenceKey = options.persistenceKey || null;
     }
 
     /**
-     * Executes a new action and adds it to the undo stack.
-     * Clears the redo stack.
-     * @param {Action} action - Must implement execute() and undo()
-     * @param {TaskCollectionScenario} currentScenario - The current state of scenario to persist
+     * Executes an action and adds it to the undo stack.
      */
-    execute(action: Action, currentScenario: TaskCollectionScenario): void {
+    execute(action: Action, envelope: Envelope): void {
+        console.log('[HISTORY] Executing action:', action.constructor.name);
         action.execute();
         this.undoStack.push(action);
-        this.redoStack = [];
+        this.redoStack = []; // Clear redo stack on new action
+        this.dirty = true;
 
-        if (this.undoStack.length > this.maxSteps) {
+        if (this.undoStack.length > this.maxStackSize) {
             this.undoStack.shift();
-            if (this.savePointer >= 0) {
-                this.savePointer--;
-            } else {
-                // If we shift the stack and savePointer was -1, it means the "saved" state
-                // is now lost from history (older than maxSteps). 
-                // We keep it at -2 or something to indicate it's unreachable.
-                this.savePointer = -2; 
-            }
         }
 
-        this.updatePersistence(currentScenario);
+        this.saveSnapshot(envelope);
+
+        // Trigger automatic re-render on data change
+        stateEvents.emit({ type: 'RENDER_REQUESTED' });
+        stateEvents.emit({ type: 'DIRTY_STATE_CHANGED', isDirty: true });
     }
 
     /**
-     * Undoes the last action.
-     * @param {TaskCollectionScenario} currentScenario - The current state of scenario to persist
-     * @returns {Action|null} The undone action or null
+     * Reverts the last executed action.
      */
-    undo(currentScenario: TaskCollectionScenario): Action | null {
-        if (this.undoStack.length === 0) return null;
-
-        const action = this.undoStack.pop()!;
-        action.undo();
-        this.redoStack.push(action);
-
-        this.updatePersistence(currentScenario);
-        return action;
+    undo(envelope: Envelope): void {
+        const action = this.undoStack.pop();
+        if (action) {
+            console.log('[HISTORY] Undoing action:', action.constructor.name);
+            action.undo();
+            this.redoStack.push(action);
+            this.dirty = true;
+            this.saveSnapshot(envelope);
+            stateEvents.emit({ type: 'RENDER_REQUESTED' });
+            stateEvents.emit({ type: 'DIRTY_STATE_CHANGED', isDirty: true });
+        }
     }
 
     /**
-     * Redoes the last undone action.
-     * @param {TaskCollectionScenario} currentScenario - The current state of scenario to persist
-     * @returns {Action|null} The redone action or null
+     * Re-executes the last undone action.
      */
-    redo(currentScenario: TaskCollectionScenario): Action | null {
-        if (this.redoStack.length === 0) return null;
+    redo(envelope: Envelope): void {
+        const action = this.redoStack.pop();
+        if (action) {
+            console.log('[HISTORY] Redoing action:', action.constructor.name);
+            action.execute();
+            this.undoStack.push(action);
+            this.dirty = true;
+            this.saveSnapshot(envelope);
+            stateEvents.emit({ type: 'RENDER_REQUESTED' });
+            stateEvents.emit({ type: 'DIRTY_STATE_CHANGED', isDirty: true });
+        }
+    }
 
-        const action = this.redoStack.pop()!;
-        action.execute();
-        this.undoStack.push(action);
-
-        this.updatePersistence(currentScenario);
-        return action;
+    /**
+     * Returns true if there are unsaved changes.
+     */
+    isDirty(): boolean {
+        return this.dirty;
     }
 
     /**
      * Marks the current state as saved.
      */
     markSaved(): void {
-        this.savePointer = this.undoStack.length - 1;
-        // Also clear local storage because it's now synced with server
-        localStorage.removeItem(this.persistenceKey);
+        this.dirty = false;
+        if (this.persistenceKey) {
+            localStorage.removeItem(this.persistenceKey);
+        }
+        stateEvents.emit({ type: 'DIRTY_STATE_CHANGED', isDirty: false });
     }
 
     /**
-     * Resets the history stacks.
+     * Clears the history stacks.
      */
     clear(): void {
         this.undoStack = [];
         this.redoStack = [];
-        this.savePointer = -1;
-        localStorage.removeItem(this.persistenceKey);
+        this.dirty = false;
+        stateEvents.emit({ type: 'DIRTY_STATE_CHANGED', isDirty: false });
     }
 
     /**
-     * Updates persistence in LocalStorage based on dirty state.
+     * Saves a snapshot of the current state to local storage for recovery.
      */
-    private updatePersistence(scenario: TaskCollectionScenario): void {
-        if (this.isDirty()) {
-            this.persist(scenario);
-        } else {
-            localStorage.removeItem(this.persistenceKey);
-        }
-    }
-
-    /**
-     * Persists the current scenario state to LocalStorage.
-     * @param {TaskCollectionScenario} scenario 
-     */
-    private persist(scenario: TaskCollectionScenario): void {
+    private saveSnapshot(envelope: Envelope): void {
+        if (!this.persistenceKey || typeof window === 'undefined') return;
+        
         try {
+            // TRICK: We use a custom replacer to avoid circular references during JSON stringify.
+            // This is safer than manual cleanup which might miss some internal fields.
+            const cache = new Set();
+            const safeJson = JSON.stringify(envelope, (key, value) => {
+                if (typeof value === 'object' && value !== null) {
+                    if (cache.has(value)) return; // Discard circular reference
+                    cache.add(value);
+                }
+                // Skip internal calculation fields starting with '_'
+                if (key.startsWith('_')) return;
+                return value;
+            });
+
             const snapshot = {
-                nodes: scenario.nodes,
-                scenarioName: scenario.scenarioName,
-                layoutType: scenario.layoutType,
                 timestamp: Date.now(),
-                version: 1, // Schema version for future compatibility
-                tabId: this.tabId || (this.tabId = Math.random().toString(36).substring(2, 9)),
+                envelope: JSON.parse(safeJson)
             };
             localStorage.setItem(this.persistenceKey, JSON.stringify(snapshot));
         } catch (e) {
-            console.error('[HISTORY] Failed to persist state to LocalStorage. Changes can not be buffered and might get lost, proceed with caution.', e);
+            console.error('[HISTORY] Failed to save snapshot:', e);
         }
     }
 
     /**
-     * Recovers state from LocalStorage.
-     * @returns {any} Recovered scenario data or null
+     * Recovers a snapshot from local storage.
      */
-    recover(): any {
+    recover(): { timestamp: number, envelope: Envelope } | null {
+        if (!this.persistenceKey || typeof window === 'undefined') return null;
+        
         try {
             const data = localStorage.getItem(this.persistenceKey);
-            if (!data) return null;
-            const snapshot = JSON.parse(data);
-            
-            // Check if snapshot is from a different tab
-            if (snapshot.tabId && snapshot.tabId !== this.tabId) {
-                console.warn('[HISTORY] Snapshot from different tab detected. Proceeding with caution.');
+            if (data) {
+                const snapshot = JSON.parse(data);
+                this.dirty = true; // Recovered data is considered dirty until saved
+                return snapshot;
             }
-            
-            // Check schema version
-            if (snapshot.version && snapshot.version > 1) {
-                console.warn('[HISTORY] Snapshot has newer schema version. Data might be incompatible.');
-            }
-            
-            return {
-                nodes: snapshot.nodes,
-                scenarioName: snapshot.scenarioName,
-                layoutType: snapshot.layoutType,
-                timestamp: snapshot.timestamp
-            };
         } catch (e) {
-            console.error('[HISTORY] Failed to recover state from LocalStorage. Buffered changes are lost, proceed with caution.', e);
-            return null;
+            console.error('[HISTORY] Failed to recover snapshot:', e);
         }
+        return null;
     }
-
-    /**
-     * Checks if there are unsaved changes.
-     * @returns {boolean}
-     */
-    isDirty(): boolean {
-        // We are dirty if the current undoStack pointer differs from savePointer
-        const currentPointer = this.undoStack.length - 1;
-        return currentPointer !== this.savePointer;
-    }
-}
-
-// Global exposure for browser (legacy)
-if (typeof window !== 'undefined') {
-    (window as any).HistoryManager = HistoryManager;
 }

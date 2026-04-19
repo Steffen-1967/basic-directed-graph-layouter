@@ -14,8 +14,11 @@ Prozessvisualisierungs-Tool mit TypeScript/Canvas für komplexe gerichtete Graph
 - ✅ Auto-Zentrierung & Panning (Drag & Drop)
 - ✅ Editierbarer Modus mit Toggle-Button (✏️ no/yes)
 - ✅ Dynamisches visuelles Feedback: Canvas-Schatten ändert sich (Gelb=Edit, Grau=Read-Only)
+- ✅ Padlock-Symbol mit Release-Status-Tooltips
 - ✅ Benutzerdefinierte CSS-Modale ("Ja"/"Nein") statt Browser-Standard-Dialoge
 - ✅ Corner-Handles & Anchor-Handles beim Hover (12 Anker pro Knoten)
+- ✅ Adaptive Geometrie: Handles passen sich im ForceAtlas-Layout der Kreisform an
+- ✅ Kalibrierte Kanten-Handle: Präzise Platzierung an Knoten-Zentren und Kurven-Mittelpunkten im ForceAtlas-Layout
 - ✅ Typabhängige Anchor-Positionierung (Event/Rule berühren Form)
 - ✅ Intelligente Tooltips (Name + Description, max. 260px)
 - ✅ Dynamische Canvas-Größe (Bounding Box + Margins)
@@ -30,13 +33,18 @@ Prozessvisualisierungs-Tool mit TypeScript/Canvas für komplexe gerichtete Graph
 
 ### Undo/Redo & Persistenz
 - ✅ Command-Pattern-basiertes Undo/Redo-System
+- ✅ Versionierungs-System: Unterstützung für unabhängige (`independently`) und abhängige (`by-parent`) Versionen
+- ✅ Dynamisches Locking: Automatischer Schreibschutz für Release-Versionen (X.0)
 - ✅ LocalStorage-Persistierung ungespeicherter Änderungen inklusive Szenario-Metadaten
 - ✅ Recovery-Dialog mit Timestamp-Vergleich und Warnung bei Server-Konflikten
 - ✅ In-Place-Editing von Node-Namen (Doppelklick)
 - ✅ Dirty-Flag-Indikator im Header
 
 ### Datenstruktur & API
-- ✅ Erweiterte JSON-Struktur (`TaskCollectionScenario`) mit Metadaten (`scenarioName`, `layoutType`)
+- ✅ Single-Root-Architektur: `Envelope` mit `nodes[]` Array und `root` GUID zur Identifikation des Hauptknotens
+- ✅ Hierarchische Struktur: Prozess-Knoten liegen in `rootNode.nodes[]`
+- ✅ Zentrale Iterator-Funktionen: `iterateAllNodes()`, `collectAllNodes()`, `findRootNode()` in `manifest.ts`
+- ✅ Robuste Node-Suche: Rekursive Suche in verschachtelten Strukturen für Actions
 - ✅ Abwärtskompatibilität für alte JSON-Formate
 - ✅ Express-Server mit REST-API (`/api/scenarios`, `/api/scenario/:name`)
 - ✅ Statisches Serving von `/out` Verzeichnis
@@ -53,13 +61,16 @@ Prozessvisualisierungs-Tool mit TypeScript/Canvas für komplexe gerichtete Graph
 
 ### Konfiguration & Architektur
 - ✅ Zentrale Konfiguration in `src/manifest.ts`
-- ✅ Modularisierte Codebasis (Renderer, Layouter, Actions, History, State)
+- ✅ Modularisierte Codebasis (Renderer, LayoutEngine, StateManager, Actions, History, State)
 - ✅ TypeScript-Build-Prozess mit `tsc`
 - ✅ Nodemon für automatischen Server-Neustart
-- ✅ Zentrales State-Management (`src/state.ts`)
+- ✅ Zentrales State-Management (`src/state.ts`) mit `StateManager` (`src/stateManager.ts`)
 - ✅ Event-Driven Architecture mit `StateEventBus`
+- ✅ Konsolidierte Layout-Engine (`src/layoutEngine.ts`) mit Caching und Redundanz-Schutz
 
 ## Build & Run
+- siehe environment.md - Kapitel "Development and Test - Tools and Workflow"
+- Vor der Einführung des Minimalen Servers:
 ```bash
 npx ts-node src\index.ts
 start out\graph.htm

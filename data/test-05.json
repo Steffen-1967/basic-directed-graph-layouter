@@ -1,229 +1,472 @@
 {
-  "scenarioName": "Lebens-Szenarien",
-  "layoutType": "tree",
+  "exporter": "mylife.org v0.2",
+  "name": [
+    {
+      "lcid": 1031,
+      "value": "Lebens-Szenarien"
+    }
+  ],
+  "description": [
+    {
+      "lcid": 1031,
+      "value": "Lebens-Szenarien"
+    }
+  ],
+  "layoutType": "Tree",
   "layoutPreferences": {
     "switchToListLevel": 1
   },
+  "root": "c17ab1ee-1a9b-456a-9a6e-20a1557dcf19",
   "nodes": [
     {
-      "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
-      "type": "SubProcess",
-      "name": "Lebens-Szenarien",
-      "description": "Lebens-Szenarien",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "c58e0fe8-3075-440d-be27-92fb0a4460c6",
-      "type": "SubProcess",
-      "name": "Erwerbstätigkeit",
-      "description": "Erwerbstätigkeit",
-      "predecessors": [
+      "id": "c17ab1ee-1a9b-456a-9a6e-20a1557dcf19",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Lebens-Szenarien"
+        }
+      ],
+      "version": "1.1",
+      "versionable": "independently",
+      "type": "ProcessArchitecture",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Lebens-Szenarien"
+        }
+      ],
+      "nodes": [
         {
           "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "7d2161a1-87e6-4741-aa09-53afce438211",
-      "type": "SubProcess",
-      "name": "Vermögensverwaltung",
-      "description": "Vermögensverwaltung",
-      "predecessors": [
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Lebens-Szenarien"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Lebens-Szenarien"
+            }
+          ],
+          "incoming": [],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "7bea8443-84b4-418f-9ca9-b00eed404346"
+        },
         {
-          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "622c5534-16f0-4a3c-896a-cf675ba6f731",
-      "type": "SubProcess",
-      "name": "Finanzielle Vorsorge",
-      "description": "Finanzielle Vorsorge",
-      "predecessors": [
+          "id": "c58e0fe8-3075-440d-be27-92fb0a4460c6",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Erwerbstätigkeit"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Erwerbstätigkeit"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "c455a328-1f3b-4e8f-8d03-7785c1365a6b"
+        },
         {
-          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "61724dbd-6ceb-436d-bd4c-fa95238a087f",
-      "type": "SubProcess",
-      "name": "Gesundheitsvorsorge",
-      "description": "Gesundheitsvorsorge",
-      "predecessors": [
-        {
-          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "7cccee04-449c-4412-8490-ff343e487735",
-      "type": "SubProcess",
-      "name": "Mobilität",
-      "description": "Mobilität",
-      "predecessors": [
-        {
-          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "63f05d50-bd15-4370-aa67-bf213afe8059",
-      "type": "SubProcess",
-      "name": "Behörden- und Institutions-Kontakte",
-      "description": "Behörden- und Institutions-Kontakte",
-      "predecessors": [
-        {
-          "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "c079889a-c84d-46ff-8611-b08b2066991b",
-      "type": "SubProcess",
-      "name": "Bürgerbüro der Gemeinde",
-      "description": "Bürgerbüro der Gemeinde",
-      "predecessors": [
-        {
-          "id": "63f05d50-bd15-4370-aa67-bf213afe8059",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "ad562351-d697-48a2-9b52-eccd3aed00ad",
-      "type": "SubProcess",
-      "name": "Ermittlungs- und Justiz-Behördern",
-      "description": "Ermittlungs- und Justiz-Behördern",
-      "predecessors": [
-        {
-          "id": "63f05d50-bd15-4370-aa67-bf213afe8059",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "9740216d-ca3f-467d-95d9-60134b645e96",
-      "type": "SubProcess",
-      "name": "Individuelles KFZ",
-      "description": "Individuelles KFZ",
-      "predecessors": [
-        {
-          "id": "7cccee04-449c-4412-8490-ff343e487735",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "af73da7b-450f-4434-99e5-55e619ebf631",
-      "type": "SubProcess",
-      "name": "Öffentlich zugängliche Verkehrsmittel",
-      "description": "Öffentlich zugängliche Verkehrsmittel",
-      "predecessors": [
-        {
-          "id": "7cccee04-449c-4412-8490-ff343e487735",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "3ffc271e-1efa-4b6d-8ed5-e9f72204e6f4",
-      "type": "SubProcess",
-      "name": "Bekämpfung akuter und chronischer Krankheiten",
-      "description": "Bekämpfung akuter und chronischer Krankheiten",
-      "predecessors": [
-        {
-          "id": "61724dbd-6ceb-436d-bd4c-fa95238a087f",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "0df968af-b98c-427e-ae25-48bea4f7f743",
-      "type": "SubProcess",
-      "name": "Immunitätsschutz und Vorsorgeuntersuchungen",
-      "description": "Immunitätsschutz und Vorsorgeuntersuchungen",
-      "predecessors": [
-        {
-          "id": "61724dbd-6ceb-436d-bd4c-fa95238a087f",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "d0b4370a-00eb-47b5-ad95-3e288c4cdd93",
-      "type": "SubProcess",
-      "name": "Rentenvorsorge",
-      "description": "Rentenvorsorge",
-      "predecessors": [
+          "id": "7d2161a1-87e6-4741-aa09-53afce438211",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Vermögensverwaltung"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Vermögensverwaltung"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "9c990d50-889d-43da-b3ff-1a5e246c33bc"
+        },
         {
           "id": "622c5534-16f0-4a3c-896a-cf675ba6f731",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "ae61b1fb-a23e-48c5-8392-3bfd29a8dfc4",
-      "type": "SubProcess",
-      "name": "Arbeitsunfähigkeitsvorsorge",
-      "description": "Arbeitsunfähigkeitsvorsorge",
-      "predecessors": [
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Finanzielle Vorsorge"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Finanzielle Vorsorge"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "fe6cbdf3-d202-48e5-aaee-0e7d0fca8a83"
+        },
         {
-          "id": "622c5534-16f0-4a3c-896a-cf675ba6f731",
-          "weight": 1
+          "id": "61724dbd-6ceb-436d-bd4c-fa95238a087f",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Gesundheitsvorsorge"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Gesundheitsvorsorge"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "3f3311ec-387d-45fa-a6d5-e1358420f816"
+        },
+        {
+          "id": "7cccee04-449c-4412-8490-ff343e487735",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Mobilität"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Mobilität"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "39d07dcb-17fc-480a-a874-87002a116085"
+        },
+        {
+          "id": "63f05d50-bd15-4370-aa67-bf213afe8059",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Behörden- und Institutions-Kontakte"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Behörden- und Institutions-Kontakte"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "9cb9b5e0-1cc2-4e8a-8381-42f6a3aa8c57",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "bfbaa6c5-7168-4430-841a-228fd07ac1b6"
+        },
+        {
+          "id": "c079889a-c84d-46ff-8611-b08b2066991b",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Bürgerbüro der Gemeinde"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Bürgerbüro der Gemeinde"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "63f05d50-bd15-4370-aa67-bf213afe8059",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "92755dd1-8830-4eb8-a098-e1f6ef3eab0d"
+        },
+        {
+          "id": "ad562351-d697-48a2-9b52-eccd3aed00ad",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Ermittlungs- und Justiz-Behördern"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Ermittlungs- und Justiz-Behördern"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "63f05d50-bd15-4370-aa67-bf213afe8059",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "b38bc59e-9dd9-4a00-914d-b2ffd2c93254"
+        },
+        {
+          "id": "9740216d-ca3f-467d-95d9-60134b645e96",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Individuelles KFZ"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Individuelles KFZ"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "7cccee04-449c-4412-8490-ff343e487735",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "94ab1326-c53d-4b63-9008-6bb6e579a62b"
+        },
+        {
+          "id": "af73da7b-450f-4434-99e5-55e619ebf631",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Öffentlich zugängliche Verkehrsmittel"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Öffentlich zugängliche Verkehrsmittel"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "7cccee04-449c-4412-8490-ff343e487735",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "4b466b67-105c-4a3a-bfb6-b9dab393bb1e"
+        },
+        {
+          "id": "3ffc271e-1efa-4b6d-8ed5-e9f72204e6f4",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Bekämpfung akuter und chronischer Krankheiten"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Bekämpfung akuter und chronischer Krankheiten"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "61724dbd-6ceb-436d-bd4c-fa95238a087f",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "fff0c4a4-1be9-414d-bf16-685df00599dd"
+        },
+        {
+          "id": "0df968af-b98c-427e-ae25-48bea4f7f743",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Immunitätsschutz und Vorsorgeuntersuchungen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Immunitätsschutz und Vorsorgeuntersuchungen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "61724dbd-6ceb-436d-bd4c-fa95238a087f",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "45c777ae-deb8-49be-85e2-c79123409287"
+        },
+        {
+          "id": "d0b4370a-00eb-47b5-ad95-3e288c4cdd93",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Rentenvorsorge"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Rentenvorsorge"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "622c5534-16f0-4a3c-896a-cf675ba6f731",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "e3c4a8e1-61a5-4d4b-ab90-4ebe3f559a13"
+        },
+        {
+          "id": "ae61b1fb-a23e-48c5-8392-3bfd29a8dfc4",
+          "versionable": "independently",
+          "version": "1.0",
+          "type": "SubProcess",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Arbeitsunfähigkeitsvorsorge"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Arbeitsunfähigkeitsvorsorge"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "622c5534-16f0-4a3c-896a-cf675ba6f731",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null,
+          "versionContainer": "6cbd6991-9224-4214-b2fd-f4244a73907c"
         }
       ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
+      "versionContainer": "d97275c0-a4b6-46a3-b48b-79b4de759caa"
     }
   ]
 }

@@ -1,219 +1,424 @@
 {
-  "scenarioName": "Microservice implementieren",
-  "layoutType": "flow",
+  "exporter": "mylife.org v0.2",
+  "name": [
+    {
+      "lcid": 1031,
+      "value": "Microservice implementieren"
+    }
+  ],
+  "description": [
+    {
+      "lcid": 1031,
+      "value": "Microservice implementieren"
+    }
+  ],
+  "layoutType": "Flow",
+  "layoutPreferences": {},
+  "root": "8eb7f53c-5c6b-481d-ac01-697ca5b0034d",
   "nodes": [
     {
-      "id": "600af8a8-cc01-41b3-b8d9-c05cf75a622d",
-      "type": "Event",
-      "name": "Projekt gestartet",
-      "description": "Projekt gestartet",
-      "predecessors": [],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "ec3b8b83-9d6e-458e-b178-990ba4790a9d",
-      "type": "Task",
-      "name": "Anforderungen sammeln",
-      "description": "Anforderungen sammeln",
-      "predecessors": [
+      "id": "8eb7f53c-5c6b-481d-ac01-697ca5b0034d",
+      "name": [
+        {
+          "lcid": 1031,
+          "value": "Microservice implementieren"
+        }
+      ],
+      "version": "1.0",
+      "versionable": "independently",
+      "type": "SubProcess",
+      "description": [
+        {
+          "lcid": 1031,
+          "value": "Microservice implementieren"
+        }
+      ],
+      "locked": false,
+      "nodes": [
         {
           "id": "600af8a8-cc01-41b3-b8d9-c05cf75a622d",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "1bbd54cc-9aef-4183-abdb-6c940dd95f56",
-      "type": "Rule",
-      "name": "And (split)",
-      "description": "And (split)",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Event",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Projekt gestartet"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Projekt gestartet"
+            }
+          ],
+          "incoming": [],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "ec3b8b83-9d6e-458e-b178-990ba4790a9d",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "98a17002-a618-4af4-9863-eaec5f25e987",
-      "type": "Task",
-      "name": "Design erstellen",
-      "description": "Design erstellen",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Anforderungen sammeln"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Anforderungen sammeln"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "600af8a8-cc01-41b3-b8d9-c05cf75a622d",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "1bbd54cc-9aef-4183-abdb-6c940dd95f56",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "45fd822b-5189-44fa-baac-4f373f91640d",
-      "type": "Task",
-      "name": "Spezifikation erstellen",
-      "description": "Spezifikation erstellen",
-      "predecessors": [
-        {
-          "id": "1bbd54cc-9aef-4183-abdb-6c940dd95f56",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "56eafb3b-1c36-4f48-a4be-e26ae8fb916e",
-      "type": "Rule",
-      "name": "And (combine)",
-      "description": "And (combine)",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Rule",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "And (split)"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "And (split)"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "ec3b8b83-9d6e-458e-b178-990ba4790a9d",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
           "id": "98a17002-a618-4af4-9863-eaec5f25e987",
-          "weight": 1
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Design erstellen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Design erstellen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "1bbd54cc-9aef-4183-abdb-6c940dd95f56",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
         },
         {
           "id": "45fd822b-5189-44fa-baac-4f373f91640d",
-          "weight": 1
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Spezifikation erstellen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Spezifikation erstellen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "1bbd54cc-9aef-4183-abdb-6c940dd95f56",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
+        {
+          "id": "56eafb3b-1c36-4f48-a4be-e26ae8fb916e",
+          "versionable": "by-parent",
+          "type": "Rule",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "And (combine)"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "And (combine)"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "98a17002-a618-4af4-9863-eaec5f25e987",
+              "weight": 1,
+              "type": "output"
+            },
+            {
+              "id": "45fd822b-5189-44fa-baac-4f373f91640d",
+              "weight": 1,
+              "type": "output"
+            },
+            {
+              "id": "448abd45-a503-4332-89e1-3f7fed9d02a7",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
+        {
+          "id": "36e51499-cce3-44e8-92c1-bffb96ae00fc",
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Artefakt implementieren"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Artefakt implementieren"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "56eafb3b-1c36-4f48-a4be-e26ae8fb916e",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
+        {
+          "id": "136e18f3-395b-45d2-8e8b-b240a9c81094",
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Artefakt testen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Artefakt testen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "36e51499-cce3-44e8-92c1-bffb96ae00fc",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
+        {
+          "id": "117b5c84-04cb-444a-addc-55dbc5278133",
+          "versionable": "by-parent",
+          "type": "Rule",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Xor (split)"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Xor (split)"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "136e18f3-395b-45d2-8e8b-b240a9c81094",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
+        {
+          "id": "8674bd9c-e2db-421f-a1d9-cd991c45b04b",
+          "versionable": "by-parent",
+          "type": "Event",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Test erfolgreich"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Test erfolgreich"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "117b5c84-04cb-444a-addc-55dbc5278133",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
+        {
+          "id": "88413bac-1562-4e09-af2f-6fb30646cff3",
+          "versionable": "by-parent",
+          "type": "Event",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Test fehlgeschlagen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Test fehlgeschlagen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "117b5c84-04cb-444a-addc-55dbc5278133",
+              "weight": 1,
+              "type": "predecessor"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
+        {
+          "id": "956cabcf-67b0-4b08-b6d2-c6dfb0954025",
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Artefakt deployen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Artefakt deployen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "8674bd9c-e2db-421f-a1d9-cd991c45b04b",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
         },
         {
           "id": "448abd45-a503-4332-89e1-3f7fed9d02a7",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "36e51499-cce3-44e8-92c1-bffb96ae00fc",
-      "type": "Task",
-      "name": "Artefakt implementieren",
-      "description": "Artefakt implementieren",
-      "predecessors": [
+          "versionable": "by-parent",
+          "type": "Task",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Bugs fixen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Bugs fixen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "88413bac-1562-4e09-af2f-6fb30646cff3",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
+        },
         {
-          "id": "56eafb3b-1c36-4f48-a4be-e26ae8fb916e",
-          "weight": 1
+          "id": "4c2e4e3c-d638-4f26-a30d-536f11956e89",
+          "versionable": "by-parent",
+          "type": "Event",
+          "name": [
+            {
+              "lcid": 1031,
+              "value": "Projekt abgeschlossen"
+            }
+          ],
+          "description": [
+            {
+              "lcid": 1031,
+              "value": "Projekt abgeschlossen"
+            }
+          ],
+          "incoming": [
+            {
+              "id": "956cabcf-67b0-4b08-b6d2-c6dfb0954025",
+              "weight": 1,
+              "type": "output"
+            }
+          ],
+          "outgoing": [],
+          "overrideFillColor": null,
+          "overrideStrokeColor": null
         }
       ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "136e18f3-395b-45d2-8e8b-b240a9c81094",
-      "type": "Task",
-      "name": "Artefakt testen",
-      "description": "Artefakt testen",
-      "predecessors": [
-        {
-          "id": "36e51499-cce3-44e8-92c1-bffb96ae00fc",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "117b5c84-04cb-444a-addc-55dbc5278133",
-      "type": "Rule",
-      "name": "Xor (split)",
-      "description": "Xor (split)",
-      "predecessors": [
-        {
-          "id": "136e18f3-395b-45d2-8e8b-b240a9c81094",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "8674bd9c-e2db-421f-a1d9-cd991c45b04b",
-      "type": "Event",
-      "name": "Test erfolgreich",
-      "description": "Test erfolgreich",
-      "predecessors": [
-        {
-          "id": "117b5c84-04cb-444a-addc-55dbc5278133",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "88413bac-1562-4e09-af2f-6fb30646cff3",
-      "type": "Event",
-      "name": "Test fehlgeschlagen",
-      "description": "Test fehlgeschlagen",
-      "predecessors": [
-        {
-          "id": "117b5c84-04cb-444a-addc-55dbc5278133",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "956cabcf-67b0-4b08-b6d2-c6dfb0954025",
-      "type": "Task",
-      "name": "Artefakt deployen",
-      "description": "Artefakt deployen",
-      "predecessors": [
-        {
-          "id": "8674bd9c-e2db-421f-a1d9-cd991c45b04b",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "448abd45-a503-4332-89e1-3f7fed9d02a7",
-      "type": "Task",
-      "name": "Bugs fixen",
-      "description": "Bugs fixen",
-      "predecessors": [
-        {
-          "id": "88413bac-1562-4e09-af2f-6fb30646cff3",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
-    },
-    {
-      "id": "4c2e4e3c-d638-4f26-a30d-536f11956e89",
-      "type": "Event",
-      "name": "Projekt abgeschlossen",
-      "description": "Projekt abgeschlossen",
-      "predecessors": [
-        {
-          "id": "956cabcf-67b0-4b08-b6d2-c6dfb0954025",
-          "weight": 1
-        }
-      ],
-      "successors": [],
-      "overrideFillColor": null,
-      "overrideStrokeColor": null
+      "versionContainer": "4b616905-fd1f-4441-b787-42ee93154416"
     }
   ]
 }
